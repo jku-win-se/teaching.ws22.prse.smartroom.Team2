@@ -6,7 +6,7 @@ import java.util.List;
 public class Room {
     private String name;
     private int size;
-    private int numPeopleInRoom;
+    private int NOPeopleInRoom;
     private List<Door> doors;
     private List<Window> windows;
     private List<Ventilator> ventilators;
@@ -15,7 +15,7 @@ public class Room {
     public Room(String name, int size, int numPeopleInRoom) {
         this.name = name;
         this.size = size;
-        this.numPeopleInRoom = numPeopleInRoom;
+        this.NOPeopleInRoom = numPeopleInRoom;
         this.doors = new ArrayList<>();
         this.windows = new ArrayList<>();
         this.ventilators = new ArrayList<>();
@@ -30,8 +30,8 @@ public class Room {
         return size;
     }
 
-    public int getNumPeopleInRoom() {
-        return numPeopleInRoom;
+    public int getNOPeopleInRoom() {
+        return NOPeopleInRoom;
     }
 
     public List<Door> getDoors() {
