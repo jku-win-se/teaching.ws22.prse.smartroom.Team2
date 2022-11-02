@@ -2,33 +2,9 @@ package model;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Door {
+public class Door extends Gate {
     private static final AtomicInteger count = new AtomicInteger(0);
-    private final int id;
-    private boolean state;
-
-    public Door() {
-        this.id = count.incrementAndGet();
-        this.state = false;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public boolean getState() {
-        return this.state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
-    public boolean isOpen() {
-        return this.state;
-    }
-
-    public void toggle() {
-        this.setState(!this.state);
+    public Door(boolean state) {
+        super(count.incrementAndGet(), state);
     }
 }

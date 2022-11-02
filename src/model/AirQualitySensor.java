@@ -2,22 +2,17 @@ package model;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class AirQualitySensor {
+public class AirQualitySensor extends Sensor {
     private static final AtomicInteger count = new AtomicInteger(0);
-    private final int id;
     private float temperature;
     private float humidity;
     private float co2;
 
-    public AirQualitySensor() {
-        this.id = count.incrementAndGet();
-        this.temperature = 0.0f;
-        this.humidity = 0.0f;
-        this.co2 = 0.0f;
-    }
-
-    public int getId() {
-        return id;
+    public AirQualitySensor(boolean state, float temperature, float humidity, float co2) {
+        super(count.incrementAndGet(), state);
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.co2 = co2;
     }
 
     public float getTemperature() {
