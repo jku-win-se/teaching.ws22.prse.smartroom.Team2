@@ -1,11 +1,11 @@
 package model;
 
-public abstract class Sensor implements Powerable {
+public abstract class Device implements Powerable {
 
     private final int id;
     private boolean state;
 
-    public Sensor(int id, boolean state) {
+    public Device(int id, boolean state) {
         this.id = id;
         this.state = state;
     }

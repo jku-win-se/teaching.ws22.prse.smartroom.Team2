@@ -10,7 +10,7 @@ public class Room {
     private List<Door> doors;
     private List<Window> windows;
     private List<Ventilator> ventilators;
-    private List<AirQualitySensor> airQualitySensors;
+    private List<AirQualityDevice> airQualitySensors;
 
     public Room(String name, int size, int numPeopleInRoom) {
         this.name = name;
@@ -46,7 +46,7 @@ public class Room {
         return ventilators;
     }
 
-    public List<AirQualitySensor> getAirQualitySensors() {
+    public List<AirQualityDevice> getAirQualitySensors() {
         return airQualitySensors;
     }
 }
