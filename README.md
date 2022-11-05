@@ -10,6 +10,8 @@
 | 11904290      | Abir        | Sikder         | sikder.abir@gmail.com        | realabir    |
 | 11713187      | Stefan      | Pilgerstorfer  | stefan.pilgerstorfer@gmx.net | buegi       |
 
+### GUI Overview (Mock-Up)
+
 ### UML Diagram
 ![UML Diagram](/documentation/diagrams/team_2_uml_diagram.png)
 
