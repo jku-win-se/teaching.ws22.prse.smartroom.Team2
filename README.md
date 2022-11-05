@@ -1,7 +1,7 @@
 # PR Software Engineering WS 22 Team 2
 
 ## Digital Twin of a Smart Room
-
+Die Applikation “Smart Room” soll als digitaler Zwilling eines Raumes dienen, dessen Raumausstattung, wie etwa Türen, Fenster, Beleuchtung und Ventilatoren, manuell lenkbar ist. Zu dieser Raumausstattung gehören Sensoren, die, die Anzahl der Personen in einem Raum sowie den CO2-Wert als auch die Raumtemperatur erkennen können. Neben den manuellen Funktionen, wie etwa die Funktion, Türen zu öffnen und zu schließen, soll die Applikation auch sicherstellen, dass beim Auftreten gewisser Bedingungen, wie etwa die Anwesenheit mehr als 0 Personen in einem Raum, die Raumausstattung automatisch dementsprechend reagiert. Zudem dient die Applikation als Anzeige und graphische Visualisierung gewisser Daten, wie etwa vorhandene Räume, Raumausstattung, Temperaturen, CO2-Werte und Anzahl der Personen. Die Informationen über die Räume werden entweder manuell angelegt oder mittels einer .CSV-Datei importiert, die dann in eine Datenbank verwandelt wird, auf die die Applikation Zugriff hat.
 ### Team Members
 
 | Student ID    | First Name  | Last Name      | E-Mail                       | github user |

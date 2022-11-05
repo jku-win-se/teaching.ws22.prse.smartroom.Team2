@@ -9,8 +9,6 @@ O
 sampledata/csv/ventilatoron.csv,b\0\b0f12b7cf0d9baf6846460cc66147b2ba46fc0b6
 G
 sampledata/csv/room.csv,0\6\064c11bb61bb97acc4dbd453a2f50be6293b42e4
-S
-#sampledata/csv/airqualitysensor.csv,f\e\fe95abda9cfaec2627fe08a82b8c3531ecb126f9
 M
 sampledata/csv/windowopen.csv,f\e\fe83cea583507af2b52a28c049899ece13477ebc
 O
