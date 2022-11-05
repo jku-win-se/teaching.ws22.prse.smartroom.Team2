@@ -12,5 +12,5 @@
 ![UML Diagram](/documentation/diagrams/team_2_uml_diagram.png)
 
 ## ER Diagram
-![ER Diagram](https://github.com/jku-win-se/teaching.ws22.prse.smartroom.Team2/tree/main/documentation/diagrams/team_2_er_diagram.png)
+![ER Diagram](/documentation/diagrams/team_2_er_diagram.png)
 
