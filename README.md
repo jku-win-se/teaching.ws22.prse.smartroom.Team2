@@ -9,7 +9,7 @@
 | 11713187      | Stefan      | Pilgerstorfer  | stefan.pilgerstorfer@gmx.net | buegi       |
 
 ## UML Diagram
-![UML Diagram](https://github.com/jku-win-se/teaching.ws22.prse.smartroom.Team2/tree/main/documentation/diagrams/team_2_uml_diagram.jpg?raw=true)
+![UML Diagram](https://github.com/jku-win-se/teaching.ws22.prse.smartroom.Team2/tree/main/documentation/diagrams/team_2_uml_diagram.png?raw=true)
 
 ## ER Diagram
 ![ER Diagram](https://github.com/jku-win-se/teaching.ws22.prse.smartroom.Team2/tree/main/documentation/diagrams/team_2_er_diagram.jpg?raw=true)
