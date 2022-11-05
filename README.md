@@ -1,1 +1,9 @@
-# teaching.ws22.prse.smartroom.Team2
+# PR Software Engineering WS 22 Team 2
+
+## Team Members
+
+| Student ID    | First Name  | Last Name      | E-Mail                       | github user |
+|---------------|-------------|----------------|------------------------------|-------------|
+| 01607879      | Nuray       | Seker          | nurayseker_54@hotmail.com    | nvrxy       |
+| 11904290      | Abir        | Sikder         | sikder.abir@gmail.com        | realabir    |
+| 11713187      | Stefan      | Pilgerstorfer  | stefan.pilgerstorfer@gmx.net | buegi       |
