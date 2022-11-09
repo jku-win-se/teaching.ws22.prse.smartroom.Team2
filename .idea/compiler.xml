@@ -9,8 +9,5 @@
         <module name="teaching.ws22.prse.smartroom.Team2" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="teaching.ws22.prse.smartroom.Team2" target="19" />
-    </bytecodeTargetLevel>
   </component>
 </project>
