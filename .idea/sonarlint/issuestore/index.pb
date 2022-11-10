@@ -7,8 +7,6 @@ w
 G.idea/sonarlint/issuestore/9/b/9b5ab2d4895d8d70d71e5945ca98f9aac0696b89,0\1\01c1dca9decf3cbb2cc7ff49940751727b6b3289
 w
 G.idea/sonarlint/issuestore/6/d/6dff9d8ca73e2be549c20f99a5675d62fa615bb5,a\3\a3a79920ff046ae22ec28e974428b282aa1bf184
-`
-0src/main/java/org/example/PrimaryController.java,0\9\091d34a5cb984c53c6280bb41b12badbbe2f2e6f
 w
 G.idea/sonarlint/issuestore/0/a/0abe4f666171ef1bb02a6637536a5efc8f8fe7a9,b\0\b0a154062528cb0f10f04db7fe21d8cbb4a76ae3
 w
