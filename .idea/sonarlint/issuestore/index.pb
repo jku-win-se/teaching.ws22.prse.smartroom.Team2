@@ -65,8 +65,6 @@ O
 src/main/java/model/Window.java,7\0\70be9e08d8d3c664acf3cadba24c9d00814f1229
 R
 "src/main/java/model/Powerable.java,2\a\2a05c6fa5c9c50a86473554d214ec391ddd15133
-T
-$src/main/java/model/LightSource.java,2\b\2b905d442aa0ee98a4e32cf9b89f0cbdd361a043
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
@@ -154,5 +152,3 @@ O
 src/main/java/model/Device.java,a\b\abe8cc6f3e07dd974410a5491cfe6f4c8cc844b0
 Y
 )src/main/java/model/AirQualityDevice.java,6\7\67bc22e7356c04b1abe59a5d05ff76011ce027ef
-M
-src/main/java/model/Room.java,4\0\40a1be856ea6eddd7083194285376e9eb25be8f7
