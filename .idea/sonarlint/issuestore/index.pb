@@ -61,8 +61,6 @@ G.idea/sonarlint/issuestore/4/f/4f3b9fc2542ef5284e910ce83bd08a4cb9c99ac1,e\1\e1
 w
 G.idea/sonarlint/issuestore/a/5/a5cc2925ca8258af241be7e5b0381edf30266302,e\d\ed67eb178d523a4b3f117dcbe0eda5196367ceec
 w
-G.idea/sonarlint/issuestore/8/d/8d6ee2190bde88bc68424d7a75ad5142fb2857f8,0\8\089106ab29a7cfaacff0b1f938067c02ec0e6527
-w
 G.idea/sonarlint/issuestore/1/b/1b7dfb241ddd21fba957228bf5e5f90c39b58ce3,a\6\a698de8513f5c79f08fd0591c52fba09a5c39a36
 w
 G.idea/sonarlint/issuestore/c/e/ce0b40b0452471568caf945bff9c5d3c325641eb,0\b\0beef9044f8fb1a765502f0e5e15cbb6f7742220
@@ -73,11 +71,7 @@ G.idea/sonarlint/issuestore/9/c/9cf20ade8a4f3886b0da1e0f5de3e72bc3ff9037,6\7\67
 w
 G.idea/sonarlint/issuestore/9/2/92808d7199a5a506ded813679a5c43ab53732b7f,5\1\51fb7a10d5a9751fcb5fdee66a26c4afe8050997
 w
-G.idea/sonarlint/issuestore/2/a/2a05c6fa5c9c50a86473554d214ec391ddd15133,5\a\5a8fafd0c4ea4f08fcf75ebd84370f35884f3949
-w
 G.idea/sonarlint/issuestore/7/8/788b8bc6935219903cf4963318fe8d0984ab006a,c\1\c14069f532348a1dff4f95e119104df399f91d98
-w
-G.idea/sonarlint/issuestore/7/0/70be9e08d8d3c664acf3cadba24c9d00814f1229,c\6\c6a5f474821d9180ec252ffd01d0c9ed7020eac7
 w
 G.idea/sonarlint/issuestore/1/e/1e202033ef6066cd7a1ef092190243d6513a07fa,3\8\389a47564349d355b6c540b2eadfddcdf7bae98a
 w
@@ -100,8 +94,6 @@ w
 G.idea/sonarlint/issuestore/0/1/010a16bfe1aa62064f86d03d8526f2102ae2fd01,2\1\21a9996918bd6f96e90918fc31a4865287a7b86c
 w
 G.idea/sonarlint/issuestore/1/0/10b14e6108df87972150883804c314ae58859c4c,0\d\0d20ff701dee681a8c4d46e0de0db2e806969659
-w
-G.idea/sonarlint/issuestore/4/b/4ba3162c9ef3c9f213860291acc02b19d2edfdd7,c\7\c7cf16e6ce7265a7591d4451a312362879e3401a
 w
 G.idea/sonarlint/issuestore/2/c/2c6a118829452e63091743e29354d6610b9383bf,3\b\3b074ac2607fe9bf48f09e413987f3ae0d0868f5
 w
@@ -126,3 +118,17 @@ w
 G.idea/sonarlint/issuestore/c/b/cb97f51c73c75fa8aace5077705114d6be18795f,9\1\910df84e6283ea5490bb6c780d96d8e5e2be8beb
 L
 src/main/java/test/Test.java,8\c\8c9125f3c269aa48980e46b4fcf2cd542c3ef107
+S
+#src/main/java/model/Ventilator.java,4/b/4ba3162c9ef3c9f213860291acc02b19d2edfdd7
+M
+src/main/java/model/Room.java,4/0/40a1be856ea6eddd7083194285376e9eb25be8f7
+O
+src/main/java/model/Window.java,7/0/70be9e08d8d3c664acf3cadba24c9d00814f1229
+R
+"src/main/java/model/Powerable.java,2/a/2a05c6fa5c9c50a86473554d214ec391ddd15133
+Q
+!src/main/java/model/Openable.java,8/d/8d6ee2190bde88bc68424d7a75ad5142fb2857f8
+T
+$src/main/java/model/LightSource.java,2/b/2b905d442aa0ee98a4e32cf9b89f0cbdd361a043
+M
+src/main/java/model/Gate.java,9/1/91586fa5ab2addeef691f0004dac18ea3372f7f5
