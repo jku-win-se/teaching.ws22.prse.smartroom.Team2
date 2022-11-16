@@ -27,8 +27,6 @@ w
 G.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d,b\4\b4a0b63ce8560bbc5de0f9995c20cc861dc2adb3
 w
 G.idea/sonarlint/issuestore/d/a/daf8140802a32c9141a3fae6918b7544bb9095de,3\c\3c8ed578c6f1b88dd1d392bc0750519c9d9b75f5
-b
-2src/main/java/org/example/SecondaryController.java,9\c\9cf20ade8a4f3886b0da1e0f5de3e72bc3ff9037
 w
 G.idea/sonarlint/issuestore/e/8/e84cf5e5e56101c469ff79388710d7307a71d4f0,2\c\2c8e60bb3f5df4fad43ec559717e93174bdde6df
 w
@@ -45,26 +43,14 @@ w
 G.idea/sonarlint/issuestore/7/1/714cd4584a0687a727d72ef89e078d64ded38c0b,2\1\2197bfa5b1240676e105efcaef28691500316641
 w
 G.idea/sonarlint/issuestore/6/1/6122d20570d143f0b3fd541106588e119146289b,b\a\ba377019d91c5cfae6931e09207956ca7ff1a8df
-S
-#src/main/java/model/Ventilator.java,4\b\4ba3162c9ef3c9f213860291acc02b19d2edfdd7
-Q
-!src/main/java/model/Openable.java,8\d\8d6ee2190bde88bc68424d7a75ad5142fb2857f8
 w
 G.idea/sonarlint/issuestore/7/c/7c5a3d51f3558c5aa3c27868eed8f5e26e35994c,0\3\037d7b635ea09a4b9daabdbe829807a913ac91fe
-M
-src/main/java/model/Door.java,c\b\cb97f51c73c75fa8aace5077705114d6be18795f
 w
 G.idea/sonarlint/issuestore/f/d/fd5da61396a8376845bee5cdf71aaf3c98a888ae,1\0\10b14e6108df87972150883804c314ae58859c4c
-M
-src/main/java/model/Gate.java,9\1\91586fa5ab2addeef691f0004dac18ea3372f7f5
 w
 G.idea/sonarlint/issuestore/f/e/fe95abda9cfaec2627fe08a82b8c3531ecb126f9,4\f\4f3b9fc2542ef5284e910ce83bd08a4cb9c99ac1
 w
 G.idea/sonarlint/issuestore/c/b/cb4127eea505e35bbfdd40b946003b8f6e0fc5b5,1\b\1b7dfb241ddd21fba957228bf5e5f90c39b58ce3
-O
-src/main/java/model/Window.java,7\0\70be9e08d8d3c664acf3cadba24c9d00814f1229
-R
-"src/main/java/model/Powerable.java,2\a\2a05c6fa5c9c50a86473554d214ec391ddd15133
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
@@ -75,13 +61,9 @@ G.idea/sonarlint/issuestore/4/f/4f3b9fc2542ef5284e910ce83bd08a4cb9c99ac1,e\1\e1
 w
 G.idea/sonarlint/issuestore/a/5/a5cc2925ca8258af241be7e5b0381edf30266302,e\d\ed67eb178d523a4b3f117dcbe0eda5196367ceec
 w
-G.idea/sonarlint/issuestore/2/b/2b905d442aa0ee98a4e32cf9b89f0cbdd361a043,f\1\f194cc445af99830e0e7e92570c7a9f3d46ccf14
-w
 G.idea/sonarlint/issuestore/8/d/8d6ee2190bde88bc68424d7a75ad5142fb2857f8,0\8\089106ab29a7cfaacff0b1f938067c02ec0e6527
 w
 G.idea/sonarlint/issuestore/1/b/1b7dfb241ddd21fba957228bf5e5f90c39b58ce3,a\6\a698de8513f5c79f08fd0591c52fba09a5c39a36
-w
-G.idea/sonarlint/issuestore/1/c/1c89a5491fbfda3fb050196d6a239f20200296e7,a\2\a23fecf281bfe300797f845cbd9ec9025ab4ec47
 w
 G.idea/sonarlint/issuestore/c/e/ce0b40b0452471568caf945bff9c5d3c325641eb,0\b\0beef9044f8fb1a765502f0e5e15cbb6f7742220
 w
@@ -144,11 +126,3 @@ w
 G.idea/sonarlint/issuestore/c/b/cb97f51c73c75fa8aace5077705114d6be18795f,9\1\910df84e6283ea5490bb6c780d96d8e5e2be8beb
 L
 src/main/java/test/Test.java,8\c\8c9125f3c269aa48980e46b4fcf2cd542c3ef107
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-`
-0src/main/java/org/example/PrimaryController.java,0\9\091d34a5cb984c53c6280bb41b12badbbe2f2e6f
-O
-src/main/java/model/Device.java,a\b\abe8cc6f3e07dd974410a5491cfe6f4c8cc844b0
-Y
-)src/main/java/model/AirQualityDevice.java,6\7\67bc22e7356c04b1abe59a5d05ff76011ce027ef
