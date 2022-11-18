@@ -69,84 +69,100 @@ public class DBFeatures {
     public static void recreateDBTables(DBConnection con) {
         try {
             con.getDBConnection().createStatement().execute(DROP_DATABASE);
+            System.out.println("Dropped database prse");
         } catch (SQLException sqle) {
-            System.out.println("Database Deletion Error");
+            System.out.println("Database deletion error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_DATABASE);
+            System.out.println("Created database prse");
         } catch (SQLException sqle) {
-            System.out.println("Database Creation Error");
+            System.out.println("Database creation error");
         }
 
         try {
             con.getDBConnection().createStatement().execute(USE_DATABASE);
+            System.out.println("Using database prse");
         } catch (SQLException sqle) {
-            System.out.println("Database Use Error");
+            System.out.println("Database use error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_ROOM);
+            System.out.println("Created table rooms");
         } catch (SQLException sqle) {
-            System.out.println("Room Creation Error");
+            System.out.println("rooms creation error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_PEOPLE_IN_ROOM);
+            System.out.println("Created table People_In_Room");
         } catch (SQLException sqle) {
-            System.out.println("People In Room Creation Error");
+            System.out.println("people_in_room creation error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_VENTILATOR);
+            System.out.println("Created table ventilators");
         } catch (SQLException sqle) {
-            System.out.println("Ventilator Creation Error");
+            System.out.println("ventilators creation error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_LIGHTSOURCE);
+            System.out.println("Created table lightsources");
         } catch (SQLException sqle) {
-            System.out.println("LightSource Creation Error");
+            System.out.println("lightsources Creation Error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_DOOR);
+            System.out.println("Created table doors");
         } catch (SQLException sqle) {
-            System.out.println("Door Creation Error");
+            System.out.println("doors creation error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_WINDOW);
+            System.out.println("Created table windows");
         } catch (SQLException sqle) {
-            System.out.println("Window Creation Error");
+            System.out.println("windows creation error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_AIR_QUALITY_SENSOR);
+            System.out.println("Created table airqualitysensors");
         } catch (SQLException sqle) {
-            System.out.println("AirQualitySensor Creation Error");
+            System.out.println("airqualitysensors creation error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_VENTILATOR_RECORDS);
+            System.out.println("Created table ventilator_records");
         } catch (SQLException sqle) {
-            System.out.println("VentilatorRecords Creation Error");
+            System.out.println("ventilator_records creation error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_LIGHTSOURCE_RECORDS);
+            System.out.println("Created table lightsource_records");
         } catch (SQLException sqle) {
-            System.out.println("LightSourceRecords Creation Error");
+            System.out.println("lightsource_records creation error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_DOOR_RECORDS);
+            System.out.println("Created table door_records");
         } catch (SQLException sqle) {
-            System.out.println("DoorRecords Creation Error");
+            System.out.println("door_records creation error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_WINDOW_RECORDS);
+            System.out.println("Created table window_records");
         } catch (SQLException sqle) {
-            System.out.println("WindowRecords Creation Error");
+            System.out.println("window_records creation error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_AIRQUALITY_SENSOR_RECORDS);
+            System.out.println("Created table airqualitysensor_records");
         } catch (SQLException sqle) {
-            System.out.println("AirQualitySensorRecords Creation Error");
+            System.out.println("airqualitysensorrecords creation error");
         }
         try {
             con.getDBConnection().createStatement().execute(CREATE_DOOR_CONNECTS_ROOM);
+            System.out.println("Created table door_connects_room");
         } catch (SQLException sqle) {
-            System.out.println("Door Connects Room Creation Error");
+            System.out.println("door_connects_room creation crror");
         }
     }
 }

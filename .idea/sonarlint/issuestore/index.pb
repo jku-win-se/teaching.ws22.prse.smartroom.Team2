@@ -75,13 +75,9 @@ G.idea/sonarlint/issuestore/4/f/4f3b9fc2542ef5284e910ce83bd08a4cb9c99ac1,e\1\e1
 w
 G.idea/sonarlint/issuestore/a/5/a5cc2925ca8258af241be7e5b0381edf30266302,e\d\ed67eb178d523a4b3f117dcbe0eda5196367ceec
 w
-G.idea/sonarlint/issuestore/2/b/2b905d442aa0ee98a4e32cf9b89f0cbdd361a043,f\1\f194cc445af99830e0e7e92570c7a9f3d46ccf14
-w
 G.idea/sonarlint/issuestore/8/d/8d6ee2190bde88bc68424d7a75ad5142fb2857f8,0\8\089106ab29a7cfaacff0b1f938067c02ec0e6527
 w
 G.idea/sonarlint/issuestore/1/b/1b7dfb241ddd21fba957228bf5e5f90c39b58ce3,a\6\a698de8513f5c79f08fd0591c52fba09a5c39a36
-w
-G.idea/sonarlint/issuestore/1/c/1c89a5491fbfda3fb050196d6a239f20200296e7,a\2\a23fecf281bfe300797f845cbd9ec9025ab4ec47
 w
 G.idea/sonarlint/issuestore/c/e/ce0b40b0452471568caf945bff9c5d3c325641eb,0\b\0beef9044f8fb1a765502f0e5e15cbb6f7742220
 w
