@@ -2,7 +2,7 @@ package db;
 
 import java.sql.SQLException;
 
-public class DBFeatures {
+public class DBModel {
     private static final String DROP_DATABASE = "DROP DATABASE prse";
     private static final String CREATE_DATABASE = "CREATE DATABASE prse";
     private static final String USE_DATABASE = "USE prse";
