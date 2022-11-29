@@ -4,3 +4,4 @@
 /.idea/sonarlint/
 /server/target/
 /client/target/
+/hasher/target/
