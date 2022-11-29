@@ -38,12 +38,13 @@ public class DigitalTwinApp extends Application {
     }
 
     public static void main(String[] args) {
+//  WITHOUT SECURITY
 //        HttpClient client = HttpClient.newHttpClient();
 //        postRoom(client, "Room1", 20);
 
 
         launch();
-
+//  WITH SECURITY
 //        HttpClient client = HttpClient
 //                .newBuilder()
 //                .authenticator(new Authenticator() {
@@ -59,7 +60,7 @@ public class DigitalTwinApp extends Application {
     }
     private static void postRoom(HttpClient client, String name, int size) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create("http://localhost:8080/addroom" + "?name=" + name + "&size=" + size)))
+                .uri((URI.create("http://localhost:8080/rooms" + "?name=" + name + "&size=" + size)))
                 .POST(HttpRequest.BodyPublishers.noBody()).build();
         try {
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());

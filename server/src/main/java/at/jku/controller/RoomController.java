@@ -3,11 +3,10 @@ package at.jku.controller;
 import at.jku.model.Room;
 import at.jku.repository.RoomRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RoomController {
@@ -19,19 +18,29 @@ public class RoomController {
     }
 
     @GetMapping("/rooms")
-    public ResponseEntity<List<Room>> getRooms() {
+    public ResponseEntity<List<Room>> getAllRooms() {
         return ResponseEntity.ok(roomRepository.findAll());
     }
 
-    @PostMapping("/addroom")
-    public ResponseEntity<Room> newProductionOrder(String name, int size) {
+    @PostMapping("/rooms")
+    public ResponseEntity<Room> addRoom(String name) {
         if (name == null || name.isBlank()) {
             return ResponseEntity.badRequest().build();
         }
-        final Room room = new Room(name, size);
+        final Room room = new Room(name);
         roomRepository.save(room);
         return ResponseEntity.ok(room);
     }
 
+    @RequestMapping(value = "/rooms/{room_id:.*}", method = RequestMethod.GET)
+    public ResponseEntity<Room> getRoom(@PathVariable Long room_id) {
+        return ResponseEntity.ok(roomRepository.findById(room_id).orElse(null));
+    }
 
+//    @PutMapping("/rooms/{room_id}")
+//    public ResponseEntity<Room> updateRoom(Long room_id, @RequestParam Optional<String> name,
+//                                           @RequestParam Optional<Integer> size) {
+//        return ResponseEntity.ok(roomRepository.findById(room_id).orElse(null));
+//    }
 }
+

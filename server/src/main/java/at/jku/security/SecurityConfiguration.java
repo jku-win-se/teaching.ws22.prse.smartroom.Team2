@@ -18,7 +18,8 @@ public class SecurityConfiguration {
         http.authorizeRequests(auth ->
                 auth
                         .mvcMatchers(HttpMethod.GET, "/rooms").permitAll()
-                        .mvcMatchers(HttpMethod.POST, "/addroom").permitAll()
+                        .mvcMatchers(HttpMethod.POST, "/rooms").permitAll()
+                        .mvcMatchers(HttpMethod.DELETE, "/rooms").permitAll()
         ).httpBasic(withDefaults());
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.csrf().disable();

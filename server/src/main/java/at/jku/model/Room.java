@@ -22,9 +22,9 @@ public class Room {
     public Room() {
     }
 
-    public Room(String name, int size) {
+    public Room(String name) {
         this.name = name;
-        this.size = size;
+//        this.size = size;
 //         this.doors = new ArrayList<>();
 //         this.windows = new ArrayList<>();
 //         this.ventilators = new ArrayList<>();
@@ -56,11 +56,11 @@ public class Room {
         this.size = size;
     }
 
-    public int getNOPeopleInRoom() {
+    public int getNumPeopleInRoom() {
         return numPeopleInRoom;
     }
 
-    public void setNOPeopleInRoom(int numPeopleInRoom) {
+    public void setNumPeopleInRoom(int numPeopleInRoom) {
         this.numPeopleInRoom = numPeopleInRoom;
     }
 
