@@ -19,6 +19,7 @@ public class SecurityConfiguration {
                 auth
                         .mvcMatchers(HttpMethod.GET, "/rooms").permitAll()
                         .mvcMatchers(HttpMethod.POST, "/rooms").permitAll()
+                        .mvcMatchers(HttpMethod.PUT, "/rooms").permitAll()
                         .mvcMatchers(HttpMethod.DELETE, "/rooms").permitAll()
         ).httpBasic(withDefaults());
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

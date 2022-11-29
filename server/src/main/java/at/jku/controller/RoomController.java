@@ -38,9 +38,19 @@ public class RoomController {
     }
 
     @RequestMapping(value = "/rooms/{room_id:.*}", method = RequestMethod.PUT)
-    public ResponseEntity<Room> updateRoom(@PathVariable Long room_id) {
+    public ResponseEntity<Room> updateRoom(@PathVariable Long room_id,
+                                           @RequestParam Optional<String> name,
+                                           @RequestParam Optional<Integer> size) {
         Room room = roomRepository.findById(room_id).orElse(null);
-        roomRepository.delete(room);
+        if (room != null) {
+            if (name.isPresent()) {
+                room.setName(name.get());
+            }
+            if (size.isPresent()) {
+                room.setSize(size.get());
+            }
+        }
+        roomRepository.save(room);
         return ResponseEntity.ok(room);
     }
 
@@ -51,11 +61,5 @@ public class RoomController {
         return ResponseEntity.ok(room);
     }
 
-
-//    @PutMapping("/rooms/{room_id}")
-//    public ResponseEntity<Room> updateRoom(Long room_id, @RequestParam Optional<String> name,
-//                                           @RequestParam Optional<Integer> size) {
-//        return ResponseEntity.ok(roomRepository.findById(room_id).orElse(null));
-//    }
 }
 
