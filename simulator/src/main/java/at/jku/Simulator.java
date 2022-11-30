@@ -7,12 +7,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class Simulator {
+    private final static String BASE_URL = "http://localhost:8080";
+    private final static String USERNAME = "";
+    private final static String PASSWORD = "";
     public static void main(String[] args) {
     // Todo JUST CODE SAMPLES TO START CODING THE SIMULATOR
 
         //  WITHOUT SECURITY
 //        HttpClient client = HttpClient.newHttpClient();
-//        postRoom(client, "Room1", 20);
+//        postRoom(client, "Room1");
 
 
         //  WITH SECURITY
@@ -21,16 +24,19 @@ public class Simulator {
 //                .authenticator(new Authenticator() {
 //                    @Override
 //                    protected PasswordAuthentication getPasswordAuthentication() {
-//                        return new PasswordAuthentication(PRODUCT_MANAGER_USERNAME,
-//                                PRODUCT_MANAGER_PASSWORD.toCharArray());
+//                        return new PasswordAuthentication(USERNAME,
+//                                PASSWORD.toCharArray());
 //                    }
 //                })
 //                .build();
+
+//  postRoom(client, "Room1");
+
     }
 
-    private static void postRoom(HttpClient client, String name, int size) {
+    private static void postRoom(HttpClient client, String name) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create("http://localhost:8080/rooms" + "?name=" + name + "&size=" + size)))
+                .uri((URI.create(BASE_URL + "/rooms" + "?name=" + name)))
                 .POST(HttpRequest.BodyPublishers.noBody()).build();
         try {
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());

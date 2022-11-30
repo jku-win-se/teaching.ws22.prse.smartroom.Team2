@@ -20,6 +20,9 @@ import java.net.http.HttpResponse;
 public class DigitalTwinApp extends Application {
 
     private static Scene scene;
+    private final static String BASE_URL = "http://localhost:8080";
+    private final static String USERNAME = "";
+    private final static String PASSWORD = "";
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -38,31 +41,32 @@ public class DigitalTwinApp extends Application {
     }
 
     public static void main(String[] args) {
-    // Todo JUST CODE SAMPLES TO START CODING THE CLIENT WITH GUI
+        // Todo JUST CODE SAMPLES TO START CODING THE CLIENT WITH GUI
 
         //  WITHOUT SECURITY
 //        HttpClient client = HttpClient.newHttpClient();
-//        postRoom(client, "Room1", 20);
 
 
         launch();
-//  WITH SECURITY
+        //  WITH SECURITY
 //        HttpClient client = HttpClient
 //                .newBuilder()
 //                .authenticator(new Authenticator() {
 //                    @Override
 //                    protected PasswordAuthentication getPasswordAuthentication() {
-//                        return new PasswordAuthentication(PRODUCT_MANAGER_USERNAME,
-//                                PRODUCT_MANAGER_PASSWORD.toCharArray());
+//                        return new PasswordAuthentication(USERNAME,
+//                                PASSWORD.toCharArray());
 //                    }
 //                })
 //                .build();
 
+//  postRoom(client, "Room1");
 
     }
+
     private static void postRoom(HttpClient client, String name, int size) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create("http://localhost:8080/rooms" + "?name=" + name + "&size=" + size)))
+                .uri((URI.create(BASE_URL + "/rooms" + "?name=" + name)))
                 .POST(HttpRequest.BodyPublishers.noBody()).build();
         try {
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -73,10 +77,11 @@ public class DigitalTwinApp extends Application {
             System.out.println("http InterruptedException" + e);
         }
     }
-        private static void print(HttpRequest request, HttpResponse response) {
-            System.out.println("Sent:         " + request);
-            System.out.println("Received:     " + response);
-            System.out.println("Received Body:" + response.body());
-            //printJSON(response);
-        }
+
+    private static void print(HttpRequest request, HttpResponse response) {
+        System.out.println("Sent:         " + request);
+        System.out.println("Received:     " + response);
+        System.out.println("Received Body:" + response.body());
+        //printJSON(response);
+    }
 }
