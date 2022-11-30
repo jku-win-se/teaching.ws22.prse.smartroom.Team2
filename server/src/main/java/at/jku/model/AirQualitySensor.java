@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-public class Ventilator implements Powerable {
+public class AirQualitySensor implements Powerable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +16,11 @@ public class Ventilator implements Powerable {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
-    public Ventilator() {
+    private double temperature;
+    private double humidity;
+    private double co2;
+
+    public AirQualitySensor() {
     }
 
     public Long getId() {
@@ -69,5 +73,29 @@ public class Ventilator implements Powerable {
         // TODO state change has to generate a db record
         // if off then on and vice versa
         // create db entry
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public double getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(double humidity) {
+        this.humidity = humidity;
+    }
+
+    public double getCo2() {
+        return co2;
+    }
+
+    public void setCo2(double co2) {
+        this.co2 = co2;
     }
 }

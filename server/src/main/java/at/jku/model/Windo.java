@@ -3,24 +3,21 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Set;
+
 
 @Entity
-public class Door implements Openable {
+public class Windo implements Openable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "door_connects_room",
-            joinColumns = @JoinColumn(name = "door_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_id"))
-    private Set<Room> rooms;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    private Room room;
 
-    public Door() {
+    public Windo() {
     }
 
     public Long getId() {
@@ -29,6 +26,14 @@ public class Door implements Openable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     @JsonIgnore
@@ -54,5 +59,4 @@ public class Door implements Openable {
         // if open then close and vice versa
         // create db entry
     }
-
 }
