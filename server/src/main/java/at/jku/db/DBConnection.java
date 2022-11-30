@@ -5,8 +5,8 @@ import java.sql.*;
 public class DBConnection {
     private String dbUrl = "buegi.cbp1ffycgxjz.eu-central-1.rds.amazonaws.com";
     private String dbPort = "3306";
-    private String dbUser = "admin";
-    private String dbPassword = "ZFJBEagD0oqU6cLyUNpp";
+    private String dbUser = "digital_twin";
+    private String dbPassword = "EsrR8qA48FPr2l7zjuLs";
     private String jdbcConnectionString = "jdbc:mysql://" + dbUrl +":"+ dbPort+ "?user=" + dbUser + "&password=" + dbPassword;
 
     private Connection dbConnection;

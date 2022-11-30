@@ -3,11 +3,11 @@ package at.jku.db;
 import java.sql.SQLException;
 
 public class DBModel {
-    private static final String DROP_DATABASE = "DROP DATABASE prse";
-    private static final String CREATE_DATABASE = "CREATE DATABASE prse";
+    private static final String DROP_DATABASE = "DROP DATABASE prse_model";
+    private static final String CREATE_DATABASE = "CREATE DATABASE prse_model";
 
     private static final String CREATE_DATABASE_DIGITAL_TWIN = "CREATE DATABASE digital_twin";
-    private static final String USE_DATABASE = "USE prse";
+    private static final String USE_DATABASE = "USE prse_model";
     private static final String CREATE_ROOM =
             "CREATE TABLE rooms (roomID INT PRIMARY KEY AUTO_INCREMENT, " +
                     "name varchar(255) NOT NULL, size int)";
