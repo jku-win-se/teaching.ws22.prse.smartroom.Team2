@@ -3,6 +3,8 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,7 +22,12 @@ public class Door implements Openable {
             inverseJoinColumns = @JoinColumn(name = "room_id"))
     private Set<Room> rooms;
 
+    @OneToMany(mappedBy = "door", cascade = CascadeType.ALL)
+    private List<DoorRecord> doorRecords;
+
+
     public Door() {
+        this.doorRecords = new ArrayList<>();
     }
 
     public Long getId() {
@@ -30,6 +37,18 @@ public class Door implements Openable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public List<DoorRecord> getDoorRecords() {
+        return this.doorRecords;
+    }
+
+    public void addDoorRecord(DoorRecord doorRecord) {
+        if (doorRecord == null) {
+            return;
+        }
+        this.doorRecords.add(doorRecord);
+    }
+
 
     @JsonIgnore
     public boolean isOpen() {
@@ -54,5 +73,4 @@ public class Door implements Openable {
         // if open then close and vice versa
         // create db entry
     }
-
 }

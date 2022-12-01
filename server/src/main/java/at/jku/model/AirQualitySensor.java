@@ -3,6 +3,8 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class AirQualitySensor implements Powerable {
@@ -16,11 +18,11 @@ public class AirQualitySensor implements Powerable {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
-    private double temperature;
-    private double humidity;
-    private double co2;
+    @OneToMany(mappedBy = "airQualitySensor", cascade = CascadeType.ALL)
+    private List<AirQualitySensorRecord> airQualitySensorRecords;
 
     public AirQualitySensor() {
+        this.airQualitySensorRecords = new ArrayList<>();
     }
 
     public Long getId() {
@@ -75,27 +77,33 @@ public class AirQualitySensor implements Powerable {
         // create db entry
     }
 
-    public double getTemperature() {
-        return temperature;
-    }
-
     public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
-
-    public double getHumidity() {
-        return humidity;
+        // TODO create new Record (and therefore db entry) for temperature
+        // only all three values at once are allowed!
     }
 
     public void setHumidity(double humidity) {
-        this.humidity = humidity;
-    }
-
-    public double getCo2() {
-        return co2;
+        // TODO create new Record (and therefore db entry) for humidity
+        // only all three values at once are allowed!
     }
 
     public void setCo2(double co2) {
-        this.co2 = co2;
+        // TODO create new Record (and therefore db entry) for co2
+        // only all three values at once are allowed!
+    }
+
+    public double getTemperature() {
+        // Todo get value of newest record db entry and return
+        return 0;
+    }
+
+    public double getHumidity() {
+        // Todo get value of newest record db entry and return
+        return 0;
+    }
+
+    public double getCo2() {
+        // Todo get value of newest record db entry and return
+        return 0;
     }
 }

@@ -3,6 +3,8 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Ventilator implements Powerable {
@@ -16,7 +18,11 @@ public class Ventilator implements Powerable {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
+    @OneToMany(mappedBy = "ventilator", cascade = CascadeType.ALL)
+    private List<VentilatorRecord> ventilatorRecords;
+
     public Ventilator() {
+        this.ventilatorRecords = new ArrayList<>();
     }
 
     public Long getId() {
@@ -33,6 +39,18 @@ public class Ventilator implements Powerable {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+
+    public List<VentilatorRecord> getVentilatorRecords() {
+        return this.ventilatorRecords;
+    }
+
+    public void addVentilatorRecord(VentilatorRecord ventilatorRecord) {
+        if (ventilatorRecord == null) {
+            return;
+        }
+        this.ventilatorRecords.add(ventilatorRecord);
     }
 
     @JsonIgnore

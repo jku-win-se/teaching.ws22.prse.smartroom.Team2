@@ -3,6 +3,8 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class LightSource implements Powerable {
@@ -15,7 +17,11 @@ public class LightSource implements Powerable {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
+    @OneToMany(mappedBy = "lightSource", cascade = CascadeType.ALL)
+    private List<LightSourceRecord> lightSourceRecords;
+
     public LightSource() {
+        this.lightSourceRecords = new ArrayList<>();
     }
 
     public Long getId() {
@@ -44,6 +50,17 @@ public class LightSource implements Powerable {
         // TODO state change has to generate a db record
         // if off then on and vice versa
         // create db entry
+    }
+
+    public List<LightSourceRecord> getLightSourceRecords() {
+        return this.lightSourceRecords;
+    }
+
+    public void addLightSourceRecord(LightSourceRecord lightSourceRecord) {
+        if (lightSourceRecord == null) {
+            return;
+        }
+        this.lightSourceRecords.add(lightSourceRecord);
     }
 
     @JsonIgnore

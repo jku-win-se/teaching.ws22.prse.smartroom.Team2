@@ -3,7 +3,9 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,14 +22,16 @@ public class Room {
             joinColumns = @JoinColumn(name = "room_id"),
             inverseJoinColumns = @JoinColumn(name = "door_id"))
     private Set<Door> doors;
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<Windo> windows;
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<Ventilator> ventilators;
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<AirQualitySensor> airQualitySensors;
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<LightSource> lightSources;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private List<PeopleInRoom> peopleInRooms;
 
     public Room() {
         this.doors = new HashSet<>();
@@ -35,6 +39,7 @@ public class Room {
         this.ventilators = new HashSet<>();
         this.airQualitySensors = new HashSet<>();
         this.lightSources = new HashSet<>();
+        this.peopleInRooms = new ArrayList<>();
     }
 
     public Room(String name) {
@@ -44,6 +49,7 @@ public class Room {
         this.ventilators = new HashSet<>();
         this.airQualitySensors = new HashSet<>();
         this.lightSources = new HashSet<>();
+        this.peopleInRooms = new ArrayList<>();
     }
 
     public Long getId() {
@@ -71,7 +77,7 @@ public class Room {
     }
 
     public int getNumPeopleInRoom() {
-        // Get newest db entry from people_in_room table
+        // TODO Get newest db entry from people_in_room table
         return 0;
     }
 
@@ -134,6 +140,16 @@ public class Room {
         this.lightSources.add(lightSource);
     }
 
+    public List<PeopleInRoom> getPeopleInRooms() {
+        return peopleInRooms;
+    }
+
+    public void addPeopleInRoom(PeopleInRoom peopleInRoom) {
+        if (peopleInRoom == null) {
+            return;
+        }
+        this.peopleInRooms.add(peopleInRoom);
+    }
 
     public double getTemperature() {
         return airQualitySensors.stream()

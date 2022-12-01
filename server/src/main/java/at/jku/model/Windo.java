@@ -3,6 +3,8 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -17,7 +19,11 @@ public class Windo implements Openable {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
+    @OneToMany(mappedBy = "window", cascade = CascadeType.ALL)
+    private List<WindowRecord> windowRecords;
+
     public Windo() {
+        this.windowRecords = new ArrayList<>();
     }
 
     public Long getId() {
@@ -34,6 +40,17 @@ public class Windo implements Openable {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public List<WindowRecord> getWindowRecords() {
+        return this.windowRecords;
+    }
+
+    public void addWindowRecord(WindowRecord windowRecord) {
+        if (windowRecord == null) {
+            return;
+        }
+        this.windowRecords.add(windowRecord);
     }
 
     @JsonIgnore
