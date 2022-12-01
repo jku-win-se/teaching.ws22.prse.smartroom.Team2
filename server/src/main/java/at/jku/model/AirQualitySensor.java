@@ -3,7 +3,9 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Entity
@@ -43,7 +45,10 @@ public class AirQualitySensor implements Powerable {
 
     @JsonIgnore
     public boolean getState() {
-        // TODO get state from latest db entry for this device
+        // TODO
+
+
+
         return false;
     }
 
