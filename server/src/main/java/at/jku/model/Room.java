@@ -47,6 +47,7 @@ public class Room {
     }
 
     public Room(String name) {
+        this.name = name;
         this.doors = new HashSet<>();
         this.windows = new HashSet<>();
         this.ventilators = new HashSet<>();
