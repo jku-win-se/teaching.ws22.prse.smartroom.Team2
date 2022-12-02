@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class AirQualitySensor implements Powerable {
+public class TemperatureSensor implements Powerable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +18,11 @@ public class AirQualitySensor implements Powerable {
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
-    @OneToMany(mappedBy = "airQualitySensor", cascade = CascadeType.ALL)
-    private List<AirQualitySensorRecord> airQualitySensorRecords;
+    @OneToMany(mappedBy = "temperatureSensor", cascade = CascadeType.ALL)
+    private List<TemperatureSensorRecord> temperatureSensorRecords;
 
-    public AirQualitySensor() {
-        this.airQualitySensorRecords = new ArrayList<>();
+    public TemperatureSensor() {
+        this.temperatureSensorRecords = new ArrayList<>();
     }
 
     public Long getId() {
@@ -79,30 +79,9 @@ public class AirQualitySensor implements Powerable {
 
     public void setTemperature(double temperature) {
         // TODO create new Record (and therefore db entry) for temperature
-        // only all three values at once are allowed!
-    }
-
-    public void setHumidity(double humidity) {
-        // TODO create new Record (and therefore db entry) for humidity
-        // only all three values at once are allowed!
-    }
-
-    public void setCo2(double co2) {
-        // TODO create new Record (and therefore db entry) for co2
-        // only all three values at once are allowed!
     }
 
     public double getTemperature() {
-        // Todo get value of newest record db entry and return
-        return 0;
-    }
-
-    public double getHumidity() {
-        // Todo get value of newest record db entry and return
-        return 0;
-    }
-
-    public double getCo2() {
         // Todo get value of newest record db entry and return
         return 0;
     }

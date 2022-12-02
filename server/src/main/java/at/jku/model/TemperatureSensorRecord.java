@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class AirQualitySensorRecord {
+public class TemperatureSensorRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,7 +12,7 @@ public class AirQualitySensorRecord {
     private Long id;
 
     @ManyToOne
-    private AirQualitySensor airQualitySensor;
+    private TemperatureSensor temperatureSensor;
 
     private LocalDateTime timestamp;
 
@@ -20,11 +20,7 @@ public class AirQualitySensorRecord {
 
     private double temperature;
 
-    private double humidity;
-
-    private double co2;
-
-    public AirQualitySensorRecord() {
+    public TemperatureSensorRecord() {
     }
 
     public Long getId() {
@@ -52,29 +48,12 @@ public class AirQualitySensorRecord {
         this.temperature = temperature;
     }
 
-    public double getHumidity() {
-        return humidity;
+    public TemperatureSensor getAirQualitySensor() {
+        return this.temperatureSensor;
     }
 
-    public void setHumidity(double humidity) {
-        this.humidity = humidity;
-    }
-
-    public double getCo2() {
-        return co2;
-    }
-
-    public void setCo2(double co2) {
-        this.co2 = co2;
-    }
-
-
-    public AirQualitySensor getAirQualitySensor() {
-        return this.airQualitySensor;
-    }
-
-    public void setAirQualitySensor(AirQualitySensor airQualitySensor) {
-        this.airQualitySensor = airQualitySensor;
+    public void setAirQualitySensor(TemperatureSensor temperatureSensor) {
+        this.temperatureSensor = temperatureSensor;
     }
 
     public LocalDateTime getTimestamp() {

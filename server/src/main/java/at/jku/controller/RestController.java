@@ -17,7 +17,9 @@ public class RestController {
 
     private LightSourceRepository lightSourceRepository;
     private VentilatorRepository ventilatorRepository;
-    private AirQualitySensorRepository airQualitySensorRepository;
+    private TemperatureSensorRepository temperatureSensorRepository;
+    private Co2SensorRepository co2SensorRepository;
+    private HumiditySensorRepository humiditySensorRepository;
 
 
     public RestController(final RoomRepository roomRepository,
@@ -25,14 +27,18 @@ public class RestController {
                           final WindoRepository windoRepository,
                           final LightSourceRepository lightSourceRepository,
                           final VentilatorRepository ventilatorRepository,
-                          final AirQualitySensorRepository airQualitySensorRepositor
+                          final TemperatureSensorRepository temperatureSensorRepository,
+                          final Co2SensorRepository co2SensorRepository,
+                          final HumiditySensorRepository humiditySensorRepository
     ) {
         this.roomRepository = roomRepository;
         this.doorRepository = doorRepository;
         this.windoRepository = windoRepository;
         this.lightSourceRepository = lightSourceRepository;
         this.ventilatorRepository = ventilatorRepository;
-        this.airQualitySensorRepository = airQualitySensorRepositor;
+        this.temperatureSensorRepository = temperatureSensorRepository;
+        this.co2SensorRepository = co2SensorRepository;
+        this.humiditySensorRepository = humiditySensorRepository;
     }
 
     @GetMapping("/rooms")
@@ -129,16 +135,16 @@ public class RestController {
         return ResponseEntity.ok(ventilator);
     }
 
-    @GetMapping("/airqualitysensors")
-    public ResponseEntity<List<AirQualitySensor>> getAllAirQualitySensors() {
-        return ResponseEntity.ok(airQualitySensorRepository.findAll());
+    @GetMapping("/temperaturesensors")
+    public ResponseEntity<List<TemperatureSensor>> getAllTemperatureSensors() {
+        return ResponseEntity.ok(temperatureSensorRepository.findAll());
     }
 
-    @PostMapping("/airqualitysensors")
-    public ResponseEntity<AirQualitySensor> addLightAirQualitySensor() {
-        final AirQualitySensor airQualitySensor = new AirQualitySensor();
-        airQualitySensorRepository.save(airQualitySensor);
-        return ResponseEntity.ok(airQualitySensor);
+    @PostMapping("/temperaturesensors")
+    public ResponseEntity<TemperatureSensor> addTemperatureSensor() {
+        final TemperatureSensor temperatureSensor = new TemperatureSensor();
+        temperatureSensorRepository.save(temperatureSensor);
+        return ResponseEntity.ok(temperatureSensor);
     }
 
 
