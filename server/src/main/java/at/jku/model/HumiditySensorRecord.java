@@ -1,7 +1,5 @@
 package at.jku.model;
 
-import at.jku.repository.HumiditySensorRepository;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -20,7 +18,7 @@ public class HumiditySensorRecord {
 
     private boolean state;
 
-    private double co2;
+    private double humidity;
 
     public HumiditySensorRecord() {
     }
@@ -42,12 +40,12 @@ public class HumiditySensorRecord {
         this.state = state;
     }
 
-    public double getCo2() {
-        return co2;
+    public double getHumidity() {
+        return humidity;
     }
 
-    public void setCo2(double co2) {
-        this.co2 = co2;
+    public void setHumidity(double humidity) {
+        this.humidity = humidity;
     }
 
     public HumiditySensor getHumiditySensor() {

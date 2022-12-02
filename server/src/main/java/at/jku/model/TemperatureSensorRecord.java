@@ -48,11 +48,11 @@ public class TemperatureSensorRecord {
         this.temperature = temperature;
     }
 
-    public TemperatureSensor getAirQualitySensor() {
+    public TemperatureSensor getTemperatureSensor() {
         return this.temperatureSensor;
     }
 
-    public void setAirQualitySensor(TemperatureSensor temperatureSensor) {
+    public void setTemperatureSensor(TemperatureSensor temperatureSensor) {
         this.temperatureSensor = temperatureSensor;
     }
 
