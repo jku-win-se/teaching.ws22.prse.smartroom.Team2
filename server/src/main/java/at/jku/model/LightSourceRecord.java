@@ -11,7 +11,7 @@ public class LightSourceRecord {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private LightSource lightSource;
 
     private LocalDateTime timestamp;

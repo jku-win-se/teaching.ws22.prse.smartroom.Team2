@@ -10,11 +10,9 @@ import java.util.Optional;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
-
     private RoomRepository roomRepository;
     private DoorRepository doorRepository;
     private WindoRepository windoRepository;
-
     private LightSourceRepository lightSourceRepository;
     private VentilatorRepository ventilatorRepository;
     private TemperatureSensorRepository temperatureSensorRepository;
@@ -41,6 +39,7 @@ public class RestController {
         this.humiditySensorRepository = humiditySensorRepository;
     }
 
+    //ROOMS
     @GetMapping("/rooms")
     public ResponseEntity<List<Room>> getAllRooms() {
         return ResponseEntity.ok(roomRepository.findAll());
@@ -84,33 +83,13 @@ public class RestController {
         roomRepository.delete(room);
         return ResponseEntity.ok(room);
     }
+    //TODO
+    //GET PEOPLEINROOM
+    //POST PEOPLEINROOM
 
-    // --------------- Test Adapt Incomplete ------------------------
-    // --------------------------------------------------------------
-    @GetMapping("/doors")
-    public ResponseEntity<List<Door>> getAllDoors() {
-        return ResponseEntity.ok(doorRepository.findAll());
-    }
+    //------------------------------
 
-    @PostMapping("/doors")
-    public ResponseEntity<Door> addDoor() {
-        final Door door = new Door();
-        doorRepository.save(door);
-        return ResponseEntity.ok(door);
-    }
-
-    @GetMapping("/windows")
-    public ResponseEntity<List<Windo>> getAllWindows() {
-        return ResponseEntity.ok(windoRepository.findAll());
-    }
-
-    @PostMapping("/windows")
-    public ResponseEntity<Windo> addWindow() {
-        final Windo windo = new Windo();
-        windoRepository.save(windo);
-        return ResponseEntity.ok(windo);
-    }
-
+    //LIGHTSOURCES
     @GetMapping("/lightsources")
     public ResponseEntity<List<LightSource>> getAllLightSources() {
         return ResponseEntity.ok(lightSourceRepository.findAll());
@@ -123,6 +102,39 @@ public class RestController {
         return ResponseEntity.ok(lightSource);
     }
 
+    @RequestMapping(value = "/lightsources/{light_id:.*}", method = RequestMethod.GET)
+    public ResponseEntity<LightSource> getLightSource(@PathVariable Long light_id) {
+        return ResponseEntity.ok(lightSourceRepository.findById(light_id).orElse(null));
+    }
+
+    @RequestMapping(value = "/lightsources/{light_id:.*}", method = RequestMethod.PUT)
+    public ResponseEntity<LightSource> updateLightSource(@PathVariable Long ventilator_id,
+                                                         @RequestParam Optional<Room> room) {
+        LightSource lightSource = lightSourceRepository.findById(ventilator_id).orElse(null);
+        if (lightSource != null) {
+            if (room.isPresent()) {
+                lightSource.setRoom(room.get());
+            }
+        }
+        lightSourceRepository.save(lightSource);
+        return ResponseEntity.ok(lightSource);
+    }
+
+    @RequestMapping(value = "/lightsources/{light_id:.*}", method = RequestMethod.DELETE)
+    public ResponseEntity<LightSource> deleteLightSource(@PathVariable Long light_id) {
+        LightSource light = lightSourceRepository.findById(light_id).orElse(null);
+        lightSourceRepository.delete(light);
+        return ResponseEntity.ok(light);
+    }
+
+    //TODO
+    //GET ACTIVATE LIGHT
+    //POST ACTIVATE LIGHT
+    //POST SET COLOR
+
+    //------------------------------
+
+    //VENTILATOR
     @GetMapping("/ventilators")
     public ResponseEntity<List<Ventilator>> getAllVentilators() {
         return ResponseEntity.ok(ventilatorRepository.findAll());
@@ -135,6 +147,39 @@ public class RestController {
         return ResponseEntity.ok(ventilator);
     }
 
+    @RequestMapping(value = "/ventilators/{ventilator_id:.*}", method = RequestMethod.GET)
+    public ResponseEntity<Ventilator> getVentilator(@PathVariable Long ventilator_id) {
+        return ResponseEntity.ok(ventilatorRepository.findById(ventilator_id).orElse(null));
+    }
+
+    @RequestMapping(value = "/ventilators/{ventilator_id:.*}", method = RequestMethod.PUT)
+    public ResponseEntity<Ventilator> updateVentilator(@PathVariable Long ventilator_id,
+                                                       @RequestParam Optional<Room> room) {
+        Ventilator ventilator = ventilatorRepository.findById(ventilator_id).orElse(null);
+        if (ventilator != null) {
+            if (room.isPresent()) {
+                ventilator.setRoom(room.get());
+            }
+        }
+        ventilatorRepository.save(ventilator);
+        return ResponseEntity.ok(ventilator);
+    }
+
+    @RequestMapping(value = "/ventilators/{ventilator_id:.*}", method = RequestMethod.DELETE)
+    public ResponseEntity<Ventilator> deleteVentilator(@PathVariable Long ventilator_id) {
+        Ventilator ventilator = ventilatorRepository.findById(ventilator_id).orElse(null);
+        ventilatorRepository.delete(ventilator);
+        return ResponseEntity.ok(ventilator);
+    }
+
+    //TODO
+    //POST ACTIVATE VENTILATOR
+    //GET ACTIVATE VENTILATOR
+    //POST ACTIVATE VENTILATOR
+
+    //------------------------------
+
+    //TEMPERATURESENSORS
     @GetMapping("/temperaturesensors")
     public ResponseEntity<List<TemperatureSensor>> getAllTemperatureSensors() {
         return ResponseEntity.ok(temperatureSensorRepository.findAll());
@@ -147,6 +192,66 @@ public class RestController {
         return ResponseEntity.ok(temperatureSensor);
     }
 
+
+    //DOOR
+    @GetMapping("/doors")
+    public ResponseEntity<List<Door>> getAllDoors() {
+        return ResponseEntity.ok(doorRepository.findAll());
+    }
+
+    @PostMapping("/doors")
+    public ResponseEntity<Door> addDoor() {
+        final Door door = new Door();
+        doorRepository.save(door);
+        return ResponseEntity.ok(door);
+    }
+
+    @RequestMapping(value = "/doors/{doors_id:.*}", method = RequestMethod.GET)
+    public ResponseEntity<Door> getDoor(@PathVariable Long doors_id) {
+        return ResponseEntity.ok(doorRepository.findById(doors_id).orElse(null));
+    }
+
+    //TODO
+    //UPDATE DOOR
+    //GET OPEN DOOR
+    //POST OPEN DOOR
+
+    //WINDOWS
+    @GetMapping("/windows")
+    public ResponseEntity<List<Windo>> getAllWindows() {
+        return ResponseEntity.ok(windoRepository.findAll());
+    }
+
+    @PostMapping("/windows")
+    public ResponseEntity<Windo> addWindow() {
+        final Windo windo = new Windo();
+        windoRepository.save(windo);
+        return ResponseEntity.ok(windo);
+    }
+
+    @RequestMapping(value = "/windows/{windo_id:.*}", method = RequestMethod.GET)
+    public ResponseEntity<Windo> getWindo(@PathVariable Long windo_id) {
+        return ResponseEntity.ok(windoRepository.findById(windo_id).orElse(null));
+    }
+
+    @RequestMapping(value = "/windows/{windo_id:.*}", method = RequestMethod.PUT)
+    public ResponseEntity<Windo> updateWindo(@PathVariable Long windo_id,
+                                             @RequestParam Optional<Room> room) {
+        Windo windo = windoRepository.findById(windo_id).orElse(null);
+        if (windo != null) {
+            if (room.isPresent()) {
+                windo.setRoom(room.get());
+            }
+        }
+        windoRepository.save(windo);
+        return ResponseEntity.ok(windo);
+    }
+
+    //TODO
+    //GET OPEN WINDOW
+    //POST OPEN WINDOW
+
+    //AIRQUALITYSENSOR
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
