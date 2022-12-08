@@ -114,7 +114,7 @@
                   </Label>
                   <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../../Desktop/icons/search.png" />
+                        <Image url="@search.png" />
                      </image>
                      <HBox.margin>
                         <Insets top="5.0" />
@@ -122,7 +122,7 @@
                   </ImageView>
                   <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../../Desktop/icons/trash.png" />
+                        <Image url="@trash.png" />
                      </image>
                      <HBox.margin>
                         <Insets left="10.0" top="5.0" />
@@ -142,7 +142,7 @@
                   </Label>
                   <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../../Desktop/icons/search.png" />
+                        <Image url="@search.png" />
                      </image>
                      <HBox.margin>
                         <Insets top="5.0" />
