@@ -2,12 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -20,7 +16,7 @@
       <Insets top="10.0" />
    </opaqueInsets>
    <left>
-      <VBox id="left-menu" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="963.0" prefWidth="178.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F;">
+      <VBox id="left-menu" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1017.0" prefWidth="178.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F;">
          <children>
             <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="190.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="HOME" textFill="WHITE">
                <VBox.margin>
@@ -89,282 +85,154 @@
       </VBox>
    </left>
    <top>
-      <VBox prefHeight="137.0" prefWidth="877.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label alignment="BOTTOM_LEFT" prefHeight="33.0" prefWidth="423.0" style="-fx-background-color: #F8F6F6;" text="Hello, Amy." textAlignment="RIGHT">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <font>
-                  <Font name="System Bold" size="40.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="200.0" top="50.0" />
-               </VBox.margin>
-               <graphic>
-                  <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@setting.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Label>
-            <Label prefHeight="17.0" prefWidth="589.0" text="Room 1">
-               <VBox.margin>
-                  <Insets left="227.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
-         </children>
+      <VBox prefHeight="81.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
       </VBox>
    </top>
    <center>
-      <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="653.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Room Setup">
+            <Label text="All rooms">
                <font>
                   <Font size="30.0" />
                </font>
                <VBox.margin>
-                  <Insets left="50.0" top="20.0" />
+                  <Insets bottom="30.0" left="20.0" />
                </VBox.margin>
             </Label>
-            <HBox prefHeight="43.0" prefWidth="742.0">
+            <HBox prefHeight="35.0" prefWidth="874.0">
                <children>
-                  <Label maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="130.0" text="Light Bulb #1">
+                  <Label prefHeight="26.0" prefWidth="102.0" text="Room 1">
                      <HBox.margin>
-                        <Insets left="50.0" top="10.0" />
+                        <Insets left="20.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="15.0" />
+                        <Font size="20.0" />
                      </font>
-                     <graphic>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@lightbulb.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
                   </Label>
-                  <Slider blockIncrement="1.0" majorTickUnit="1.0" max="1.0" maxWidth="-Infinity" minWidth="-Infinity" minorTickCount="0" prefHeight="15.0" prefWidth="40.0" snapToTicks="true">
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../../../../Desktop/icons/search.png" />
+                     </image>
                      <HBox.margin>
-                        <Insets top="12.0" />
+                        <Insets top="5.0" />
                      </HBox.margin>
-                  </Slider>
-                  <Label layoutX="60.0" layoutY="20.0" prefWidth="120.0" text="Door #1">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@door.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
+                  </ImageView>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../../../../Desktop/icons/trash.png" />
+                     </image>
                      <HBox.margin>
-                        <Insets left="60.0" top="10.0" />
+                        <Insets left="10.0" top="5.0" />
                      </HBox.margin>
-                  </Label>
-                  <Slider blockIncrement="1.0" layoutX="172.0" layoutY="22.0" majorTickUnit="1.0" max="1.0" maxWidth="-Infinity" minWidth="-Infinity" minorTickCount="0" prefHeight="15.0" prefWidth="40.0" snapToTicks="true">
-                     <HBox.margin>
-                        <Insets top="12.0" />
-                     </HBox.margin>
-                  </Slider>
+                  </ImageView>
                </children>
             </HBox>
-            <HBox layoutX="10.0" layoutY="67.0" prefHeight="43.0" prefWidth="742.0">
+            <HBox prefHeight="35.0" prefWidth="874.0">
                <children>
-                  <Label prefWidth="130.0" text="Ventilator #1">
+                  <Label prefHeight="26.0" prefWidth="102.0" text="Room 2">
                      <HBox.margin>
-                        <Insets left="50.0" top="10.0" />
+                        <Insets left="20.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="15.0" />
+                        <Font size="20.0" />
                      </font>
-                     <graphic>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@fan.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
                   </Label>
-                  <Slider blockIncrement="1.0" majorTickUnit="1.0" max="1.0" maxWidth="-Infinity" minWidth="-Infinity" minorTickCount="0" prefHeight="15.0" prefWidth="40.0" snapToTicks="true">
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../../../../Desktop/icons/search.png" />
+                     </image>
                      <HBox.margin>
-                        <Insets top="12.0" />
+                        <Insets top="5.0" />
                      </HBox.margin>
-                  </Slider>
-                  <Label layoutX="60.0" layoutY="20.0" prefWidth="120.0" text="Window #1">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@window.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
+                  </ImageView>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../../../../Desktop/icons/trash.png" />
+                     </image>
                      <HBox.margin>
-                        <Insets left="60.0" top="10.0" />
+                        <Insets left="10.0" top="5.0" />
                      </HBox.margin>
-                  </Label>
-                  <Slider blockIncrement="1.0" layoutX="172.0" layoutY="22.0" majorTickUnit="1.0" max="1.0" maxWidth="-Infinity" minWidth="-Infinity" minorTickCount="0" prefHeight="15.0" prefWidth="40.0" snapToTicks="true">
-                     <HBox.margin>
-                        <Insets top="12.0" />
-                     </HBox.margin>
-                  </Slider>
+                  </ImageView>
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="35.0" prefWidth="874.0">
+               <children>
+                  <Label prefHeight="26.0" prefWidth="102.0" text="Room 3">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../../../../Desktop/icons/search.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../../../../Desktop/icons/trash.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox prefHeight="35.0" prefWidth="874.0">
+               <children>
+                  <Label prefHeight="26.0" prefWidth="102.0" text="Room 4">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@search.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@trash.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
             </HBox>
          </children>
-         <BorderPane.margin>
-            <Insets bottom="20.0" top="-900.0" />
-         </BorderPane.margin>
       </VBox>
    </center>
    <right>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="912.0" prefWidth="233.0" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets top="-540.0" />
-         </BorderPane.margin>
+      <HBox prefHeight="812.0" prefWidth="88.0" BorderPane.alignment="TOP_RIGHT">
          <children>
-            <Label alignment="TOP_RIGHT" text="20:20">
-               <opaqueInsets>
+            <Label prefHeight="17.0" prefWidth="41.0" text="Export" />
+            <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@export.png" />
+               </image>
+               <HBox.margin>
                   <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets bottom="40.0" left="175.0" top="15.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label text="Room Temperature">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
-            <Label text="23°">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
-            <Label text="Co2 Level">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
-            <Label prefHeight="86.0" prefWidth="230.0" text="500pm">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
-            <Label text="Number of people">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
-            <Label text="2">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
-            <Label layoutX="10.0" layoutY="293.0" text="Room size">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
-            <Label layoutX="10.0" layoutY="312.0" text="60 qm">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
+               </HBox.margin>
+            </ImageView>
          </children>
-      </VBox>
-   </right>
-   <bottom>
-      <VBox prefHeight="411.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets top="-900.0" />
+            <Insets />
          </BorderPane.margin>
-         <children>
-            <HBox prefHeight="40.0" prefWidth="1052.0">
-               <children>
-                  <Label alignment="TOP_LEFT" prefHeight="26.0" prefWidth="403.0" text="Room temperature">
-                     <HBox.margin>
-                        <Insets left="225.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="TOP_LEFT" layoutX="235.0" layoutY="10.0" prefHeight="26.0" prefWidth="200.0" text="Co2 Level">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="1052.0">
-               <children>
-                  <LineChart prefHeight="180.0" prefWidth="390.0">
-                     <xAxis>
-                        <CategoryAxis side="BOTTOM" />
-                     </xAxis>
-                     <yAxis>
-                        <NumberAxis side="LEFT" />
-                     </yAxis>
-                     <HBox.margin>
-                        <Insets left="230.0" />
-                     </HBox.margin>
-                  </LineChart>
-                  <LineChart maxHeight="-Infinity" prefHeight="180.0" prefWidth="390.0">
-                     <xAxis>
-                        <CategoryAxis side="BOTTOM" />
-                     </xAxis>
-                     <yAxis>
-                        <NumberAxis side="LEFT" />
-                     </yAxis>
-                  </LineChart>
-               </children>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="1052.0">
-               <children>
-                  <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="403.0" text="Number of people">
-                     <HBox.margin>
-                        <Insets left="225.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="50.0" prefHeight="180.0" prefWidth="1052.0">
-               <children>
-                  <LineChart prefHeight="178.0" prefWidth="385.0">
-                     <xAxis>
-                        <CategoryAxis side="BOTTOM" />
-                     </xAxis>
-                     <yAxis>
-                        <NumberAxis side="LEFT" />
-                     </yAxis>
-                     <HBox.margin>
-                        <Insets left="230.0" />
-                     </HBox.margin>
-                  </LineChart>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </bottom>
+      </HBox>
+   </right>
 </BorderPane>
