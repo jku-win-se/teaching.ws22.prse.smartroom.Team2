@@ -364,6 +364,7 @@
                   </LineChart>
                </children>
             </HBox>
+            
          </children>
       </VBox>
    </bottom>
