@@ -32,7 +32,7 @@
                <graphic>
                   <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../../Desktop/icons/1946436.png" />
+                        <Image url="@home.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -44,7 +44,7 @@
                <graphic>
                   <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../../Desktop/icons/sofa.png" />
+                        <Image url="@sofa.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -56,7 +56,7 @@
                <graphic>
                   <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../../Desktop/icons/plus.png" />
+                        <Image url="@plus.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -74,7 +74,7 @@
                <graphic>
                   <ImageView fitHeight="17.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../../Downloads/3199751.png" />
+                        <Image url="@import.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="CLOSED_HAND" />
@@ -104,7 +104,7 @@
                <graphic>
                   <ImageView fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../../Downloads/setting.png" />
+                        <Image url="@setting.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -146,7 +146,7 @@
                      <graphic>
                         <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../../../../../Desktop/icons/lightbulb.png" />
+                              <Image url="@lightbulb.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -163,7 +163,7 @@
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../../../../../Desktop/icons/door.png" />
+                              <Image url="@door.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -190,7 +190,7 @@
                      <graphic>
                         <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../../../../../Desktop/icons/fan.png" />
+                              <Image url="@fan.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -207,7 +207,7 @@
                      <graphic>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../../../../../Desktop/icons/2197440.png" />
+                              <Image url="@window.png" />
                            </image>
                         </ImageView>
                      </graphic>
