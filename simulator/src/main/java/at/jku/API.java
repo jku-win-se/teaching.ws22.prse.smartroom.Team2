@@ -4,6 +4,14 @@ import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 
 public interface API {
+
+    public HttpResponse GET(String uri);
+
+    public HttpResponse POST(String uri);
+
+    public HttpResponse PUT(String uri);
+
+    public HttpResponse DELETE(String uri);
     public HttpResponse getRooms();
 
     public HttpResponse postRoom();
