@@ -3,12 +3,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -34,7 +31,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="187.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="ALL ROOMS" textFill="WHITE">
+            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionRooms" prefHeight="69.0" prefWidth="187.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="ALL ROOMS" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -93,122 +90,6 @@
       </VBox>
    </top>
    <center>
-      <VBox prefHeight="817.0" prefWidth="435.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Create new room">
-               <font>
-                  <Font name="Arial" size="40.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="20.0" left="40.0" />
-               </VBox.margin>
-            </Label>
-            <Label text="ID">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="text1" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="40.0" />
-               </VBox.margin>
-            </TextField>
-            <Label layoutX="10.0" layoutY="27.0" text="Size">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="text2" layoutX="10.0" layoutY="44.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="40.0" />
-               </VBox.margin>
-            </TextField>
-            <Label layoutX="10.0" layoutY="69.0" text="Doors">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="text3" layoutX="10.0" layoutY="86.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="40.0" />
-               </VBox.margin>
-            </TextField>
-            <Label layoutX="10.0" layoutY="111.0" text="Windows">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="text4" layoutX="10.0" layoutY="128.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="40.0" />
-               </VBox.margin>
-            </TextField>
-            <Label layoutX="10.0" layoutY="153.0" text="Fans">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="text5" layoutX="10.0" layoutY="170.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="40.0" />
-               </VBox.margin>
-            </TextField>
-            <Label layoutX="10.0" layoutY="195.0" text="Light sources">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="text6" layoutX="10.0" layoutY="212.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </TextField>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onActionSave" text="Save">
-                     <HBox.margin>
-                        <Insets left="40.0" top="30.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel">
-                     <HBox.margin>
-                        <Insets left="30.0" top="30.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
+      <Button fx:id="btnImport" mnemonicParsing="false" onAction="#onActionImport" text="Import" BorderPane.alignment="CENTER" />
    </center>
-   <right>
-      <HBox prefHeight="817.0" prefWidth="410.0" BorderPane.alignment="TOP_RIGHT">
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-      </HBox>
-   </right>
 </BorderPane>

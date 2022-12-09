@@ -27,6 +27,18 @@ public class AllRoomsController {
     }
 
     @FXML
+    private void onActionImport() throws IOException {
+        DigitalTwinApp.setRoot("import");
+    }
+
+    @FXML
+    private void onActionNewRoom() throws IOException {
+        DigitalTwinApp.setRoot("newroom");
+    }
+
+
+
+    @FXML
     private void onActionCheckBox() throws IOException {
         //TODO: add action for checkbox: pick room for export
     }
