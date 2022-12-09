@@ -25,7 +25,12 @@ public class PrimaryController {
 
     @FXML
     private void onActionImport() throws IOException {
-        DigitalTwinApp.setRoot("import");
+        DigitalTwinApp.setRoot("editroom");
     }
+    @FXML
+    private void onActionEdit() throws IOException {
+        DigitalTwinApp.setRoot("editroom");
+    }
+
 
 }

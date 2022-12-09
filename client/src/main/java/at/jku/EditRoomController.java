@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.util.Optional;
 
-public class NewRoomController extends APIClient{
+public class EditRoomController extends APIClient{
 
 
     @FXML
@@ -31,18 +31,24 @@ public class NewRoomController extends APIClient{
     private void onActionSave() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Save room");
-        alert.setHeaderText("You are about to create this room.");
+        alert.setHeaderText("You are about to edit this room.");
         alert.setContentText("Are you ok with this?");
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){;
+        if (result.get() == ButtonType.OK){
+            int roomID =  Integer.valueOf(text1.getText());
             String name =  text2.getText();
-           //postroom ohne roomid
-            postRoom(name);
+            int size =   Integer.valueOf(text3.getText());
+            putRoom(roomID, name, size);
         } else {
             // don't create new room
         }
     }
+
+    //TODO: textfield namen ändern und allgemin kompoonente
+    //TODO: edit icon funktioniert nicht warum?
+    //TODO: new room methode
+
 
     @FXML
     TextField text1;
