@@ -22,4 +22,10 @@ public class PrimaryController {
     private void onActionNewRoom() throws IOException {
         DigitalTwinApp.setRoot("newroom");
     }
+
+    @FXML
+    private void onActionImport() throws IOException {
+        DigitalTwinApp.setRoot("import");
+    }
+
 }

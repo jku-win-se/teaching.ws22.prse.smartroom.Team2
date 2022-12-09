@@ -9,12 +9,17 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.util.Optional;
 
-public class NewRoomController {
+public class NewRoomController extends APIClient{
 
 
     @FXML
     private void onActionRooms() throws IOException {
         DigitalTwinApp.setRoot("allrooms");
+    }
+
+    @FXML
+    private void onActionImport() throws IOException {
+        DigitalTwinApp.setRoot("import");
     }
 
     @FXML
@@ -31,7 +36,10 @@ public class NewRoomController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
-            // create new room
+            int roomID =  Integer.valueOf(text1.getText());
+            String name =  text2.getText();
+            int size =   Integer.valueOf(text3.getText());
+            putRoom(roomID, name, size);
         } else {
             // don't create new room
         }
