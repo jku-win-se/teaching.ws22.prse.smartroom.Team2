@@ -49,21 +49,25 @@ public class RestController {
     }
 
     @PostMapping("/rooms")
-    public ResponseEntity<Room> addRoom(String name) {
-        if (name == null || name.isBlank()) {
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<Room> addRoom(@RequestParam Optional<String> name,
+                                        @RequestParam Optional<Integer> size) {
+        final Room room = new Room();
+        if (name.isPresent()) {
+            room.setName(name.get());
         }
-        final Room room = new Room(name);
+        if (size.isPresent()) {
+            room.setSize(size.get());
+        }
         roomRepository.save(room);
         return ResponseEntity.ok(room);
     }
 
-    @RequestMapping(value = "/rooms/{room_id:.*}", method = RequestMethod.GET)
+    @GetMapping(value = "/rooms/{room_id:.*}")
     public ResponseEntity<Room> getRoom(@PathVariable Long room_id) {
         return ResponseEntity.ok(roomRepository.findById(room_id).orElse(null));
     }
 
-    @RequestMapping(value = "/rooms/{room_id:.*}", method = RequestMethod.PUT)
+    @PutMapping(value = "/rooms/{room_id:.*}")
     public ResponseEntity<Room> updateRoom(@PathVariable Long room_id,
                                            @RequestParam Optional<String> name,
                                            @RequestParam Optional<Integer> size) {

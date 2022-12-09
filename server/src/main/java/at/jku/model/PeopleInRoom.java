@@ -11,7 +11,7 @@ public class PeopleInRoom {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne //(cascade = CascadeType.ALL)
     private Room room;
     private LocalDateTime timestamp;
     private int NOPeopleInRoom;

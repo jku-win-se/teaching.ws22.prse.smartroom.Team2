@@ -1,5 +1,6 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -126,11 +127,11 @@ public class Room {
         this.ventilators.add(ventilator);
     }
 
-    public Set<TemperatureSensor> getAirQualitySensors() {
+    public Set<TemperatureSensor> getTemperatureSensors() {
         return temperatureSensors;
     }
 
-    public void addAirQualitySensor(TemperatureSensor temperatureSensor) {
+    public void addTemperatureSensor(TemperatureSensor temperatureSensor) {
         if (temperatureSensor == null) {
             return;
         }
@@ -148,6 +149,7 @@ public class Room {
         this.lightSources.add(lightSource);
     }
 
+    @JsonIgnore
     public List<PeopleInRoom> getPeopleInRooms() {
         return peopleInRooms;
     }
