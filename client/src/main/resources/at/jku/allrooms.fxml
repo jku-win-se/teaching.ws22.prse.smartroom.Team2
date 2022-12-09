@@ -122,7 +122,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView fx:id="delete" fitHeight="15.0" fitWidth="15.0" onMouseClicked="#onActionDelete" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="delete1" fitHeight="15.0" fitWidth="15.0" onMouseClicked="#onActionDelete" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@trash.png" />
                      </image>
@@ -130,7 +130,7 @@
                         <Insets left="10.0" top="5.0" />
                      </HBox.margin>
                   </ImageView>
-                  <CheckBox fx:id="checkbox1" mnemonicParsing="false" onAction="#onActionCheckBox" visible="false">
+                  <CheckBox fx:id="delete2" mnemonicParsing="false" onAction="#onActionCheckBox" visible="false">
                      <HBox.margin>
                         <Insets left="10.0" top="5.0" />
                      </HBox.margin>

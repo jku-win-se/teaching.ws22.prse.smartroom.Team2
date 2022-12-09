@@ -1,23 +1,27 @@
 package at.jku;
 
 import com.opencsv.CSVWriter;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 
-public class AllRoomsController {
+
+public class AllRoomsController extends APIClient  implements Initializable {
 
 
     String fileName = "default";
@@ -44,11 +48,20 @@ public class AllRoomsController {
     }
 
 
+
     @FXML
     ImageView btnSearch1;
 
     @FXML
     ImageView btnSearch2;
+
+
+    @FXML
+    ImageView delete1;
+
+    @FXML
+    ImageView delete2;
+
 
     @FXML
     private void onActionExport() throws IOException {
@@ -61,9 +74,7 @@ public class AllRoomsController {
     }
     @FXML
     private void onActionSearch() throws IOException {
-        //TODO: add eventhandler for visiting  a certain room
-
-
+       //TODO: View Room
     }
 
     @FXML
@@ -120,7 +131,7 @@ public class AllRoomsController {
 
    //TODO: find a way to make this more dynamic
     @FXML
-    private void onActionDelete() throws IOException {
+    private void onActionDelete(MouseEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete room");
         alert.setHeaderText("You are about to delete this room.");
@@ -129,11 +140,18 @@ public class AllRoomsController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
 
+           ImageView img = (ImageView) event.getSource();
+           int roomId = Integer.parseInt(img.getId().substring(6));
+           System.out.println(roomId);
+           deleteRoom(roomId);
+
         } else {
-
-        //delete room
-
             // don't delete room
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }
