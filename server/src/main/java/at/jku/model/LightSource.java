@@ -3,8 +3,11 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class LightSource implements Powerable {
@@ -42,14 +45,19 @@ public class LightSource implements Powerable {
 
     @JsonIgnore
     public boolean getState() {
-        // TODO get state from latest db entry for this device
-        return false;
+         final Optional<LightSourceRecord> lsr =
+                 this.lightSourceRecords.stream().max(Comparator.comparing(LightSourceRecord::getTimestamp));
+         if (lsr != null && lsr.isPresent()){
+             return lsr.get().getState();
+         }
+         return false;
     }
 
     public void setState(boolean state) {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
+        LightSourceRecord lsr = new LightSourceRecord();
+        lsr.setTimestamp(LocalDateTime.now());
+        lsr.setState(state);
+        this.lightSourceRecords.add(lsr);
     }
 
     public List<LightSourceRecord> getLightSourceRecords() {
@@ -65,8 +73,7 @@ public class LightSource implements Powerable {
 
     @JsonIgnore
     public boolean isOn() {
-        // TODO get state from latest db entry for this device
-        return false;
+        return this.getState();
     }
 
     public void powerOn() {
@@ -82,8 +89,10 @@ public class LightSource implements Powerable {
     }
 
     public void togglePower() {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
+       if(this.getState()){
+           this.setState(false);
+       }else{
+           this.setState(true);
+       }
     }
 }

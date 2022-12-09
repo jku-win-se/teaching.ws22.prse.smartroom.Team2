@@ -83,10 +83,12 @@ public class RestController {
         roomRepository.delete(room);
         return ResponseEntity.ok(room);
     }
+
     //TODO
     //GET PEOPLEINROOM
     //POST PEOPLEINROOM
 
+    //------------------------------
     //------------------------------
 
     //LIGHTSOURCES
@@ -133,6 +135,7 @@ public class RestController {
     //POST SET COLOR
 
     //------------------------------
+    //------------------------------
 
     //VENTILATOR
     @GetMapping("/ventilators")
@@ -178,20 +181,7 @@ public class RestController {
     //POST ACTIVATE VENTILATOR
 
     //------------------------------
-
-    //TEMPERATURESENSORS
-    @GetMapping("/temperaturesensors")
-    public ResponseEntity<List<TemperatureSensor>> getAllTemperatureSensors() {
-        return ResponseEntity.ok(temperatureSensorRepository.findAll());
-    }
-
-    @PostMapping("/temperaturesensors")
-    public ResponseEntity<TemperatureSensor> addTemperatureSensor() {
-        final TemperatureSensor temperatureSensor = new TemperatureSensor();
-        temperatureSensorRepository.save(temperatureSensor);
-        return ResponseEntity.ok(temperatureSensor);
-    }
-
+    //------------------------------
 
     //DOOR
     @GetMapping("/doors")
@@ -213,8 +203,12 @@ public class RestController {
 
     //TODO
     //UPDATE DOOR
+    //DELETE DOOR
     //GET OPEN DOOR
     //POST OPEN DOOR
+
+    //------------------------------
+    //------------------------------
 
     //WINDOWS
     @GetMapping("/windows")
@@ -247,14 +241,81 @@ public class RestController {
         return ResponseEntity.ok(windo);
     }
 
+    @RequestMapping(value = "/windows/{windo_id:.*}", method = RequestMethod.DELETE)
+    public ResponseEntity<Windo> deleteWindo(@PathVariable Long windo_id) {
+        Windo windo = windoRepository.findById(windo_id).orElse(null);
+        windoRepository.delete(windo);
+        return ResponseEntity.ok(windo);
+    }
+
     //TODO
     //GET OPEN WINDOW
     //POST OPEN WINDOW
 
-    //AIRQUALITYSENSOR
+    //------------------------------
+    //------------------------------
 
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
+    //CO2SENSOR
+    @GetMapping("/co2sensors")
+    public ResponseEntity<List<Co2Sensor>> getAllCo2Sensors() {
+        return ResponseEntity.ok(co2SensorRepository.findAll());
+    }
 
+    @PostMapping("/co2sensors")
+    public ResponseEntity<Co2Sensor> addCo2Sensor() {
+        final Co2Sensor co2Sensor = new Co2Sensor();
+        co2SensorRepository.save(co2Sensor);
+        return ResponseEntity.ok(co2Sensor);
+    }
+
+    //TODO
+    //GET
+    //UPDATE
+    //DELETE
+
+    //------------------------------
+    //------------------------------
+
+    //HUMIDITYSENSOR
+    @GetMapping("/humiditysensors")
+    public ResponseEntity<List<HumiditySensor>> getAllHumiditySensors() {
+        return ResponseEntity.ok(humiditySensorRepository.findAll());
+    }
+
+    @PostMapping("/humiditysensors")
+    public ResponseEntity<HumiditySensor> addHumiditySensors() {
+        final HumiditySensor humiditySensor = new HumiditySensor();
+        humiditySensorRepository.save(humiditySensor);
+        return ResponseEntity.ok(humiditySensor);
+    }
+
+    //TODO
+    //GET
+    //UPDATE
+    //DELETE
+
+    //------------------------------
+    //------------------------------
+
+    //TEMPERATURESENSORS
+    @GetMapping("/temperaturesensors")
+    public ResponseEntity<List<TemperatureSensor>> getAllTemperatureSensors() {
+        return ResponseEntity.ok(temperatureSensorRepository.findAll());
+    }
+
+    @PostMapping("/temperaturesensors")
+    public ResponseEntity<TemperatureSensor> addTemperatureSensor() {
+        final TemperatureSensor temperatureSensor = new TemperatureSensor();
+        temperatureSensorRepository.save(temperatureSensor);
+        return ResponseEntity.ok(temperatureSensor);
+    }
+
+    //TODO
+    //GET
+    //UPDATE
+    //DELETE
+
+    //------------------------------
+    //------------------------------
 }
 
