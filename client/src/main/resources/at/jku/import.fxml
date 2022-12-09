@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.NewRoomController">
+<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.ImportController">
    <opaqueInsets>
       <Insets top="10.0" />
    </opaqueInsets>
