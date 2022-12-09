@@ -13,13 +13,15 @@ public class Simulator extends APIClient {
 
         Simulator simulator = new Simulator();
 
+
 //        simulator.print(simulator.postRoom("SimulatorTest1"));
 //        simulator.print(simulator.postRoom("SimulatorTest2"));
 //        simulator.print(simulator.postRoom("SimulatorTest3"));
 //        simulator.print(simulator.getRooms());
 //        simulator.print(simulator.putRoom(2, "UpdateTest2", 30));
 //        simulator.print(simulator.getRooms());
-        simulator.parseRoom(simulator.getRoom(6));
+//        simulator.parseRoom(simulator.getRoom(6));
+//        simulator.print(simulator.deleteRoom(2));
 
     }
 

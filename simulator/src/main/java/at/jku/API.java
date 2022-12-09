@@ -6,7 +6,11 @@ import java.time.LocalDateTime;
 public interface API {
     public HttpResponse getRooms();
 
+    public HttpResponse postRoom();
+
     public HttpResponse postRoom(String name);
+
+    public HttpResponse postRoom(String name, int size);
 
     public HttpResponse getRoom(int roomID);
 
@@ -18,9 +22,9 @@ public interface API {
 
     public HttpResponse postLightSource(int roomID);
 
-    public HttpResponse getLightSource(int roomID, int LightID);
+    public HttpResponse getLightSource(int roomID, int lightID);
 
-    public HttpResponse putLightSource(int roomID, int LightID, boolean state);
+    public HttpResponse putLightSource(int roomID, int lightID, boolean state);
 
     public HttpResponse getWindows(int roomID);
 
