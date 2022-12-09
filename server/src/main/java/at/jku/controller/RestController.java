@@ -110,9 +110,9 @@ public class RestController {
     }
 
     @RequestMapping(value = "/lightsources/{light_id:.*}", method = RequestMethod.PUT)
-    public ResponseEntity<LightSource> updateLightSource(@PathVariable Long ventilator_id,
+    public ResponseEntity<LightSource> updateLightSource(@PathVariable Long light_id,
                                                          @RequestParam Optional<Room> room) {
-        LightSource lightSource = lightSourceRepository.findById(ventilator_id).orElse(null);
+        LightSource lightSource = lightSourceRepository.findById(light_id).orElse(null);
         if (lightSource != null) {
             if (room.isPresent()) {
                 lightSource.setRoom(room.get());
@@ -268,10 +268,30 @@ public class RestController {
         return ResponseEntity.ok(co2Sensor);
     }
 
-    //TODO
-    //GET
-    //UPDATE
-    //DELETE
+    @RequestMapping(value = "/co2sensors/{co2sensor_id:.*}", method = RequestMethod.GET)
+    public ResponseEntity<Co2Sensor> getCo2Sensor(@PathVariable Long co2sensor_id) {
+        return ResponseEntity.ok(co2SensorRepository.findById(co2sensor_id).orElse(null));
+    }
+
+    @RequestMapping(value = "/co2sensors/{co2sensor_id:.*}", method = RequestMethod.PUT)
+    public ResponseEntity<Co2Sensor> updateCo2Sensor(@PathVariable Long co2sensor_id,
+                                             @RequestParam Optional<Room> room) {
+        Co2Sensor co2Sensor = co2SensorRepository.findById(co2sensor_id).orElse(null);
+        if (co2Sensor != null) {
+            if (room.isPresent()) {
+                co2Sensor.setRoom(room.get());
+            }
+        }
+        co2SensorRepository.save(co2Sensor);
+        return ResponseEntity.ok(co2Sensor);
+    }
+
+    @RequestMapping(value = "/co2sensors/{co2sensor_id:.*}", method = RequestMethod.DELETE)
+    public ResponseEntity<Co2Sensor> deleteCo2Sensor(@PathVariable Long co2sensor_id) {
+        Co2Sensor co2Sensor = co2SensorRepository.findById(co2sensor_id).orElse(null);
+        co2SensorRepository.delete(co2Sensor);
+        return ResponseEntity.ok(co2Sensor);
+    }
 
     //------------------------------
     //------------------------------
@@ -289,10 +309,30 @@ public class RestController {
         return ResponseEntity.ok(humiditySensor);
     }
 
-    //TODO
-    //GET
-    //UPDATE
-    //DELETE
+    @RequestMapping(value = "/humiditysensors/{humiditysensor_id:.*}", method = RequestMethod.GET)
+    public ResponseEntity<HumiditySensor> getHumiditySensor(@PathVariable Long humiditysensor_id) {
+        return ResponseEntity.ok(humiditySensorRepository.findById(humiditysensor_id).orElse(null));
+    }
+
+    @RequestMapping(value = "/humiditysensors/{humiditysensor_id:.*}", method = RequestMethod.PUT)
+    public ResponseEntity<HumiditySensor> updateHumiditySensor(@PathVariable Long humiditysensor_id,
+                                                     @RequestParam Optional<Room> room) {
+        HumiditySensor humiditySensor = humiditySensorRepository.findById(humiditysensor_id).orElse(null);
+        if (humiditySensor != null) {
+            if (room.isPresent()) {
+                humiditySensor.setRoom(room.get());
+            }
+        }
+        humiditySensorRepository.save(humiditySensor);
+        return ResponseEntity.ok(humiditySensor);
+    }
+
+    @RequestMapping(value = "/humiditysensors/{humiditysensor_id:.*}", method = RequestMethod.DELETE)
+    public ResponseEntity<HumiditySensor> deleteHumiditySensor(@PathVariable Long humiditysensor_id) {
+        HumiditySensor humiditySensor = humiditySensorRepository.findById(humiditysensor_id).orElse(null);
+        humiditySensorRepository.delete(humiditySensor);
+        return ResponseEntity.ok(humiditySensor);
+    }
 
     //------------------------------
     //------------------------------
@@ -309,11 +349,30 @@ public class RestController {
         temperatureSensorRepository.save(temperatureSensor);
         return ResponseEntity.ok(temperatureSensor);
     }
+    @RequestMapping(value = "/temperaturesensors/{temperatursensor_id:.*}", method = RequestMethod.GET)
+    public ResponseEntity<TemperatureSensor> getTemperaturSensor(@PathVariable Long temperatursensor_id) {
+        return ResponseEntity.ok(temperatureSensorRepository.findById(temperatursensor_id).orElse(null));
+    }
 
-    //TODO
-    //GET
-    //UPDATE
-    //DELETE
+    @RequestMapping(value = "/humiditysensors/{humiditysensor_id:.*}", method = RequestMethod.PUT)
+    public ResponseEntity<TemperatureSensor> updateTemperaturSensor(@PathVariable Long temperatursensor_id,
+                                                               @RequestParam Optional<Room> room) {
+        TemperatureSensor temperatureSensor = temperatureSensorRepository.findById(temperatursensor_id).orElse(null);
+        if (temperatureSensor != null) {
+            if (room.isPresent()) {
+                temperatureSensor.setRoom(room.get());
+            }
+        }
+        temperatureSensorRepository.save(temperatureSensor);
+        return ResponseEntity.ok(temperatureSensor);
+    }
+
+    @RequestMapping(value = "/humiditysensors/{humiditysensor_id:.*}", method = RequestMethod.DELETE)
+    public ResponseEntity<TemperatureSensor> deleteTemperaturSensor(@PathVariable Long temperatursensor_id) {
+        TemperatureSensor temperatureSensor = temperatureSensorRepository.findById(temperatursensor_id).orElse(null);
+        temperatureSensorRepository.delete(temperatureSensor);
+        return ResponseEntity.ok(temperatureSensor);
+    }
 
     //------------------------------
     //------------------------------

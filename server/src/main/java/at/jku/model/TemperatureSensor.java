@@ -46,9 +46,6 @@ public class TemperatureSensor implements Powerable {
     @JsonIgnore
     public boolean getState() {
         // TODO
-
-
-
         return false;
     }
 
