@@ -5,7 +5,7 @@ module at.jku {
     requires java.net.http;
     requires org.json;
     requires com.opencsv;
-
+    requires java.desktop;
     opens at.jku to javafx.fxml;
     exports at.jku;
 }

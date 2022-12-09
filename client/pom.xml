@@ -57,6 +57,18 @@
             <artifactId>junit-jupiter</artifactId>
             <version>5.9.0</version>
         </dependency>
+        <dependency>
+            <groupId>at.jku</groupId>
+            <artifactId>server</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>at.jku</groupId>
+            <artifactId>server</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
