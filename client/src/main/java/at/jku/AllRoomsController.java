@@ -50,6 +50,8 @@ public class AllRoomsController {
     @FXML
     private void onActionSearch() throws IOException {
         //TODO: add eventhandler for visiting  a certain room
+
+
     }
 
     @FXML
