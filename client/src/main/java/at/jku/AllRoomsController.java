@@ -1,6 +1,5 @@
 package at.jku;
 
-
 import com.opencsv.CSVWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -115,8 +114,11 @@ public class AllRoomsController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
-            // delete room
+
         } else {
+
+        //delete room
+
             // don't delete room
         }
     }
