@@ -17,7 +17,7 @@ public class LightSource implements Powerable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     @JsonBackReference
     private Room room;
@@ -62,6 +62,7 @@ public class LightSource implements Powerable {
         this.lightSourceRecords.add(lsr);
     }
 
+    @JsonIgnore
     public List<LightSourceRecord> getLightSourceRecords() {
         return this.lightSourceRecords;
     }
@@ -73,7 +74,6 @@ public class LightSource implements Powerable {
         this.lightSourceRecords.add(lightSourceRecord);
     }
 
-    @JsonIgnore
     public boolean isOn() {
         return this.getState();
     }

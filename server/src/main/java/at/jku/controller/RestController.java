@@ -97,17 +97,17 @@ public class RestController {
     //LIGHTSOURCES
     @RequestMapping(value = "/rooms/{room_id:.*}/lights", method = RequestMethod.GET)
     public ResponseEntity<List<LightSource>> getRoomLights(@PathVariable Long room_id) {
-        final Room room = roomRepository.getById(room_id);
-        return ResponseEntity.ok(room.getLightSources().stream().collect(Collectors.toList()));
+        final Optional<Room> room = roomRepository.findById(room_id);
+        return ResponseEntity.ok(room.get().getLightSources().stream().collect(Collectors.toList()));
     }
 
     @RequestMapping(value = "/rooms/{room_id}/lights", method = RequestMethod.POST)
     public ResponseEntity<LightSource> addLightSource(@PathVariable Long room_id) {
         System.out.println(room_id);
-        final Optional <Room> room = roomRepository.findById(room_id);
+        final Optional<Room> room = roomRepository.findById(room_id);
         final LightSource lightSource = new LightSource();
         room.get().addLightSource(lightSource);
-        if (room.isPresent()){
+        if (room.isPresent()) {
             lightSource.setRoom(room.orElse(null));
             lightSourceRepository.save(lightSource);
         }
@@ -128,20 +128,22 @@ public class RestController {
                                                          @RequestParam boolean state) {
         final Room room = roomRepository.getById(room_id);
         final Optional<LightSource> ls = room.getLightSources().stream().filter(l -> l.getId().equals(light_id)).findFirst();
-        if (ls.isPresent()){
+        if (ls.isPresent()) {
             ls.get().setState(state);
         }
         return ResponseEntity.ok(ls.orElse(null));
     }
 
 
-    @RequestMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
     public ResponseEntity<LightSource> deleteLightSource(@PathVariable Long room_id,
                                                          @PathVariable Long light_id) {
-        final Room room = roomRepository.getById(room_id);
-        final Optional<LightSource> ls = room.getLightSources().stream().filter(l -> l.getId().equals(light_id)).findFirst();
+        final Room room = roomRepository.findById(room_id).orElse(null);
+        final LightSource ls = room.getLightSources().stream()
+                .filter(l -> l.getId().equals(light_id)).findFirst().orElse(null);
         room.getLightSources().remove(ls);
-        return ResponseEntity.ok(ls.orElse(null));
+        lightSourceRepository.delete(ls);
+        return ResponseEntity.ok(ls);
     }
 
     //TODO
