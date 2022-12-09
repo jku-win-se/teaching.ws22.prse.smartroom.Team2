@@ -155,7 +155,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="15.0" fitWidth="15.0" onMouseClicked="#onActionDelete" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="delete2" fitHeight="15.0" fitWidth="15.0" onMouseClicked="#onActionDelete" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@trash.png" />
                      </image>
