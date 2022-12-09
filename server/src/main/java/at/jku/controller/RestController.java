@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -18,6 +19,7 @@ public class RestController {
     private TemperatureSensorRepository temperatureSensorRepository;
     private Co2SensorRepository co2SensorRepository;
     private HumiditySensorRepository humiditySensorRepository;
+    private final RoomRecordRepository roomRecordRepository;
 
 
     public RestController(final RoomRepository roomRepository,
@@ -27,8 +29,8 @@ public class RestController {
                           final VentilatorRepository ventilatorRepository,
                           final TemperatureSensorRepository temperatureSensorRepository,
                           final Co2SensorRepository co2SensorRepository,
-                          final HumiditySensorRepository humiditySensorRepository
-    ) {
+                          final HumiditySensorRepository humiditySensorRepository,
+                          RoomRecordRepository roomRecordRepository) {
         this.roomRepository = roomRepository;
         this.doorRepository = doorRepository;
         this.windoRepository = windoRepository;
@@ -37,6 +39,7 @@ public class RestController {
         this.temperatureSensorRepository = temperatureSensorRepository;
         this.co2SensorRepository = co2SensorRepository;
         this.humiditySensorRepository = humiditySensorRepository;
+        this.roomRecordRepository = roomRecordRepository;
     }
 
     //ROOMS
@@ -92,41 +95,53 @@ public class RestController {
     //------------------------------
 
     //LIGHTSOURCES
-    @GetMapping("/lightsources")
-    public ResponseEntity<List<LightSource>> getAllLightSources() {
-        return ResponseEntity.ok(lightSourceRepository.findAll());
+    @RequestMapping(value = "/rooms/{room_id:.*}/lights", method = RequestMethod.GET)
+    public ResponseEntity<List<LightSource>> getRoomLights(@PathVariable Long room_id) {
+        final Room room = roomRepository.getById(room_id);
+        return ResponseEntity.ok(room.getLightSources().stream().collect(Collectors.toList()));
     }
 
-    @PostMapping("/lightsources")
-    public ResponseEntity<LightSource> addLightSource() {
+    @RequestMapping(value = "/rooms/{room_id}/lights", method = RequestMethod.POST)
+    public ResponseEntity<LightSource> addLightSource(@PathVariable Long room_id) {
+        System.out.println(room_id);
+        final Optional <Room> room = roomRepository.findById(room_id);
         final LightSource lightSource = new LightSource();
-        lightSourceRepository.save(lightSource);
-        return ResponseEntity.ok(lightSource);
-    }
-
-    @RequestMapping(value = "/lightsources/{light_id:.*}", method = RequestMethod.GET)
-    public ResponseEntity<LightSource> getLightSource(@PathVariable Long light_id) {
-        return ResponseEntity.ok(lightSourceRepository.findById(light_id).orElse(null));
-    }
-
-    @RequestMapping(value = "/lightsources/{light_id:.*}", method = RequestMethod.PUT)
-    public ResponseEntity<LightSource> updateLightSource(@PathVariable Long light_id,
-                                                         @RequestParam Optional<Room> room) {
-        LightSource lightSource = lightSourceRepository.findById(light_id).orElse(null);
-        if (lightSource != null) {
-            if (room.isPresent()) {
-                lightSource.setRoom(room.get());
-            }
+        room.get().addLightSource(lightSource);
+        if (room.isPresent()){
+            lightSource.setRoom(room.orElse(null));
+            lightSourceRepository.save(lightSource);
         }
-        lightSourceRepository.save(lightSource);
         return ResponseEntity.ok(lightSource);
     }
 
-    @RequestMapping(value = "/lightsources/{light_id:.*}", method = RequestMethod.DELETE)
-    public ResponseEntity<LightSource> deleteLightSource(@PathVariable Long light_id) {
-        LightSource light = lightSourceRepository.findById(light_id).orElse(null);
-        lightSourceRepository.delete(light);
-        return ResponseEntity.ok(light);
+    @RequestMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}", method = RequestMethod.GET)
+    public ResponseEntity<LightSource> getLightSource(@PathVariable Long room_id,
+                                                      @PathVariable Long light_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        Optional<LightSource> ls = room.get().getLightSources().stream().filter(l -> l.getId().equals(light_id)).findFirst();
+        return ResponseEntity.ok(ls.orElse(null));
+    }
+
+    @RequestMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}", method = RequestMethod.PUT)
+    public ResponseEntity<LightSource> updateLightSource(@PathVariable Long room_id,
+                                                         @PathVariable Long light_id,
+                                                         @RequestParam boolean state) {
+        final Room room = roomRepository.getById(room_id);
+        final Optional<LightSource> ls = room.getLightSources().stream().filter(l -> l.getId().equals(light_id)).findFirst();
+        if (ls.isPresent()){
+            ls.get().setState(state);
+        }
+        return ResponseEntity.ok(ls.orElse(null));
+    }
+
+
+    @RequestMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}", method = RequestMethod.DELETE)
+    public ResponseEntity<LightSource> deleteLightSource(@PathVariable Long room_id,
+                                                         @PathVariable Long light_id) {
+        final Room room = roomRepository.getById(room_id);
+        final Optional<LightSource> ls = room.getLightSources().stream().filter(l -> l.getId().equals(light_id)).findFirst();
+        room.getLightSources().remove(ls);
+        return ResponseEntity.ok(ls.orElse(null));
     }
 
     //TODO
@@ -136,7 +151,7 @@ public class RestController {
 
     //------------------------------
     //------------------------------
-
+    /*
     //VENTILATOR
     @GetMapping("/ventilators")
     public ResponseEntity<List<Ventilator>> getAllVentilators() {
@@ -254,6 +269,7 @@ public class RestController {
 
     //------------------------------
     //------------------------------
+
 
     //CO2SENSOR
     @GetMapping("/co2sensors")
@@ -373,6 +389,8 @@ public class RestController {
         temperatureSensorRepository.delete(temperatureSensor);
         return ResponseEntity.ok(temperatureSensor);
     }
+
+     */
 
     //------------------------------
     //------------------------------
