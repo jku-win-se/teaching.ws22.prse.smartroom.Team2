@@ -1,11 +1,10 @@
 package at.jku;
 
+import javafx.fxml.FXML;
+
 import java.io.IOException;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-
-public class PrimaryController {
+public class ImportController {
 
 
     @FXML
