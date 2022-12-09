@@ -11,7 +11,7 @@ public class VentilatorRecord {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Ventilator ventilator;
 
     private LocalDateTime timestamp;

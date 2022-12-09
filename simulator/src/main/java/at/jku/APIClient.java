@@ -1,11 +1,15 @@
 package at.jku;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
+import java.util.Iterator;
 
 public class APIClient implements API {
 
@@ -64,9 +68,41 @@ public class APIClient implements API {
     }
 
     @Override
+    public HttpResponse postRoom() {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri((URI.create(BASE_URL + "/rooms")))
+                .POST(HttpRequest.BodyPublishers.noBody()).build();
+        try {
+            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response;
+        } catch (IOException e) {
+            System.out.println("http IOException" + e);
+        } catch (InterruptedException e) {
+            System.out.println("http InterruptedException" + e);
+        }
+        return null;
+    }
+
+    @Override
     public HttpResponse postRoom(String name) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri((URI.create(BASE_URL + "/rooms" + "?name=" + name)))
+                .POST(HttpRequest.BodyPublishers.noBody()).build();
+        try {
+            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response;
+        } catch (IOException e) {
+            System.out.println("http IOException" + e);
+        } catch (InterruptedException e) {
+            System.out.println("http InterruptedException" + e);
+        }
+        return null;
+    }
+
+    @Override
+    public HttpResponse postRoom(String name, int size) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri((URI.create(BASE_URL + "/rooms" + "?name=" + name + "&size=" + size)))
                 .POST(HttpRequest.BodyPublishers.noBody()).build();
         try {
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -86,7 +122,6 @@ public class APIClient implements API {
                 .GET().build();
         try {
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            // print(request, response);
             return response;
         } catch (IOException e) {
             System.out.println("http IOException" + e);
@@ -103,7 +138,6 @@ public class APIClient implements API {
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         try {
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            // print(request, response);
             return response;
         } catch (IOException e) {
             System.out.println("http IOException" + e);
@@ -115,26 +149,70 @@ public class APIClient implements API {
 
     @Override
     public HttpResponse deleteRoom(int roomID) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri((URI.create(BASE_URL + "/rooms" + "/" + roomID)))
+                .DELETE().build();
+        try {
+            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response;
+        } catch (IOException e) {
+            System.out.println("http IOException" + e);
+        } catch (InterruptedException e) {
+            System.out.println("http InterruptedException" + e);
+        }
         return null;
     }
 
     @Override
     public HttpResponse getLightSources(int roomID) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri((URI.create(BASE_URL + "/rooms" + "/" + roomID + "/lights")))
+                .GET().build();
+        try {
+            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response;
+        } catch (IOException e) {
+            System.out.println("http IOException" + e);
+        } catch (InterruptedException e) {
+            System.out.println("http InterruptedException" + e);
+        }
         return null;
     }
 
     @Override
     public HttpResponse postLightSource(int roomID) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri((URI.create(BASE_URL + "/rooms" + "/" + roomID + "/lights")))
+                .POST(HttpRequest.BodyPublishers.noBody()).build();
+        try {
+            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response;
+        } catch (IOException e) {
+            System.out.println("http IOException" + e);
+        } catch (InterruptedException e) {
+            System.out.println("http InterruptedException" + e);
+        }
         return null;
     }
 
     @Override
-    public HttpResponse getLightSource(int roomID, int LightID) {
+    public HttpResponse getLightSource(int roomID, int lightID) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri((URI.create(BASE_URL + "/rooms" + "/" + roomID + "/lights" + "/" + lightID)))
+                .POST(HttpRequest.BodyPublishers.noBody()).build();
+        try {
+            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response;
+        } catch (IOException e) {
+            System.out.println("http IOException" + e);
+        } catch (InterruptedException e) {
+            System.out.println("http InterruptedException" + e);
+        }
         return null;
     }
 
     @Override
-    public HttpResponse putLightSource(int roomID, int LightID, boolean state) {
+    public HttpResponse putLightSource(int roomID, int lightID, boolean state) {
         return null;
     }
 

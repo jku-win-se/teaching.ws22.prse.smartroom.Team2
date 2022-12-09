@@ -1,5 +1,7 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -11,7 +13,8 @@ public class LightSourceRecord {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private LightSource lightSource;
 
     private LocalDateTime timestamp;

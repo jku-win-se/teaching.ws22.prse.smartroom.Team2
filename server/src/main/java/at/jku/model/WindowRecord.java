@@ -12,13 +12,12 @@ public class WindowRecord {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Windo window;
 
     private LocalDateTime timestamp;
 
     private boolean state;
-
 
     public WindowRecord() {
     }

@@ -11,7 +11,7 @@ public class Co2SensorRecord {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Co2Sensor co2Sensor;
 
     private LocalDateTime timestamp;
