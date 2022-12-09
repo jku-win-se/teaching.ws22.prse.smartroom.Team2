@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 public class AllRoomsController extends APIClient  implements Initializable {
@@ -143,7 +146,15 @@ public class AllRoomsController extends APIClient  implements Initializable {
            ImageView img = (ImageView) event.getSource();
            int roomId = Integer.parseInt(img.getId().substring(6));
            System.out.println(roomId);
-           deleteRoom(roomId);
+
+           HttpResponse response = deleteRoom(roomId);
+
+           JSONObject json = new JSONObject(response.body().toString());
+           long id = json.getLong("id");
+           String name = json.getString("name");
+           int size = json.getInt("size");
+           JSONArray objects = json.getJSONArray("lightSources");
+           System.out.println(id + " " + name + " " + size);
 
         } else {
             // don't delete room
