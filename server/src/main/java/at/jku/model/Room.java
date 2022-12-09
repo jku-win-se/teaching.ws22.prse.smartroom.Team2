@@ -1,5 +1,7 @@
 package at.jku.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,7 +16,7 @@ public class Room {
     private Long id;
     private String name;
     private int size;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "door_connects_room",
             joinColumns = @JoinColumn(name = "room_id"),

@@ -80,7 +80,7 @@ public class RestController {
         return ResponseEntity.ok(room);
     }
 
-    @RequestMapping(value = "/rooms/{room_id:.*}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/rooms/{room_id:.*}")
     public ResponseEntity<Room> deleteRoom(@PathVariable Long room_id) {
         Room room = roomRepository.findById(room_id).orElse(null);
         roomRepository.delete(room);

@@ -11,7 +11,7 @@ public class DoorRecord {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Door door;
 
     private LocalDateTime timestamp;
