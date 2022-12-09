@@ -130,7 +130,7 @@
                         <Insets left="10.0" top="5.0" />
                      </HBox.margin>
                   </ImageView>
-                  <CheckBox fx:id="delete2" mnemonicParsing="false" onAction="#onActionCheckBox" visible="false">
+                  <CheckBox fx:id="checkbox1" mnemonicParsing="false" onAction="#onActionCheckBox" visible="false">
                      <HBox.margin>
                         <Insets left="10.0" top="5.0" />
                      </HBox.margin>
