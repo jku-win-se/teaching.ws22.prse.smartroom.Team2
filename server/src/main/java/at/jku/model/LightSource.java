@@ -47,12 +47,12 @@ public class LightSource implements Powerable {
 
     @JsonIgnore
     public boolean getState() {
-         final Optional<LightSourceRecord> lsr =
-                 this.lightSourceRecords.stream().max(Comparator.comparing(LightSourceRecord::getTimestamp));
-         if (lsr != null && lsr.isPresent()){
-             return lsr.get().getState();
-         }
-         return false;
+        final Optional<LightSourceRecord> lsr =
+                this.lightSourceRecords.stream().max(Comparator.comparing(LightSourceRecord::getTimestamp));
+        if (lsr.isPresent()) {
+            return lsr.get().getState();
+        }
+        return false;
     }
 
     public void setState(boolean state) {
@@ -91,10 +91,6 @@ public class LightSource implements Powerable {
     }
 
     public void togglePower() {
-       if(this.getState()){
-           this.setState(false);
-       }else{
-           this.setState(true);
-       }
+        this.setState(!this.getState());
     }
 }

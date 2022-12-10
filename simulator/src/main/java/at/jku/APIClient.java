@@ -1,15 +1,11 @@
 package at.jku;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
-import java.util.Iterator;
 
 public class APIClient implements API {
 
@@ -52,9 +48,9 @@ public class APIClient implements API {
     }
 
     @Override
-    public HttpResponse getRooms() {
+    public HttpResponse GET(String uri) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create(BASE_URL + "/rooms")))
+                .uri((URI.create(uri)))
                 .GET().build();
         try {
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -68,9 +64,9 @@ public class APIClient implements API {
     }
 
     @Override
-    public HttpResponse postRoom() {
+    public HttpResponse POST(String uri) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create(BASE_URL + "/rooms")))
+                .uri((URI.create(uri)))
                 .POST(HttpRequest.BodyPublishers.noBody()).build();
         try {
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -84,57 +80,9 @@ public class APIClient implements API {
     }
 
     @Override
-    public HttpResponse postRoom(String name) {
+    public HttpResponse PUT(String uri) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create(BASE_URL + "/rooms" + "?name=" + name)))
-                .POST(HttpRequest.BodyPublishers.noBody()).build();
-        try {
-            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return response;
-        } catch (IOException e) {
-            System.out.println("http IOException" + e);
-        } catch (InterruptedException e) {
-            System.out.println("http InterruptedException" + e);
-        }
-        return null;
-    }
-
-    @Override
-    public HttpResponse postRoom(String name, int size) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create(BASE_URL + "/rooms" + "?name=" + name + "&size=" + size)))
-                .POST(HttpRequest.BodyPublishers.noBody()).build();
-        try {
-            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return response;
-        } catch (IOException e) {
-            System.out.println("http IOException" + e);
-        } catch (InterruptedException e) {
-            System.out.println("http InterruptedException" + e);
-        }
-        return null;
-    }
-
-    @Override
-    public HttpResponse getRoom(int roomID) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create(BASE_URL + "/rooms" + "/" + roomID)))
-                .GET().build();
-        try {
-            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return response;
-        } catch (IOException e) {
-            System.out.println("http IOException" + e);
-        } catch (InterruptedException e) {
-            System.out.println("http InterruptedException" + e);
-        }
-        return null;
-    }
-
-    @Override
-    public HttpResponse putRoom(int roomID, String name, int size) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create(BASE_URL + "/rooms" + "/" + roomID + "?name=" + name + "&size=" + size)))
+                .uri((URI.create(uri)))
                 .PUT(HttpRequest.BodyPublishers.noBody()).build();
         try {
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -148,9 +96,9 @@ public class APIClient implements API {
     }
 
     @Override
-    public HttpResponse deleteRoom(int roomID) {
+    public HttpResponse DELETE(String uri) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create(BASE_URL + "/rooms" + "/" + roomID)))
+                .uri((URI.create(uri)))
                 .DELETE().build();
         try {
             HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -163,136 +111,157 @@ public class APIClient implements API {
         return null;
     }
 
+
     @Override
-    public HttpResponse getLightSources(int roomID) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create(BASE_URL + "/rooms" + "/" + roomID + "/lights")))
-                .GET().build();
-        try {
-            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return response;
-        } catch (IOException e) {
-            System.out.println("http IOException" + e);
-        } catch (InterruptedException e) {
-            System.out.println("http InterruptedException" + e);
-        }
+    public HttpResponse getRooms() {
+        return GET(BASE_URL + "/rooms");
+    }
+
+    @Override
+    public HttpResponse postRoom() {
+        return POST(BASE_URL + "/rooms");
+    }
+
+    @Override
+    public HttpResponse postRoom(String name) {
+        return POST(BASE_URL + "/rooms" + "?name=" + name);
+    }
+
+    @Override
+    public HttpResponse postRoom(String name, int size) {
+        return POST(BASE_URL + "/rooms" + "?name=" + name + "&size=" + size);
+    }
+
+    @Override
+    public HttpResponse getRoom(Long roomID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID);
+    }
+
+    @Override
+    public HttpResponse putRoom(Long roomID, String name, int size) {
+        return PUT(BASE_URL + "/rooms" + "/" + roomID + "?name=" + name + "&size=" + size);
+    }
+
+    @Override
+    public HttpResponse deleteRoom(Long roomID) {
+        return DELETE(BASE_URL + "/rooms" + "/" + roomID);
+    }
+
+
+    @Override
+    public HttpResponse getLightSources(Long roomID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/lights");
+    }
+
+    @Override
+    public HttpResponse postLightSource(Long roomID) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/lights");
+    }
+
+    @Override
+    public HttpResponse getLightSource(Long roomID, int lightID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/lights" + "/" + lightID);
+    }
+
+    @Override
+    public HttpResponse putLightSource(Long roomID, int lightID, boolean state) {
+        return PUT(BASE_URL + "/rooms" + "/" + roomID + "/lights" + "/" + lightID + "?state=" + state);
+    }
+
+    @Override
+    public HttpResponse deleteLightSource(Long roomID, Long lightID) {
+        return DELETE(BASE_URL + "/rooms" + "/" + roomID + "/lights" + "/" + lightID);
+    }
+
+    @Override
+    public HttpResponse getWindows(Long roomID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/windows");
+    }
+
+    @Override
+    public HttpResponse postWindow(Long roomID) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/windows");
+    }
+
+    @Override
+    public HttpResponse getWindow(Long roomID, Long windowID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/windows" + "/" + windowID);
+    }
+
+    @Override
+    public HttpResponse putWindow(Long roomID, int windowID, boolean state) {
+        return PUT(BASE_URL + "/rooms" + "/" + roomID + "/windows" + "/" + windowID + "?state=" + state);
+    }
+
+    @Override
+    public HttpResponse deleteWindow(Long roomID, Long windowID) {
+        return DELETE(BASE_URL + "/rooms" + "/" + roomID + "/windows" + "/" + windowID );
+    }
+
+
+    @Override
+    public HttpResponse getVentilators(Long roomID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/ventilators");
+    }
+
+    @Override
+    public HttpResponse postVentilator(Long roomID) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/ventilators");
+    }
+
+    @Override
+    public HttpResponse getVentilator(Long roomID, int ventilatorID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/ventilators" + "/" + ventilatorID);
+    }
+
+    @Override
+    public HttpResponse putVentilator(Long roomID, int ventilatorID, boolean state) {
+        return PUT(BASE_URL + "/rooms" + "/" + roomID + "/ventilators" + "/" + ventilatorID + "?state=" + state);
+    }
+
+    @Override
+    public HttpResponse deleteVentilator(Long roomID, Long ventilatorID) {
+        return DELETE(BASE_URL + "/rooms" + "/" + roomID + "/ventilators" + "/" + ventilatorID);
+    }
+
+
+    @Override
+    public HttpResponse getPeopleInRoom(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse postLightSource(int roomID) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create(BASE_URL + "/rooms" + "/" + roomID + "/lights")))
-                .POST(HttpRequest.BodyPublishers.noBody()).build();
-        try {
-            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return response;
-        } catch (IOException e) {
-            System.out.println("http IOException" + e);
-        } catch (InterruptedException e) {
-            System.out.println("http InterruptedException" + e);
-        }
+    public HttpResponse postPeopleInRoom(Long roomID, LocalDateTime timestamp, int peopleInRoom, boolean state) {
         return null;
     }
 
     @Override
-    public HttpResponse getLightSource(int roomID, int lightID) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri((URI.create(BASE_URL + "/rooms" + "/" + roomID + "/lights" + "/" + lightID)))
-                .POST(HttpRequest.BodyPublishers.noBody()).build();
-        try {
-            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return response;
-        } catch (IOException e) {
-            System.out.println("http IOException" + e);
-        } catch (InterruptedException e) {
-            System.out.println("http InterruptedException" + e);
-        }
+    public HttpResponse getTemperature(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse putLightSource(int roomID, int lightID, boolean state) {
+    public HttpResponse postTemperature(Long roomID, LocalDateTime timestamp, double temperature, boolean state) {
         return null;
     }
 
     @Override
-    public HttpResponse getWindows(int roomID) {
+    public HttpResponse getCo2(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse postWindow(int roomID) {
+    public HttpResponse postCo2(Long roomID, LocalDateTime timestamp, double co2, boolean state) {
         return null;
     }
 
     @Override
-    public HttpResponse getWindow(int roomID, int windowID) {
+    public HttpResponse getHumidity(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse putWindow(int roomID, int windowID, boolean state) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse getVentilators(int roomID) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse postVentilator(int roomID) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse getVentilator(int roomID, int ventilatorID) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse putVentilator(int roomID, int ventilatorID, boolean state) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse getPeopleInRoom(int roomID) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse postPeopleInRoom(int roomID, LocalDateTime timestamp, int peopleInRoom, boolean state) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse getTemperature(int roomID) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse postTemperature(int roomID, LocalDateTime timestamp, double temperature, boolean state) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse getCo2(int roomID) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse postCo2(int roomID, LocalDateTime timestamp, double co2, boolean state) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse getHumidity(int roomID) {
-        return null;
-    }
-
-    @Override
-    public HttpResponse postHumidity(int roomID, LocalDateTime timestamp, double humidity, boolean state) {
+    public HttpResponse postHumidity(Long roomID, LocalDateTime timestamp, double humidity, boolean state) {
         return null;
     }
 }

@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.util.Optional;
 
-public class NewRoomController extends APIClient{
+public class NewRoomController extends APIClient {
 
 
     @FXML

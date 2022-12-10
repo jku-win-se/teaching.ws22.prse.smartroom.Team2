@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.http.HttpResponse;
-import java.util.List;
 
 public class Simulator extends APIClient {
 
