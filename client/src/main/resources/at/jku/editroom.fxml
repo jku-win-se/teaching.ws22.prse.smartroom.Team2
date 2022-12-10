@@ -183,7 +183,7 @@
             </TextField>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onActionSave" text="Save">
+                  <Button fx:id="btnEditSave" mnemonicParsing="false" onAction="#onActionSave" text="Save">
                      <HBox.margin>
                         <Insets left="40.0" top="30.0" />
                      </HBox.margin>
@@ -191,7 +191,7 @@
                         <Font size="20.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel">
+                  <Button fx:id="btnEditCancel" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel">
                      <HBox.margin>
                         <Insets left="30.0" top="30.0" />
                      </HBox.margin>
