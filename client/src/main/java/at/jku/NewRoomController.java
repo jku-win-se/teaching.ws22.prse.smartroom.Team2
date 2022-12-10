@@ -37,8 +37,9 @@ public class NewRoomController extends APIClient{
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){;
             String name =  text2.getText();
-           //postroom ohne roomid
             postRoom(name);
+
+
         } else {
             // don't create new room
         }
