@@ -36,9 +36,9 @@ public class EditRoomController extends APIClient{
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
-            int roomID =  Integer.valueOf(text1.getText());
-            String name =  text2.getText();
-            int size =   Integer.valueOf(text3.getText());
+            int roomID =  Integer.valueOf(txtEditId.getText());
+            String name =  txtEditName.getText();
+            int size =   Integer.valueOf(txtEditSize.getText());
             putRoom(roomID, name, size);
         } else {
             // don't create new room
@@ -51,22 +51,25 @@ public class EditRoomController extends APIClient{
 
 
     @FXML
-    TextField text1;
+    TextField txtEditId;
 
     @FXML
-    TextField text2;
+    TextField txtEditName;
 
     @FXML
-    TextField text3;
+    TextField txtEditSize;
 
     @FXML
-    TextField text4;
+    TextField txtEditWindow;
 
     @FXML
-    TextField text5;
+    TextField txtEditDoor;
 
     @FXML
-    TextField text6;
+    TextField txtEditFan;
+
+    @FXML
+    TextField txtEditLightSource;
 
 
     @FXML
@@ -78,12 +81,12 @@ public class EditRoomController extends APIClient{
     @FXML
     private void onActionCancel() throws IOException {
 
-        text1.setText("");
-        text2.setText("");
-        text3.setText("");
-        text4.setText("");
-        text5.setText("");
-        text6.setText("");
+        txtEditId.setText("");
+        txtEditSize.setText("");
+        txtEditWindow.setText("");
+        txtEditDoor.setText("");
+        txtEditFan.setText("");
+        txtEditLightSource.setText("");
 
     }
 }
