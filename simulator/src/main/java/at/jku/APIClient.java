@@ -133,117 +133,117 @@ public class APIClient implements API {
     }
 
     @Override
-    public HttpResponse getRoom(int roomID) {
+    public HttpResponse getRoom(Long roomID) {
         return GET(BASE_URL + "/rooms" + "/" + roomID);
     }
 
     @Override
-    public HttpResponse putRoom(int roomID, String name, int size) {
+    public HttpResponse putRoom(Long roomID, String name, int size) {
         return PUT(BASE_URL + "/rooms" + "/" + roomID + "?name=" + name + "&size=" + size);
     }
 
     @Override
-    public HttpResponse deleteRoom(int roomID) {
+    public HttpResponse deleteRoom(Long roomID) {
         return DELETE(BASE_URL + "/rooms" + "/" + roomID);
     }
 
     @Override
-    public HttpResponse getLightSources(int roomID) {
+    public HttpResponse getLightSources(Long roomID) {
         return GET(BASE_URL + "/rooms" + "/" + roomID + "/lights");
     }
 
     @Override
-    public HttpResponse postLightSource(int roomID) {
+    public HttpResponse postLightSource(Long roomID) {
         return POST(BASE_URL + "/rooms" + "/" + roomID + "/lights");
     }
 
     @Override
-    public HttpResponse getLightSource(int roomID, int lightID) {
+    public HttpResponse getLightSource(Long roomID, int lightID) {
         return GET(BASE_URL + "/rooms" + "/" + roomID + "/lights" + "/" + lightID);
     }
 
     @Override
-    public HttpResponse putLightSource(int roomID, int lightID, boolean state) {
+    public HttpResponse putLightSource(Long roomID, int lightID, boolean state) {
         return null;
     }
 
     @Override
-    public HttpResponse getWindows(int roomID) {
+    public HttpResponse getWindows(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse postWindow(int roomID) {
+    public HttpResponse postWindow(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse getWindow(int roomID, int windowID) {
+    public HttpResponse getWindow(Long roomID, int windowID) {
         return null;
     }
 
     @Override
-    public HttpResponse putWindow(int roomID, int windowID, boolean state) {
+    public HttpResponse putWindow(Long roomID, int windowID, boolean state) {
         return null;
     }
 
     @Override
-    public HttpResponse getVentilators(int roomID) {
+    public HttpResponse getVentilators(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse postVentilator(int roomID) {
+    public HttpResponse postVentilator(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse getVentilator(int roomID, int ventilatorID) {
+    public HttpResponse getVentilator(Long roomID, int ventilatorID) {
         return null;
     }
 
     @Override
-    public HttpResponse putVentilator(int roomID, int ventilatorID, boolean state) {
+    public HttpResponse putVentilator(Long roomID, int ventilatorID, boolean state) {
         return null;
     }
 
     @Override
-    public HttpResponse getPeopleInRoom(int roomID) {
+    public HttpResponse getPeopleInRoom(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse postPeopleInRoom(int roomID, LocalDateTime timestamp, int peopleInRoom, boolean state) {
+    public HttpResponse postPeopleInRoom(Long roomID, LocalDateTime timestamp, int peopleInRoom, boolean state) {
         return null;
     }
 
     @Override
-    public HttpResponse getTemperature(int roomID) {
+    public HttpResponse getTemperature(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse postTemperature(int roomID, LocalDateTime timestamp, double temperature, boolean state) {
+    public HttpResponse postTemperature(Long roomID, LocalDateTime timestamp, double temperature, boolean state) {
         return null;
     }
 
     @Override
-    public HttpResponse getCo2(int roomID) {
+    public HttpResponse getCo2(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse postCo2(int roomID, LocalDateTime timestamp, double co2, boolean state) {
+    public HttpResponse postCo2(Long roomID, LocalDateTime timestamp, double co2, boolean state) {
         return null;
     }
 
     @Override
-    public HttpResponse getHumidity(int roomID) {
+    public HttpResponse getHumidity(Long roomID) {
         return null;
     }
 
     @Override
-    public HttpResponse postHumidity(int roomID, LocalDateTime timestamp, double humidity, boolean state) {
+    public HttpResponse postHumidity(Long roomID, LocalDateTime timestamp, double humidity, boolean state) {
         return null;
     }
 }
