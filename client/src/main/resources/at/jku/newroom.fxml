@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.NewRoomController">
+<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.NewRoomController">
    <opaqueInsets>
       <Insets top="10.0" />
    </opaqueInsets>
@@ -46,7 +46,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false"  prefHeight="69.0" prefWidth="188.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="NEW ROOM" textFill="WHITE">
+            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="188.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="NEW ROOM" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -58,7 +58,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false"  onAction= "#onActionImport" prefHeight="69.0" prefWidth="166.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="IMPORT" textFill="WHITE">
+            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionImport" prefHeight="69.0" prefWidth="166.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="IMPORT" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -103,7 +103,7 @@
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </Label>
-            <Label text="ID">
+            <Label text="Name">
                <font>
                   <Font name="Arial" size="20.0" />
                </font>
@@ -111,7 +111,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="text1" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtName" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
@@ -124,7 +124,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="text2" layoutX="10.0" layoutY="44.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtSize" layoutX="10.0" layoutY="44.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
@@ -137,7 +137,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="text3" layoutX="10.0" layoutY="86.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtDoor" layoutX="10.0" layoutY="86.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
@@ -150,7 +150,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="text4" layoutX="10.0" layoutY="128.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtWindows" layoutX="10.0" layoutY="128.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
@@ -163,7 +163,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="text5" layoutX="10.0" layoutY="170.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtFans" layoutX="10.0" layoutY="170.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
@@ -176,7 +176,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="text6" layoutX="10.0" layoutY="212.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtLightSource" layoutX="10.0" layoutY="212.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>

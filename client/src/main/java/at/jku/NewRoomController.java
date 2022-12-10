@@ -36,9 +36,8 @@ public class NewRoomController extends APIClient{
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){;
-            String name =  text2.getText();
+            String name =  txtName.getText();
             postRoom(name);
-
 
         } else {
             // don't create new room
@@ -46,23 +45,22 @@ public class NewRoomController extends APIClient{
     }
 
     @FXML
-    TextField text1;
+    TextField txtName;
 
     @FXML
-    TextField text2;
+    TextField txtSize;
 
     @FXML
-    TextField text3;
+    TextField txtWindows;
 
     @FXML
-    TextField text4;
+    TextField txtFans;
 
     @FXML
-    TextField text5;
+    TextField txtDoor;
 
     @FXML
-    TextField text6;
-
+    TextField txtLightSource;
 
     @FXML
     Button btnSave;
@@ -73,12 +71,12 @@ public class NewRoomController extends APIClient{
     @FXML
     private void onActionCancel() throws IOException {
 
-        text1.setText("");
-        text2.setText("");
-        text3.setText("");
-        text4.setText("");
-        text5.setText("");
-        text6.setText("");
+        txtName.setText("");
+        txtSize.setText("");
+        txtWindows.setText("");
+        txtFans.setText("");
+        txtDoor.setText("");
+        txtLightSource.setText("");
 
     }
 }
