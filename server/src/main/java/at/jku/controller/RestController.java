@@ -159,14 +159,14 @@ public class RestController {
 
     //VENTILATOR
     @GetMapping(value = "/rooms/{room_id:.*}/ventilators")
-    public ResponseEntity<List<Ventilator>> getVentilators(@PathVariable Long ventilator_id) {
-        final Optional<Room> room = roomRepository.findById(ventilator_id);
+    public ResponseEntity<List<Ventilator>> getVentilators(@PathVariable Long room_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
         return ResponseEntity.ok(room.get().getVentilators().stream().collect(Collectors.toList()));
     }
 
     @PostMapping(value = "/rooms/{room_id}/ventilators")
-    public ResponseEntity<Ventilator> addVentilator(@PathVariable Long ventilator_id) {
-        final Optional<Room> room = roomRepository.findById(ventilator_id);
+    public ResponseEntity<Ventilator> addVentilator(@PathVariable Long room_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
         final Ventilator ventilator = new Ventilator();
         room.get().addVentilator(ventilator);
         if (room.isPresent()) {
@@ -211,71 +211,56 @@ public class RestController {
     //POST ACTIVATE VENTILATOR
     //GET ACTIVATE VENTILATOR
     //POST ACTIVATE VENTILATOR
- /*
-    //------------------------------
-    //------------------------------
-
-    //DOOR
-    @GetMapping("/doors")
-    public ResponseEntity<List<Door>> getAllDoors() {
-        return ResponseEntity.ok(doorRepository.findAll());
-    }
-
-    @PostMapping("/doors")
-    public ResponseEntity<Door> addDoor() {
-        final Door door = new Door();
-        doorRepository.save(door);
-        return ResponseEntity.ok(door);
-    }
-
-    @RequestMapping(value = "/doors/{doors_id:.*}", method = RequestMethod.GET)
-    public ResponseEntity<Door> getDoor(@PathVariable Long doors_id) {
-        return ResponseEntity.ok(doorRepository.findById(doors_id).orElse(null));
-    }
-
-    //TODO
-    //UPDATE DOOR
-    //DELETE DOOR
-    //GET OPEN DOOR
-    //POST OPEN DOOR
 
     //------------------------------
     //------------------------------
 
     //WINDOWS
-    @GetMapping("/windows")
-    public ResponseEntity<List<Windo>> getAllWindows() {
-        return ResponseEntity.ok(windoRepository.findAll());
+    @GetMapping(value = "/rooms/{room_id:.*}/windows")
+    public ResponseEntity<List<Windo>> getWindow(@PathVariable Long room_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        return ResponseEntity.ok(room.get().getWindows().stream().collect(Collectors.toList()));
     }
 
-    @PostMapping("/windows")
-    public ResponseEntity<Windo> addWindow() {
-        final Windo windo = new Windo();
-        windoRepository.save(windo);
-        return ResponseEntity.ok(windo);
-    }
-
-    @RequestMapping(value = "/windows/{windo_id:.*}", method = RequestMethod.GET)
-    public ResponseEntity<Windo> getWindo(@PathVariable Long windo_id) {
-        return ResponseEntity.ok(windoRepository.findById(windo_id).orElse(null));
-    }
-
-    @RequestMapping(value = "/windows/{windo_id:.*}", method = RequestMethod.PUT)
-    public ResponseEntity<Windo> updateWindo(@PathVariable Long windo_id,
-                                             @RequestParam Optional<Room> room) {
-        Windo windo = windoRepository.findById(windo_id).orElse(null);
-        if (windo != null) {
-            if (room.isPresent()) {
-                windo.setRoom(room.get());
-            }
+    @PostMapping(value = "/rooms/{room_id}/windows")
+    public ResponseEntity<Windo> addWindow(@PathVariable Long room_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Windo window = new Windo();
+        room.get().addWindow(window);
+        if (room.isPresent()) {
+            window.setRoom(room.orElse(null));
+            windoRepository.save(window);
         }
-        windoRepository.save(windo);
-        return ResponseEntity.ok(windo);
+        return ResponseEntity.ok(window);
     }
 
-    @RequestMapping(value = "/windows/{windo_id:.*}", method = RequestMethod.DELETE)
-    public ResponseEntity<Windo> deleteWindo(@PathVariable Long windo_id) {
-        Windo windo = windoRepository.findById(windo_id).orElse(null);
+    @GetMapping(value = "/rooms/{room_id:.*}/window_id/{window_id:.*}")
+    public ResponseEntity<Windo> getWindow(@PathVariable Long room_id,
+                                           @PathVariable Long window_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        Optional<Windo> window = room.get().getWindows().stream().filter(l -> l.getId().equals(window_id)).findFirst();
+        return ResponseEntity.ok(window.orElse(null));
+    }
+
+    @PutMapping(value = "/rooms/{room_id:.*}/window_id/{window_id:.*}")
+    public ResponseEntity<Windo> updateWindow(@PathVariable Long room_id,
+                                                       @PathVariable Long window_id,
+                                                       @RequestParam boolean state) {
+        final Room room = roomRepository.getById(room_id);
+        final Optional<Windo> window = room.getWindows().stream().filter(l -> l.getId().equals(window_id)).findFirst();
+        if (window.isPresent()) {
+            window.get().setState(state);
+        }
+        return ResponseEntity.ok(window.orElse(null));
+    }
+
+    @DeleteMapping(value = "/rooms/{room_id:.*}/window_id/{window_id:.*}")
+    public ResponseEntity<Windo> deleteWindow(@PathVariable Long room_id,
+                                              @PathVariable Long window_id) {
+        final Room room = roomRepository.findById(room_id).orElse(null);
+        final Windo windo = room.getWindows().stream()
+                .filter(l -> l.getId().equals(window_id)).findFirst().orElse(null);
+        room.getVentilators().remove(windo);
         windoRepository.delete(windo);
         return ResponseEntity.ok(windo);
     }
@@ -287,7 +272,7 @@ public class RestController {
     //------------------------------
     //------------------------------
 
-
+ /*
     //CO2SENSOR
     @GetMapping("/co2sensors")
     public ResponseEntity<List<Co2Sensor>> getAllCo2Sensors() {
@@ -325,6 +310,7 @@ public class RestController {
         co2SensorRepository.delete(co2Sensor);
         return ResponseEntity.ok(co2Sensor);
     }
+
 
     //------------------------------
     //------------------------------
@@ -407,7 +393,35 @@ public class RestController {
         return ResponseEntity.ok(temperatureSensor);
     }
 
+
+//DOOR
+    @GetMapping("/doors")
+    public ResponseEntity<List<Door>> getAllDoors() {
+        return ResponseEntity.ok(doorRepository.findAll());
+    }
+
+    @PostMapping("/doors")
+    public ResponseEntity<Door> addDoor() {
+        final Door door = new Door();
+        doorRepository.save(door);
+        return ResponseEntity.ok(door);
+    }
+
+    @RequestMapping(value = "/doors/{doors_id:.*}", method = RequestMethod.GET)
+    public ResponseEntity<Door> getDoor(@PathVariable Long doors_id) {
+        return ResponseEntity.ok(doorRepository.findById(doors_id).orElse(null));
+    }
+
+    //TODO
+    //UPDATE DOOR
+    //DELETE DOOR
+    //GET OPEN DOOR
+    //POST OPEN DOOR
+
+    //------------------------------
+    //------------------------------
      */
+
 
     //------------------------------
     //------------------------------

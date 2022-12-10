@@ -35,13 +35,17 @@ public interface API {
 
     public HttpResponse putLightSource(Long roomID, int lightID, boolean state);
 
+    HttpResponse deleteLightSource(Long roomID, Long lightID);
+
     public HttpResponse getWindows(Long roomID);
 
     public HttpResponse postWindow(Long roomID);
 
-    public HttpResponse getWindow(Long roomID, int windowID);
+    HttpResponse getWindow(Long roomID, Long windowID);
 
     public HttpResponse putWindow(Long roomID, int windowID, boolean state);
+
+    HttpResponse deleteWindow(Long roomID, Long windowID);
 
     public HttpResponse getVentilators(Long roomID);
 
@@ -50,6 +54,8 @@ public interface API {
     public HttpResponse getVentilator(Long roomID, int ventilatorID);
 
     public HttpResponse putVentilator(Long roomID, int ventilatorID, boolean state);
+
+    HttpResponse deleteVentilator(Long roomID, Long ventilatorID);
 
     public HttpResponse getPeopleInRoom(Long roomID);
 

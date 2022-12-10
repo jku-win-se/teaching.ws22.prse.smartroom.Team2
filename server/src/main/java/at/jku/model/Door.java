@@ -3,9 +3,8 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 public class Door implements Openable {
@@ -38,6 +37,7 @@ public class Door implements Openable {
         this.id = id;
     }
 
+
     public List<DoorRecord> getDoorRecords() {
         return this.doorRecords;
     }
@@ -49,11 +49,26 @@ public class Door implements Openable {
         this.doorRecords.add(doorRecord);
     }
 
+    @JsonIgnore
+    public boolean getState() {
+        final Optional<DoorRecord> door =
+                this.doorRecords.stream().max(Comparator.comparing(DoorRecord::getTimestamp));
+        if (door != null && door.isPresent()){
+            return door.get().getState();
+        }
+        return false;
+    }
+
+    public void setState(boolean state) {
+        DoorRecord door = new DoorRecord();
+        door.setTimestamp(LocalDateTime.now());
+        door.setState(state);
+        this.doorRecords.add(door);
+    }
 
     @JsonIgnore
     public boolean isOpen() {
-        // TODO get state from latest db entry for this door
-        return false;
+        return this.getState();
     }
 
     public void open() {
@@ -69,8 +84,10 @@ public class Door implements Openable {
     }
 
     public void toggle() {
-        // TODO state change has to generate a db record
-        // if open then close and vice versa
-        // create db entry
+        if(this.getState()){
+            this.setState(false);
+        }else{
+            this.setState(true);
+        }
     }
 }
