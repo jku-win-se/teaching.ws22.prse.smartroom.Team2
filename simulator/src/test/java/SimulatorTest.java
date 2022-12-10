@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SimulatorTest {
+class SimulatorTest {
 
     private JSONObject json;
     private Simulator simulator = new Simulator();
@@ -33,19 +33,19 @@ public class SimulatorTest {
     @Test
     void testInsertRoomWithoutParameters() {
         this.response = this.simulator.postRoom();
-        assertEquals(this.response.statusCode(), 200);
+        assertEquals(200, this.response.statusCode());
     }
 
     @Test
     void testInsertRoomWithName() {
         this.response = this.simulator.postRoom("SimTest");
-        assertEquals(this.response.statusCode(), 200);
+        assertEquals(200, this.response.statusCode());
     }
 
     @Test
     void testInsertRoomWithNameAndSize() {
         this.response = this.simulator.postRoom("SimTest", 234);
-        assertEquals(this.response.statusCode(), 200);
+        assertEquals(200, this.response.statusCode());
     }
 
     @Test
@@ -58,10 +58,10 @@ public class SimulatorTest {
         this.id = json.getLong("id");
         String name = json.getString("name");
         Integer size = json.getInt("size");
-        assertEquals(this.response.statusCode(), 200);
-        assertTrue(this.id != null);
-        assertEquals(name, "SimUpdate");
-        assertEquals(size, 45);
+        assertEquals(200, this.response.statusCode());
+        assertNotNull(this.id);
+        assertEquals("SimUpdate", name);
+        assertEquals(45, size);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class SimulatorTest {
         this.json = new JSONObject(response.body().toString());
         this.id = json.getLong("id");
         this.response = this.simulator.deleteRoom(this.id);
-        assertEquals(this.response.statusCode(), 200);
+        assertEquals(200, this.response.statusCode());
     }
 
 }
