@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.PrimaryController">
+<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.PrimaryController">
    <opaqueInsets>
       <Insets top="10.0" />
    </opaqueInsets>
@@ -91,33 +91,38 @@
    <top>
       <VBox prefHeight="137.0" prefWidth="877.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="BOTTOM_LEFT" prefHeight="33.0" prefWidth="423.0" style="-fx-background-color: #F8F6F6;" text="Hello, Amy." textAlignment="RIGHT">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <font>
-                  <Font name="System Bold" size="40.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="200.0" top="50.0" />
-               </VBox.margin>
-               <graphic>
-                  <ImageView fx:id="btnEdit" fitHeight="21.0" fitWidth="21.0" onMouseClicked="#onActionEdit" pickOnBounds="true" preserveRatio="true">
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="btnEdit" disable="true" fitHeight="21.0" fitWidth="21.0" onMouseClicked="#onActionEdit" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@setting.png" />
                      </image>
+                     <HBox.margin>
+                        <Insets right="5.0" top="10.0" />
+                     </HBox.margin>
                   </ImageView>
-               </graphic>
-            </Label>
-            <Label prefHeight="17.0" prefWidth="589.0" text="Room 1">
+                  <Label alignment="BOTTOM_LEFT" onMouseClicked="#onActionEdit" onMouseDragged="#s" prefHeight="50.0" prefWidth="406.0" style="-fx-background-color: #F8F6F6;" text="Welcome, Amy." textAlignment="RIGHT">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <font>
+                        <Font name="System Bold" size="40.0" />
+                     </font>
+                  </Label>
+               </children>
                <VBox.margin>
-                  <Insets left="227.0" />
+                  <Insets left="200.0" top="50.0" />
                </VBox.margin>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" />
+            <Label prefHeight="17.0" prefWidth="589.0" text="Room 1">
                <font>
                   <Font size="30.0" />
                </font>
+               <VBox.margin>
+                  <Insets left="230.0" />
+               </VBox.margin>
             </Label>
-            <VBox prefHeight="200.0" prefWidth="100.0" />
          </children>
          <BorderPane.margin>
             <Insets />
