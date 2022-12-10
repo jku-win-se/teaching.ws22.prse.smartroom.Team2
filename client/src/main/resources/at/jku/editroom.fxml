@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.NewRoomController">
+<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.EditRoomController">
    <opaqueInsets>
       <Insets top="10.0" />
    </opaqueInsets>
@@ -95,7 +95,7 @@
    <center>
       <VBox prefHeight="817.0" prefWidth="435.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Create new room">
+            <Label text="Edit room">
                <font>
                   <Font name="Arial" size="40.0" />
                </font>
@@ -103,7 +103,7 @@
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </Label>
-            <Label text="Name">
+            <Label text="ID">
                <font>
                   <Font name="Arial" size="20.0" />
                </font>
@@ -111,12 +111,12 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtName" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtEditId" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="1">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </TextField>
-            <Label layoutX="10.0" layoutY="27.0" text="Size">
+            <Label layoutX="10.0" layoutY="27.0" text="Name">
                <font>
                   <Font name="Arial" size="20.0" />
                </font>
@@ -124,12 +124,12 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtSize" layoutX="10.0" layoutY="44.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtEditName" layoutX="10.0" layoutY="44.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="Test001">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </TextField>
-            <Label layoutX="10.0" layoutY="69.0" text="Doors">
+            <Label layoutX="10.0" layoutY="69.0" text="Size">
                <font>
                   <Font name="Arial" size="20.0" />
                </font>
@@ -137,7 +137,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtDoor" layoutX="10.0" layoutY="86.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtEditSize" layoutX="10.0" layoutY="86.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="20">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
@@ -150,7 +150,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtWindows" layoutX="10.0" layoutY="128.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtEditWindow" layoutX="10.0" layoutY="128.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
@@ -163,7 +163,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtFans" layoutX="10.0" layoutY="170.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtEditFan" layoutX="10.0" layoutY="170.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
@@ -176,14 +176,27 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtLightSource" layoutX="10.0" layoutY="212.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtEditLightSource" layoutX="10.0" layoutY="212.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="40.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="50.0" layoutY="326.0" text="Doors">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" />
+               </VBox.margin>
+            </Label>
+            <TextField fx:id="txtEditDoor" layoutX="50.0" layoutY="266.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>
             </TextField>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onActionSave" text="Save">
+                  <Button fx:id="btnEditSave" mnemonicParsing="false" onAction="#onActionSave" text="Save">
                      <HBox.margin>
                         <Insets left="40.0" top="30.0" />
                      </HBox.margin>
@@ -191,7 +204,7 @@
                         <Font size="20.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel">
+                  <Button fx:id="btnEditCancel" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel">
                      <HBox.margin>
                         <Insets left="30.0" top="30.0" />
                      </HBox.margin>

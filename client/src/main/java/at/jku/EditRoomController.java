@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.util.Optional;
 
-public class NewRoomController extends APIClient {
+public class EditRoomController extends APIClient{
 
 
     @FXML
@@ -31,52 +31,56 @@ public class NewRoomController extends APIClient {
     private void onActionSave() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Save room");
-        alert.setHeaderText("You are about to create this room.");
+        alert.setHeaderText("You are about to edit this room.");
         alert.setContentText("Are you ok with this?");
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){;
-            String name =  txtName.getText();
-            postRoom(name);
-
-        } else {
+        if (result.get() == ButtonType.OK){
+            int roomID =  Integer.valueOf(txtEditId.getText());
+            String name =  txtEditName.getText();
+            int size =   Integer.valueOf(txtEditSize.getText());
+            putRoom(roomID, name, size);
+  } else {
             // don't create new room
         }
     }
 
     @FXML
-    TextField txtName;
+
+    TextField txtEditId;
 
     @FXML
-    TextField txtSize;
+    TextField txtEditName;
 
     @FXML
-    TextField txtWindows;
+    TextField txtEditSize;
 
     @FXML
-    TextField txtFans;
+    TextField txtEditWindow;
 
     @FXML
-    TextField txtDoor;
+    TextField txtEditDoor;
 
     @FXML
-    TextField txtLightSource;
+    TextField txtEditFan;
 
     @FXML
-    Button btnSave;
+    TextField txtEditLightSource;
 
     @FXML
-    Button btnCancel;
+    Button btnEditSave;
+
+    @FXML
+    Button btnEditCancel;
 
     @FXML
     private void onActionCancel() throws IOException {
-
-        txtName.setText("");
-        txtSize.setText("");
-        txtWindows.setText("");
-        txtFans.setText("");
-        txtDoor.setText("");
-        txtLightSource.setText("");
-
+        txtEditId.setText("");
+        txtEditSize.setText("");
+        txtEditName.setText("");
+        txtEditWindow.setText("");
+        txtEditDoor.setText("");
+        txtEditFan.setText("");
+        txtEditLightSource.setText("");
     }
 }
