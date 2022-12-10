@@ -20,15 +20,11 @@ For the clickable prototype, click on the following link:
 
 https://www.figma.com/file/Ae03yyrc6oA21e3DZcrQh2/Smart-Room?node-id=0%3A1
 
-### Server UML-Diagram
-![Server UML-Diagram](/documentation/diagrams/Server-UML.png)
+### UML Diagram for Server Module
+![UML Diagram](/documentation/diagrams/Server-UML.png)
 
-### Simulator UML-Diagram
-![Simulator UML-Diagram](/documentation/diagrams/Simulator-UML.png)
+### UML Diagram for Client Module
+![UML Diagram](/documentation/diagrams/Client-UML.png)
 
-### Client UML-Diagram
-![Client UML-Diagram](/documentation/diagrams/Client-UML.png)
-
-### ER Diagram
-![ER Diagram](/documentation/diagrams/v1/team_2_er_diagram.png)
-
+### UML Diagram for Simulator Module
+![UML Diagram](/documentation/diagrams/Simulator-UML.png)
