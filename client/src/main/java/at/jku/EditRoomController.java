@@ -39,16 +39,11 @@ public class EditRoomController extends APIClient{
             int roomID =  Integer.valueOf(txtEditId.getText());
             String name =  txtEditName.getText();
             int size =   Integer.valueOf(txtEditSize.getText());
+            putRoom(roomID, name, size);
   } else {
             // don't create new room
         }
     }
-
-    //TODO: textfield namen ändern und allgemin kompoonente
-    //TODO: action namen öndern
-    //TODO: edit icon funktioniert nicht warum?
-    //TODO: new room methode
-
 
     @FXML
 
@@ -80,10 +75,9 @@ public class EditRoomController extends APIClient{
 
     @FXML
     private void onActionCancel() throws IOException {
-
-
         txtEditId.setText("");
         txtEditSize.setText("");
+        txtEditName.setText("");
         txtEditWindow.setText("");
         txtEditDoor.setText("");
         txtEditFan.setText("");
