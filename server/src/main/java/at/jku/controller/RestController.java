@@ -236,7 +236,7 @@ public class RestController {
 
     @GetMapping(value = "/rooms/{room_id:.*}/window_id/{window_id:.*}")
     public ResponseEntity<Windo> getWindow(@PathVariable Long room_id,
-                                                    @PathVariable Long window_id) {
+                                           @PathVariable Long window_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
         Optional<Windo> window = room.get().getWindows().stream().filter(l -> l.getId().equals(window_id)).findFirst();
         return ResponseEntity.ok(window.orElse(null));
