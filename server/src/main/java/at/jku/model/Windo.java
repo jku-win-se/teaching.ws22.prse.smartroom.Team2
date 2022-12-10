@@ -3,8 +3,11 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 
 @Entity
@@ -54,9 +57,25 @@ public class Windo implements Openable {
     }
 
     @JsonIgnore
-    public boolean isOpen() {
-        // TODO get state from latest db entry for this door
+    public boolean getState() {
+        final Optional<WindowRecord> win =
+                this.windowRecords.stream().max(Comparator.comparing(WindowRecord::getTimestamp));
+        if (win != null && win.isPresent()){
+            return win.get().getState();
+        }
         return false;
+    }
+
+    public void setState(boolean state) {
+        WindowRecord win = new WindowRecord();
+        win.setTimestamp(LocalDateTime.now());
+        win.setState(state);
+        this.windowRecords.add(win);
+    }
+
+    @JsonIgnore
+    public boolean isOpen() {
+        return this.getState();
     }
 
     public void open() {
@@ -72,8 +91,10 @@ public class Windo implements Openable {
     }
 
     public void toggle() {
-        // TODO state change has to generate a db record
-        // if open then close and vice versa
-        // create db entry
+        if(this.getState()){
+            this.setState(false);
+        }else{
+            this.setState(true);
+        }
     }
 }
