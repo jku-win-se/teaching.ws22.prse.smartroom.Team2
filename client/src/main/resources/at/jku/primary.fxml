@@ -93,7 +93,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ImageView fx:id="btnEdit" disable="true" fitHeight="21.0" fitWidth="21.0" onMouseClicked="#onActionEdit" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="btnEdit" fitHeight="21.0" fitWidth="21.0" onMouseClicked="#onActionEdit" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@setting.png" />
                      </image>
@@ -101,7 +101,7 @@
                         <Insets right="5.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Label alignment="BOTTOM_LEFT" onMouseClicked="#onActionEdit" onMouseDragged="#s" prefHeight="50.0" prefWidth="406.0" style="-fx-background-color: #F8F6F6;" text="Welcome, Amy." textAlignment="RIGHT">
+                  <Label alignment="BOTTOM_LEFT" onMouseClicked="#onActionEdit" prefHeight="50.0" prefWidth="406.0" style="-fx-background-color: #F8F6F6;" text="Welcome, Amy." textAlignment="RIGHT">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>

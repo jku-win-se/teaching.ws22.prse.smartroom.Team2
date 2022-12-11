@@ -36,7 +36,7 @@ public class EditRoomController extends APIClient{
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
-            int roomID =  Integer.valueOf(txtEditId.getText());
+            long roomID =  Long.valueOf(txtEditId.getText());
             String name =  txtEditName.getText();
             int size =   Integer.valueOf(txtEditSize.getText());
             putRoom(roomID, name, size);
