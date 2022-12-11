@@ -169,7 +169,7 @@ public class AllRoomsController extends APIClient implements Initializable {
 
         vb = new VBox();
         vb.setId("mainVb");
-        bp.setMargin(vb, new Insets(30, 0, 0, 20));
+        bp.setMargin(vb, new Insets(100, 0, 0, 20));
 
         //TODO: getrooms didnt work so i parsed each with getRoom
         for (int i = 1; i < 10; i++) {

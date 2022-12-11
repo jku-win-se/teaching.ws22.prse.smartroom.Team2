@@ -86,7 +86,7 @@
       </VBox>
    </left>
    <top>
-      <VBox prefHeight="187.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
@@ -121,6 +121,9 @@
                </VBox.margin>
             </Button>
          </children>
+         <BorderPane.margin>
+            <Insets top="200.0" />
+         </BorderPane.margin>
       </VBox>
    </center>
    <right>

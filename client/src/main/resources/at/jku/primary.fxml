@@ -89,7 +89,7 @@
       </VBox>
    </left>
    <top>
-      <VBox prefHeight="137.0" prefWidth="877.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
