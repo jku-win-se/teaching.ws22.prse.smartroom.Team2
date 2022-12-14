@@ -164,19 +164,19 @@ public class Room {
     public double getTemperature() {
         return temperatureSensors.stream()
                 .mapToDouble(TemperatureSensor::getTemperature)
-                .average().orElse(-273.15d);
+                .max().orElse(-273.15d);
 
     }
 
     public double getHumidity() {
         return humiditySensors.stream()
                 .mapToDouble(HumiditySensor::getHumidity)
-                .average().orElse(-1.0d);
+                .max().orElse(-1.0d);
     }
 
     public double getCo2() {
         return co2Sensors.stream()
                 .mapToDouble(Co2Sensor::getCo2)
-                .average().orElse(-1.0d);
+                .max().orElse(-1.0d);
     }
 }
