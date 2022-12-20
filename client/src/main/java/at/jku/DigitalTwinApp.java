@@ -24,6 +24,7 @@ public class DigitalTwinApp extends Application {
     private final static String USERNAME = "";
     private final static String PASSWORD = "";
 
+
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 1052, 886);
