@@ -16,7 +16,7 @@ public class TemperatureSensor implements Powerable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
@@ -46,9 +46,6 @@ public class TemperatureSensor implements Powerable {
     @JsonIgnore
     public boolean getState() {
         // TODO
-
-
-
         return false;
     }
 

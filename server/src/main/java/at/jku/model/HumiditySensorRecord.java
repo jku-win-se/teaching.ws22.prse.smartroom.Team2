@@ -11,7 +11,7 @@ public class HumiditySensorRecord {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private HumiditySensor humiditySensor;
 
     private LocalDateTime timestamp;

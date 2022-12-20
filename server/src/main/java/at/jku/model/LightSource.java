@@ -1,10 +1,14 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class LightSource implements Powerable {
@@ -13,8 +17,9 @@ public class LightSource implements Powerable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
+    @JsonBackReference
     private Room room;
 
     @OneToMany(mappedBy = "lightSource", cascade = CascadeType.ALL)
@@ -42,16 +47,22 @@ public class LightSource implements Powerable {
 
     @JsonIgnore
     public boolean getState() {
-        // TODO get state from latest db entry for this device
+        final Optional<LightSourceRecord> lsr =
+                this.lightSourceRecords.stream().max(Comparator.comparing(LightSourceRecord::getTimestamp));
+        if (lsr.isPresent()) {
+            return lsr.get().getState();
+        }
         return false;
     }
 
     public void setState(boolean state) {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
+        LightSourceRecord lsr = new LightSourceRecord();
+        lsr.setTimestamp(LocalDateTime.now());
+        lsr.setState(state);
+        this.lightSourceRecords.add(lsr);
     }
 
+    @JsonIgnore
     public List<LightSourceRecord> getLightSourceRecords() {
         return this.lightSourceRecords;
     }
@@ -63,10 +74,8 @@ public class LightSource implements Powerable {
         this.lightSourceRecords.add(lightSourceRecord);
     }
 
-    @JsonIgnore
     public boolean isOn() {
-        // TODO get state from latest db entry for this device
-        return false;
+        return this.getState();
     }
 
     public void powerOn() {
@@ -82,8 +91,6 @@ public class LightSource implements Powerable {
     }
 
     public void togglePower() {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
+        this.setState(!this.getState());
     }
 }

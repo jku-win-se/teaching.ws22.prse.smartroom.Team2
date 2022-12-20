@@ -1,5 +1,8 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,7 +17,7 @@ public class Room {
     private Long id;
     private String name;
     private int size;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "door_connects_room",
             joinColumns = @JoinColumn(name = "room_id"),
@@ -124,11 +127,11 @@ public class Room {
         this.ventilators.add(ventilator);
     }
 
-    public Set<TemperatureSensor> getAirQualitySensors() {
+    public Set<TemperatureSensor> getTemperatureSensors() {
         return temperatureSensors;
     }
 
-    public void addAirQualitySensor(TemperatureSensor temperatureSensor) {
+    public void addTemperatureSensor(TemperatureSensor temperatureSensor) {
         if (temperatureSensor == null) {
             return;
         }
@@ -146,6 +149,7 @@ public class Room {
         this.lightSources.add(lightSource);
     }
 
+    @JsonIgnore
     public List<PeopleInRoom> getPeopleInRooms() {
         return peopleInRooms;
     }
@@ -160,19 +164,19 @@ public class Room {
     public double getTemperature() {
         return temperatureSensors.stream()
                 .mapToDouble(TemperatureSensor::getTemperature)
-                .average().orElse(-273.15d);
+                .max().orElse(-273.15d);
 
     }
 
     public double getHumidity() {
         return humiditySensors.stream()
                 .mapToDouble(HumiditySensor::getHumidity)
-                .average().orElse(-1.0d);
+                .max().orElse(-1.0d);
     }
 
     public double getCo2() {
         return co2Sensors.stream()
                 .mapToDouble(Co2Sensor::getCo2)
-                .average().orElse(-1.0d);
+                .max().orElse(-1.0d);
     }
 }

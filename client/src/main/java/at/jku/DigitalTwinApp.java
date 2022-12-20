@@ -85,4 +85,3 @@ public class DigitalTwinApp extends Application {
         //printJSON(response);
     }
 }
-

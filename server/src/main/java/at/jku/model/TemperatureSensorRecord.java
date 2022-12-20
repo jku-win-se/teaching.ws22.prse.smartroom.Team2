@@ -11,7 +11,7 @@ public class TemperatureSensorRecord {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private TemperatureSensor temperatureSensor;
 
     private LocalDateTime timestamp;

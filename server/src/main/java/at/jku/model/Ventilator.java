@@ -3,8 +3,11 @@ package at.jku.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class Ventilator implements Powerable {
@@ -14,7 +17,7 @@ public class Ventilator implements Powerable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
@@ -55,20 +58,24 @@ public class Ventilator implements Powerable {
 
     @JsonIgnore
     public boolean getState() {
-        // TODO get state from latest db entry for this device
+        final Optional<VentilatorRecord> vr =
+                this.ventilatorRecords.stream().max(Comparator.comparing(VentilatorRecord::getTimestamp));
+        if (vr != null && vr.isPresent()){
+            return vr.get().getState();
+        }
         return false;
     }
 
     public void setState(boolean state) {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
+        VentilatorRecord vr = new VentilatorRecord();
+        vr.setTimestamp(LocalDateTime.now());
+        vr.setState(state);
+        this.ventilatorRecords.add(vr);
     }
 
     @JsonIgnore
     public boolean isOn() {
-        // TODO get state from latest db entry for this device
-        return false;
+        return this.getState();
     }
 
     public void powerOn() {
@@ -84,8 +91,10 @@ public class Ventilator implements Powerable {
     }
 
     public void togglePower() {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
+        if(this.getState()){
+            this.setState(false);
+        }else{
+            this.setState(true);
+        }
     }
 }

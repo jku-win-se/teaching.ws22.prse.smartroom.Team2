@@ -4,55 +4,74 @@ import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 
 public interface API {
+
+    public HttpResponse GET(String uri);
+
+    public HttpResponse POST(String uri);
+
+    public HttpResponse PUT(String uri);
+
+    public HttpResponse DELETE(String uri);
+
     public HttpResponse getRooms();
+
+    public HttpResponse postRoom();
 
     public HttpResponse postRoom(String name);
 
-    public HttpResponse getRoom(int roomID);
+    public HttpResponse postRoom(String name, int size);
 
-    public HttpResponse putRoom(int roomID, String name, int size);
+    public HttpResponse getRoom(Long roomID);
 
-    public HttpResponse deleteRoom(int roomID);
+    public HttpResponse putRoom(Long roomID, String name, int size);
 
-    public HttpResponse getLightSources(int roomID);
+    public HttpResponse deleteRoom(Long roomID);
 
-    public HttpResponse postLightSource(int roomID);
+    public HttpResponse getLightSources(Long roomID);
 
-    public HttpResponse getLightSource(int roomID, int LightID);
+    public HttpResponse postLightSource(Long roomID);
 
-    public HttpResponse putLightSource(int roomID, int LightID, boolean state);
+    public HttpResponse getLightSource(Long roomID, int lightID);
 
-    public HttpResponse getWindows(int roomID);
+    public HttpResponse putLightSource(Long roomID, int lightID, boolean state);
 
-    public HttpResponse postWindow(int roomID);
+    HttpResponse deleteLightSource(Long roomID, Long lightID);
 
-    public HttpResponse getWindow(int roomID, int windowID);
+    public HttpResponse getWindows(Long roomID);
 
-    public HttpResponse putWindow(int roomID, int windowID, boolean state);
+    public HttpResponse postWindow(Long roomID);
 
-    public HttpResponse getVentilators(int roomID);
+    HttpResponse getWindow(Long roomID, Long windowID);
 
-    public HttpResponse postVentilator(int roomID);
+    public HttpResponse putWindow(Long roomID, int windowID, boolean state);
 
-    public HttpResponse getVentilator(int roomID, int ventilatorID);
+    HttpResponse deleteWindow(Long roomID, Long windowID);
 
-    public HttpResponse putVentilator(int roomID, int ventilatorID, boolean state);
+    public HttpResponse getVentilators(Long roomID);
 
-    public HttpResponse getPeopleInRoom(int roomID);
+    public HttpResponse postVentilator(Long roomID);
 
-    public HttpResponse postPeopleInRoom(int roomID, LocalDateTime timestamp, int peopleInRoom, boolean state);
+    public HttpResponse getVentilator(Long roomID, int ventilatorID);
 
-    public HttpResponse getTemperature(int roomID);
+    public HttpResponse putVentilator(Long roomID, int ventilatorID, boolean state);
 
-    public HttpResponse postTemperature(int roomID, LocalDateTime timestamp, double temperature, boolean state);
+    HttpResponse deleteVentilator(Long roomID, Long ventilatorID);
 
-    public HttpResponse getCo2(int roomID);
+    public HttpResponse getPeopleInRoom(Long roomID);
 
-    public HttpResponse postCo2(int roomID, LocalDateTime timestamp, double co2, boolean state);
+    public HttpResponse postPeopleInRoom(Long roomID, LocalDateTime timestamp, int peopleInRoom, boolean state);
 
-    public HttpResponse getHumidity(int roomID);
+    public HttpResponse getTemperature(Long roomID);
 
-    public HttpResponse postHumidity(int roomID, LocalDateTime timestamp, double humidity, boolean state);
+    public HttpResponse postTemperature(Long roomID, LocalDateTime timestamp, double temperature, boolean state);
+
+    public HttpResponse getCo2(Long roomID);
+
+    public HttpResponse postCo2(Long roomID, LocalDateTime timestamp, double co2, boolean state);
+
+    public HttpResponse getHumidity(Long roomID);
+
+    public HttpResponse postHumidity(Long roomID, LocalDateTime timestamp, double humidity, boolean state);
 
 
     // TODO missing ventilator activation (needed?) - can be done with standard put
