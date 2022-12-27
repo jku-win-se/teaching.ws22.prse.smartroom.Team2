@@ -16,11 +16,24 @@ public class LightSource implements Powerable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+    private String name;
 
     @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     @JsonBackReference
     private Room room;
+
+    public void setHex(String hex) {
+        this.hex = hex;
+    }
+
+    public void setBrightness(int brightness) {
+        this.brightness = brightness;
+    }
+
+    private String hex; //color
+
+    private int brightness;
 
     @OneToMany(mappedBy = "lightSource", cascade = CascadeType.ALL)
     private List<LightSourceRecord> lightSourceRecords;
@@ -35,6 +48,14 @@ public class LightSource implements Powerable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Room getRoom() {
