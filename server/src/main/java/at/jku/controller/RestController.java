@@ -117,13 +117,15 @@ public class RestController {
         return ResponseEntity.ok(lightSource);
     }
 
-    @GetMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
+        @GetMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
     public ResponseEntity<LightSource> getLightSource(@PathVariable Long room_id,
                                                       @PathVariable Long light_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
         Optional<LightSource> ls = room.get().getLightSources().stream().filter(l -> l.getId().equals(light_id)).findFirst();
         return ResponseEntity.ok(ls.orElse(null));
     }
+
+
 
     @PutMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
     public ResponseEntity<LightSource> updateLightSource(@PathVariable Long room_id,
@@ -274,20 +276,27 @@ public class RestController {
 
     //DOOR
     @GetMapping(value = "/rooms/{room_id:.*}/doors")
-    public ResponseEntity<List<Door>> getAllDoors() {
-        return ResponseEntity.ok(doorRepository.findAll());
+    public ResponseEntity<List<Door>> getDoors(@PathVariable Long room_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        return ResponseEntity.ok(room.get().getDoors().stream().collect(Collectors.toList()));
     }
 
-    @PostMapping(value = "/rooms/{room_id:.*}/doors")
-    public ResponseEntity<Door> addDoor() {
+    @PostMapping(value = "/rooms/{room_id}/doors")
+    public ResponseEntity<Door> addDoor(@PathVariable Long room_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
         final Door door = new Door();
-        doorRepository.save(door);
-        return ResponseEntity.ok(door);
-    }
+        room.get().addDoor(door);
+        if (room.isPresent()) {
+            door.setRoom(room.orElse(null));
+            doorRepository.save(door);
+        }
+        return ResponseEntity.ok(door);}
 
     @GetMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
-    public ResponseEntity<Door> getDoor(@PathVariable Long doors_id) {
-        return ResponseEntity.ok(doorRepository.findById(doors_id).orElse(null));
+    public ResponseEntity<Door> getDoor(@PathVariable Long room_id, @PathVariable Long door_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        Optional<Door> ls = room.get().getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
+        return ResponseEntity.ok(ls.orElse(null));
     }
 
     //UPDATE DOOR
@@ -312,10 +321,9 @@ public class RestController {
         doorRepository.delete(gd);
         return ResponseEntity.ok(gd);
     }
-
-    //GET OPEN DOOR
-    //POST OPEN DOOR
-
+    /** TODO: GET OPEN DOOR
+    //TODO: POST OPEN DOOR
+*/
  /*
     //CO2SENSOR
     @GetMapping("/co2sensors")
