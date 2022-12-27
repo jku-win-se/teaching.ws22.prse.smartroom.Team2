@@ -1,5 +1,6 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class PeopleInRoom {
     private Long id;
 
     @ManyToOne //(cascade = CascadeType.ALL)
+    @JsonBackReference
     private Room room;
     private LocalDateTime timestamp;
     private int NOPeopleInRoom;
@@ -29,7 +31,6 @@ public class PeopleInRoom {
         this.id = id;
     }
 
-    @JsonIgnore
     public Room getRoom() {
         return room;
     }
