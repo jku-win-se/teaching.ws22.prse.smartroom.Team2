@@ -327,10 +327,14 @@ public class RestController {
     }
 
     @PostMapping(value = "/rooms/{room_id:.*}/doors")
-    public ResponseEntity<Door> addDoor(@PathVariable Long room_id) {
+    public ResponseEntity<Door> addDoor(@PathVariable Long room_id,
+                                        @RequestParam Optional<String> name) {
         final Optional<Room> room = roomRepository.findById(room_id);
         final Door door = new Door();
         if (room.isPresent()) {
+            if (name.isPresent()) {
+                door.setName(name.get());
+            }
             room.get().addDoor(door);
             door.addRoom(room.get());
             doorRepository.save(door);
@@ -350,9 +354,14 @@ public class RestController {
 
     @PutMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
     public ResponseEntity<Door> updateDoor(@PathVariable Long room_id,
-                                           @PathVariable Long door_id) {
-        Room room = roomRepository.findById(room_id).orElse(null);
-        final Optional<Door> door = room.getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
+                                           @PathVariable Long door_id,
+                                           @RequestParam Optional<String> name) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Door> door = room.get().getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
+        if (door.isPresent()) {
+            door.get().setName(name.get());
+            doorRepository.save(door.get());
+        }
         return ResponseEntity.ok(door.orElse(null));
     }
 

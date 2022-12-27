@@ -87,7 +87,7 @@ public class Room {
         final Optional<PeopleInRoom> pir =
                 this.peopleInRooms.stream()
                         .max(Comparator.comparing(PeopleInRoom::getTimestamp));
-        return pir.get();
+        return pir.isPresent() ? pir.get() : null;
     }
 
     public void addPeopleInRoom(PeopleInRoom peopleInRoom) {

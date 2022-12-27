@@ -1,6 +1,5 @@
 package at.jku.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -15,6 +14,7 @@ public class Door implements Openable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    private String name;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -38,6 +38,14 @@ public class Door implements Openable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void addRoom(Room room) {
@@ -67,7 +75,7 @@ public class Door implements Openable {
     public boolean getState() {
         final Optional<DoorRecord> door =
                 this.doorRecords.stream().max(Comparator.comparing(DoorRecord::getTimestamp));
-        if (door != null && door.isPresent()){
+        if (door != null && door.isPresent()) {
             return door.get().getState();
         }
         return false;
@@ -98,9 +106,9 @@ public class Door implements Openable {
     }
 
     public void toggle() {
-        if(this.getState()){
+        if (this.getState()) {
             this.setState(false);
-        }else{
+        } else {
             this.setState(true);
         }
     }
