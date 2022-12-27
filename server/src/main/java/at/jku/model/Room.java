@@ -4,10 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 public class Room {
@@ -85,13 +83,18 @@ public class Room {
         this.size = size;
     }
 
-    public int getNumPeopleInRoom() {
-        // TODO Get newest db entry from people_in_room table
-        return 0;
+    public PeopleInRoom getNumPeopleInRoom() {
+        final Optional<PeopleInRoom> pir =
+                this.peopleInRooms.stream()
+                        .max(Comparator.comparing(PeopleInRoom::getTimestamp));
+        return pir.get();
     }
 
-    public void setNumPeopleInRoom(int numPeopleInRoom) {
-        // TODO Generate DB Entry in people_in_room table
+    public void addPeopleInRoom(PeopleInRoom peopleInRoom) {
+        if (peopleInRoom == null) {
+            return;
+        }
+        this.peopleInRooms.add(peopleInRoom);
     }
 
     public Set<Door> getDoors() {
@@ -152,13 +155,6 @@ public class Room {
     @JsonIgnore
     public List<PeopleInRoom> getPeopleInRooms() {
         return peopleInRooms;
-    }
-
-    public void addPeopleInRoom(PeopleInRoom peopleInRoom) {
-        if (peopleInRoom == null) {
-            return;
-        }
-        this.peopleInRooms.add(peopleInRoom);
     }
 
     public double getTemperature() {

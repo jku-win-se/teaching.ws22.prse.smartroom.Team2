@@ -22,6 +22,7 @@ public class RestController {
     private Co2SensorRepository co2SensorRepository;
     private HumiditySensorRepository humiditySensorRepository;
     private final RoomRecordRepository roomRecordRepository;
+    private final PeopleInRoomRepository peopleInRoomRepository;
 
 
     public RestController(final RoomRepository roomRepository,
@@ -33,7 +34,8 @@ public class RestController {
                           final Co2SensorRepository co2SensorRepository,
                           final HumiditySensorRepository humiditySensorRepository,
                           final RoomRecordRepository roomRecordRepository,
-                          final LightSourceRecordRepository lightSourceRecordRepository) {
+                          final LightSourceRecordRepository lightSourceRecordRepository,
+                          PeopleInRoomRepository peopleInRoomRepository) {
         this.roomRepository = roomRepository;
         this.doorRepository = doorRepository;
         this.windoRepository = windoRepository;
@@ -44,6 +46,7 @@ public class RestController {
         this.humiditySensorRepository = humiditySensorRepository;
         this.roomRecordRepository = roomRecordRepository;
         this.lightSourceRecordRepository = lightSourceRecordRepository;
+        this.peopleInRoomRepository = peopleInRoomRepository;
     }
 
     //ROOMS
@@ -95,12 +98,26 @@ public class RestController {
         return ResponseEntity.ok(room);
     }
 
-    //TODO
-    //GET PEOPLEINROOM
-    //POST PEOPLEINROOM
+    @GetMapping(value = "/rooms/{room_id:.*}/PeopleInRoom")
+    public ResponseEntity<List<PeopleInRoom>> getPeopleInRoom(@PathVariable Long room_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        return ResponseEntity.ok(room.get().getPeopleInRooms().stream().collect(Collectors.toList()));
+    }
 
-    //------------------------------
-    //------------------------------
+    @PostMapping(value = "/rooms/{room_id:.*}/PeopleInRoom")
+    public ResponseEntity<PeopleInRoom> chgPeopleInRoom(@PathVariable Long room_id,
+                                                        @RequestParam Optional<Integer> people_count) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        PeopleInRoom pir = new PeopleInRoom();
+        if (room.isPresent() && people_count.isPresent()) {
+            pir.setTimestamp(LocalDateTime.now());
+            pir.setRoom(room.get());
+            pir.setNOPeopleInRoom(people_count.get());
+            room.get().addPeopleInRoom(pir);
+            peopleInRoomRepository.save(pir);
+        }
+        return ResponseEntity.ok(room.get().getNumPeopleInRoom());
+    }
 
     //LIGHTSOURCES
     @GetMapping(value = "/rooms/{room_id:.*}/lights")

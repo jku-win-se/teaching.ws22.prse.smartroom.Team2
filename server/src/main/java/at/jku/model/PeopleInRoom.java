@@ -1,5 +1,7 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -27,6 +29,7 @@ public class PeopleInRoom {
         this.id = id;
     }
 
+    @JsonIgnore
     public Room getRoom() {
         return room;
     }
@@ -47,7 +50,7 @@ public class PeopleInRoom {
         return NOPeopleInRoom;
     }
 
-    public void addNOPeopleInRoom(int NOPeopleInRoom) {
+    public void setNOPeopleInRoom(int NOPeopleInRoom) {
         this.NOPeopleInRoom = NOPeopleInRoom;
     }
 }
