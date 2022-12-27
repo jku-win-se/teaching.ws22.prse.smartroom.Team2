@@ -129,13 +129,9 @@ public class RestController {
 
     @PutMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
     public ResponseEntity<LightSource> updateLightSource(@PathVariable Long room_id,
-                                                         @PathVariable Long light_id,
-                                                         @RequestParam boolean state) {
+                                                         @PathVariable Long light_id) {
         final Room room = roomRepository.getById(room_id);
         final Optional<LightSource> ls = room.getLightSources().stream().filter(l -> l.getId().equals(light_id)).findFirst();
-        if (ls.isPresent()) {
-            ls.get().setState(state);
-        }
         return ResponseEntity.ok(ls.orElse(null));
     }
 
@@ -219,12 +215,12 @@ public class RestController {
 
     //WINDOWS
     @GetMapping(value = "/rooms/{room_id:.*}/windows")
-    public ResponseEntity<List<Windo>> getWindow(@PathVariable Long room_id) {
+    public ResponseEntity<List<Windo>> getWindows(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
         return ResponseEntity.ok(room.get().getWindows().stream().collect(Collectors.toList()));
     }
 
-    @PostMapping(value = "/rooms/{room_id}/windows")
+    @PostMapping(value = "/rooms/{room_id:.*}/windows")
     public ResponseEntity<Windo> addWindow(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
         final Windo window = new Windo();
@@ -236,6 +232,7 @@ public class RestController {
         return ResponseEntity.ok(window);
     }
 
+
     @GetMapping(value = "/rooms/{room_id:.*}/window_id/{window_id:.*}")
     public ResponseEntity<Windo> getWindow(@PathVariable Long room_id,
                                            @PathVariable Long window_id) {
@@ -246,13 +243,9 @@ public class RestController {
 
     @PutMapping(value = "/rooms/{room_id:.*}/window_id/{window_id:.*}")
     public ResponseEntity<Windo> updateWindow(@PathVariable Long room_id,
-                                                       @PathVariable Long window_id,
-                                                       @RequestParam boolean state) {
+                                              @PathVariable Long window_id) {
         final Room room = roomRepository.getById(room_id);
         final Optional<Windo> window = room.getWindows().stream().filter(l -> l.getId().equals(window_id)).findFirst();
-        if (window.isPresent()) {
-            window.get().setState(state);
-        }
         return ResponseEntity.ok(window.orElse(null));
     }
 
@@ -290,7 +283,10 @@ public class RestController {
             door.addRoom(room.orElse(null));
             doorRepository.save(door);
         }
-        return ResponseEntity.ok(door);}
+        return ResponseEntity.ok(door);
+    }
+
+
 
     @GetMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
     public ResponseEntity<Door> getDoor(@PathVariable Long room_id, @PathVariable Long door_id) {
@@ -313,7 +309,7 @@ public class RestController {
 
     @DeleteMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
     public ResponseEntity<Door> deleteDoor(@PathVariable Long room_id,
-                                                         @PathVariable Long door_id) {
+                                           @PathVariable Long door_id) {
         final Room room = roomRepository.findById(room_id).orElse(null);
         final Door gd = room.getDoors().stream()
                 .filter(l -> l.getId().equals(door_id)).findFirst().orElse(null);
