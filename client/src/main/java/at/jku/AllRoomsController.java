@@ -34,14 +34,16 @@ public class AllRoomsController extends APIClient implements Initializable {
 
     String fileName = "default";
 
-    @FXML
-    private void onActionRooms() throws IOException {
-        DigitalTwinApp.setRoot("allrooms");
-    }
 
     @FXML
     private void onActionHome() throws IOException {
         DigitalTwinApp.setRoot("primary");
+        System.out.println("Exception");
+    }
+
+    @FXML
+    private void onActionRooms() throws IOException {
+        DigitalTwinApp.setRoot("allrooms");
     }
 
     @FXML
@@ -57,11 +59,11 @@ public class AllRoomsController extends APIClient implements Initializable {
     private void onActionEdit() throws IOException {
         DigitalTwinApp.setRoot("editroom");
     }
+
     @FXML
     private void onActionCheckBox() throws IOException {
         //TODO: add action for checkbox: pick room for export
     }
-
 
     @FXML
     ImageView btnSearch1;
@@ -237,7 +239,6 @@ public class AllRoomsController extends APIClient implements Initializable {
                     hb.getChildren().add(label);
 
             ivTrash.setId("trash" + i);
-                    int finalI = i;
             ivTrash.setOnMouseClicked(event -> {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setTitle("Delete room");
@@ -246,26 +247,27 @@ public class AllRoomsController extends APIClient implements Initializable {
 
                         Optional<ButtonType> result = alert.showAndWait();
                         if (result.get() == ButtonType.OK) {
-                            deleteRoom(Long.valueOf(finalI));
+                            deleteRoom(Long.valueOf(id));
                             try {
                                 DigitalTwinApp.setRoot("allrooms");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-
-
                         } else {
                             // don't delete room
                         }
                     });
+
+
             ivSearch.setId("detail" + i);
             ivSearch.setOnMouseClicked(event -> {
-                        try {
-                            DigitalTwinApp.setRoot("primary");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    });
+                try {
+                    DigitalTwinApp.setRoot("primary");
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+            });
                     hb.getChildren().add(ivTrash);
                     hb.getChildren().add(ivSearch);
                     hb.getChildren().add(cb);

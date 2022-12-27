@@ -43,7 +43,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="188.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="NEW ROOM" textFill="WHITE">
+            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionNewRoom" prefHeight="69.0" prefWidth="188.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="NEW ROOM" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -55,7 +55,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="166.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="IMPORT" textFill="WHITE">
+            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionImport" prefHeight="69.0" prefWidth="166.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="IMPORT" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>

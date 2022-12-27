@@ -17,6 +17,7 @@ import java.io.IOException;
 public class ImportController {
 
 
+
     @FXML
     Button btnImport;
 
@@ -34,7 +35,6 @@ public class ImportController {
     }
 
 
-
     @FXML
     private void onActionRooms() throws IOException {
         DigitalTwinApp.setRoot("allrooms");
@@ -48,5 +48,10 @@ public class ImportController {
     @FXML
     private void onActionNewRoom() throws IOException {
         DigitalTwinApp.setRoot("newroom");
+    }
+
+    @FXML
+    private void onActionEdit() throws IOException {
+        DigitalTwinApp.setRoot("editroom");
     }
 }

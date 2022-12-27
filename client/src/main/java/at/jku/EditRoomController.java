@@ -18,13 +18,18 @@ public class EditRoomController extends APIClient{
     }
 
     @FXML
-    private void onActionImport() throws IOException {
-        DigitalTwinApp.setRoot("import");
+    private void onActionNewRoom() throws IOException {
+        DigitalTwinApp.setRoot("newroom");
     }
 
     @FXML
     private void onActionHome() throws IOException {
         DigitalTwinApp.setRoot("primary");
+    }
+
+    @FXML
+    private void onActionImport() throws IOException {
+        DigitalTwinApp.setRoot("import");
     }
 
     @FXML

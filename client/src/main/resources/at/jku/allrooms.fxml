@@ -17,9 +17,9 @@
       <Insets top="10.0" />
    </opaqueInsets>
    <left>
-      <VBox id="left-menu" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1017.0" prefWidth="178.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F;">
+      <VBox id="left-menu" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="963.0" prefWidth="178.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F;">
          <children>
-            <Button fx:id="home" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionHome" prefHeight="69.0" prefWidth="190.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="HOME" textFill="WHITE">
+            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionHome" prefHeight="69.0" prefWidth="190.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="HOME" textFill="WHITE">
                <VBox.margin>
                   <Insets top="200.0" />
                </VBox.margin>
@@ -34,7 +34,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="187.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="ALL ROOMS" textFill="WHITE">
+            <Button fx:id="allrooms" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionRooms" prefHeight="69.0" prefWidth="187.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="ALL ROOMS" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>

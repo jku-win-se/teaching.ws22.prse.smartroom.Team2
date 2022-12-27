@@ -11,20 +11,28 @@ import java.util.Optional;
 
 public class NewRoomController extends APIClient {
 
-
     @FXML
     private void onActionRooms() throws IOException {
         DigitalTwinApp.setRoot("allrooms");
     }
 
     @FXML
-    private void onActionImport() throws IOException {
-        DigitalTwinApp.setRoot("import");
+    private void onActionHome() throws IOException {
+        DigitalTwinApp.setRoot("primary");
     }
 
     @FXML
-    private void onActionHome() throws IOException {
-        DigitalTwinApp.setRoot("primary");
+    private void onActionNewRoom() throws IOException {
+        DigitalTwinApp.setRoot("newroom");
+    }
+
+    @FXML
+    private void onActionImport() throws IOException {
+        DigitalTwinApp.setRoot("import");
+    }
+    @FXML
+    private void onActionEdit() throws IOException {
+        DigitalTwinApp.setRoot("editroom");
     }
 
     @FXML
