@@ -109,9 +109,9 @@ public class RestController {
     public ResponseEntity<LightSource> addLightSource(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
         final LightSource lightSource = new LightSource();
-        room.get().addLightSource(lightSource);
         if (room.isPresent()) {
-            lightSource.setRoom(room.orElse(null));
+            room.get().addLightSource(lightSource);
+            lightSource.setRoom(room.get());
             lightSourceRepository.save(lightSource);
         }
         return ResponseEntity.ok(lightSource);
@@ -278,9 +278,9 @@ public class RestController {
     public ResponseEntity<Door> addDoor(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
         final Door door = new Door();
-        room.get().addDoor(door);
         if (room.isPresent()) {
-            door.addRoom(room.orElse(null));
+            room.get().addDoor(door);
+            door.addRoom(room.get());
             doorRepository.save(door);
         }
         return ResponseEntity.ok(door);

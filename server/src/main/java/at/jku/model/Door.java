@@ -16,11 +16,12 @@ public class Door implements Openable {
     private Long id;
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "door_connects_room",
-            joinColumns = @JoinColumn(name = "door_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_id"))
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "doors")
     private Set<Room> rooms = new HashSet<>();
 
     @OneToMany(mappedBy = "door", cascade = CascadeType.ALL)

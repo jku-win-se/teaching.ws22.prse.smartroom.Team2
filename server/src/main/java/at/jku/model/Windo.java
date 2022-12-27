@@ -37,6 +37,7 @@ public class Windo implements Openable {
         this.id = id;
     }
 
+    @JsonIgnore
     public Room getRoom() {
         return room;
     }

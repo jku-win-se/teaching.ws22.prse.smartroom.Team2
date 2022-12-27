@@ -20,8 +20,8 @@ public class Room {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "door_connects_room",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "door_id"))
+            joinColumns = @JoinColumn(name = "room_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "door_id", referencedColumnName = "id"))
     private Set<Door> doors;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<Windo> windows;
