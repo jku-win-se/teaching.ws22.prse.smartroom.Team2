@@ -21,7 +21,6 @@ public class RestController {
     private final TemperatureSensorRepository temperatureSensorRepository;
     private final Co2SensorRepository co2SensorRepository;
     private final HumiditySensorRepository humiditySensorRepository;
-    private final RoomRecordRepository roomRecordRepository;
     private final PeopleInRoomRepository peopleInRoomRepository;
 
 
@@ -33,9 +32,8 @@ public class RestController {
                           final TemperatureSensorRepository temperatureSensorRepository,
                           final Co2SensorRepository co2SensorRepository,
                           final HumiditySensorRepository humiditySensorRepository,
-                          final RoomRecordRepository roomRecordRepository,
                           final LightSourceRecordRepository lightSourceRecordRepository,
-                          PeopleInRoomRepository peopleInRoomRepository) {
+                          final PeopleInRoomRepository peopleInRoomRepository) {
         this.roomRepository = roomRepository;
         this.doorRepository = doorRepository;
         this.windoRepository = windoRepository;
@@ -44,7 +42,6 @@ public class RestController {
         this.temperatureSensorRepository = temperatureSensorRepository;
         this.co2SensorRepository = co2SensorRepository;
         this.humiditySensorRepository = humiditySensorRepository;
-        this.roomRecordRepository = roomRecordRepository;
         this.lightSourceRecordRepository = lightSourceRecordRepository;
         this.peopleInRoomRepository = peopleInRoomRepository;
     }

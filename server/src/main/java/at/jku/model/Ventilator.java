@@ -36,6 +36,7 @@ public class Ventilator implements Powerable {
         this.id = id;
     }
 
+    @JsonIgnore
     public Room getRoom() {
         return room;
     }
@@ -60,7 +61,7 @@ public class Ventilator implements Powerable {
     public boolean getState() {
         final Optional<VentilatorRecord> vr =
                 this.ventilatorRecords.stream().max(Comparator.comparing(VentilatorRecord::getTimestamp));
-        if (vr != null && vr.isPresent()){
+        if (vr != null && vr.isPresent()) {
             return vr.get().getState();
         }
         return false;
@@ -91,9 +92,9 @@ public class Ventilator implements Powerable {
     }
 
     public void togglePower() {
-        if(this.getState()){
+        if (this.getState()) {
             this.setState(false);
-        }else{
+        } else {
             this.setState(true);
         }
     }
