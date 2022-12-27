@@ -1,5 +1,6 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -14,12 +15,13 @@ public class Door implements Openable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+
     @ManyToMany
     @JoinTable(
             name = "door_connects_room",
             joinColumns = @JoinColumn(name = "door_id"),
             inverseJoinColumns = @JoinColumn(name = "room_id"))
-    private Set<Room> rooms;
+    private Set<Room> rooms = new HashSet<>();
 
     @OneToMany(mappedBy = "door", cascade = CascadeType.ALL)
     private List<DoorRecord> doorRecords;
@@ -37,6 +39,17 @@ public class Door implements Openable {
         this.id = id;
     }
 
+    public void addRoom(Room room) {
+        rooms.add(room);
+    }
+
+    public Set<Room> getRooms(Room room) {
+        return rooms;
+    }
+
+    public void deleteRoom(Room room) {
+        rooms.remove(room);
+    }
 
     public List<DoorRecord> getDoorRecords() {
         return this.doorRecords;

@@ -287,7 +287,7 @@ public class RestController {
         final Door door = new Door();
         room.get().addDoor(door);
         if (room.isPresent()) {
-            door.setRoom(room.orElse(null));
+            door.addRoom(room.orElse(null));
             doorRepository.save(door);
         }
         return ResponseEntity.ok(door);}
@@ -322,7 +322,7 @@ public class RestController {
         return ResponseEntity.ok(gd);
     }
     /** TODO: GET OPEN DOOR
-    //TODO: POST OPEN DOOR
+    TODO: POST OPEN DOOR
 */
  /*
     //CO2SENSOR
