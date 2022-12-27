@@ -272,20 +272,20 @@ public class RestController {
     //------------------------------
     //------------------------------
 
-//DOOR
-    @GetMapping("/doors")
+    //DOOR
+    @GetMapping(value = "/rooms/{room_id:.*}/doors")
     public ResponseEntity<List<Door>> getAllDoors() {
         return ResponseEntity.ok(doorRepository.findAll());
     }
 
-    @PostMapping("/doors")
+    @PostMapping(value = "/rooms/{room_id:.*}/doors")
     public ResponseEntity<Door> addDoor() {
         final Door door = new Door();
         doorRepository.save(door);
         return ResponseEntity.ok(door);
     }
 
-    @RequestMapping(value = "/doors/{doors_id:.*}", method = RequestMethod.GET)
+    @GetMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
     public ResponseEntity<Door> getDoor(@PathVariable Long doors_id) {
         return ResponseEntity.ok(doorRepository.findById(doors_id).orElse(null));
     }
@@ -301,6 +301,18 @@ public class RestController {
     }
 
     //DELETE DOOR
+
+    @DeleteMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
+    public ResponseEntity<Door> deleteDoor(@PathVariable Long room_id,
+                                                         @PathVariable Long door_id) {
+        final Room room = roomRepository.findById(room_id).orElse(null);
+        final Door gd = room.getDoors().stream()
+                .filter(l -> l.getId().equals(door_id)).findFirst().orElse(null);
+        room.getDoors().remove(gd);
+        doorRepository.delete(gd);
+        return ResponseEntity.ok(gd);
+    }
+
     //GET OPEN DOOR
     //POST OPEN DOOR
 
