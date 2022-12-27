@@ -281,7 +281,7 @@ public class RestController {
         return ResponseEntity.ok(room.get().getDoors().stream().collect(Collectors.toList()));
     }
 
-    @PostMapping(value = "/rooms/{room_id}/doors")
+    @PostMapping(value = "/rooms/{room_id:.*}/doors")
     public ResponseEntity<Door> addDoor(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
         final Door door = new Door();
