@@ -12,15 +12,15 @@ import java.util.stream.Collectors;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
-    private RoomRepository roomRepository;
-    private DoorRepository doorRepository;
-    private WindoRepository windoRepository;
-    private LightSourceRepository lightSourceRepository;
-    private LightSourceRecordRepository lightSourceRecordRepository;
-    private VentilatorRepository ventilatorRepository;
-    private TemperatureSensorRepository temperatureSensorRepository;
-    private Co2SensorRepository co2SensorRepository;
-    private HumiditySensorRepository humiditySensorRepository;
+    private final RoomRepository roomRepository;
+    private final DoorRepository doorRepository;
+    private final WindoRepository windoRepository;
+    private final LightSourceRepository lightSourceRepository;
+    private final LightSourceRecordRepository lightSourceRecordRepository;
+    private final VentilatorRepository ventilatorRepository;
+    private final TemperatureSensorRepository temperatureSensorRepository;
+    private final Co2SensorRepository co2SensorRepository;
+    private final HumiditySensorRepository humiditySensorRepository;
     private final RoomRecordRepository roomRecordRepository;
     private final PeopleInRoomRepository peopleInRoomRepository;
 
@@ -59,12 +59,8 @@ public class RestController {
     public ResponseEntity<Room> addRoom(@RequestParam Optional<String> name,
                                         @RequestParam Optional<Integer> size) {
         final Room room = new Room();
-        if (name.isPresent()) {
-            room.setName(name.get());
-        }
-        if (size.isPresent()) {
-            room.setSize(size.get());
-        }
+        name.ifPresent(room::setName);
+        size.ifPresent(room::setSize);
         roomRepository.save(room);
         return ResponseEntity.ok(room);
     }
@@ -78,17 +74,13 @@ public class RestController {
     public ResponseEntity<Room> updateRoom(@PathVariable Long room_id,
                                            @RequestParam Optional<String> name,
                                            @RequestParam Optional<Integer> size) {
-        Room room = roomRepository.findById(room_id).orElse(null);
-        if (room != null) {
-            if (name.isPresent()) {
-                room.setName(name.get());
-            }
-            if (size.isPresent()) {
-                room.setSize(size.get());
-            }
+        Optional<Room> room = roomRepository.findById(room_id);
+        if (room.isPresent()) {
+            name.ifPresent(s -> room.get().setName(s));
+            size.ifPresent(integer -> room.get().setSize(integer));
         }
-        roomRepository.save(room);
-        return ResponseEntity.ok(room);
+        roomRepository.save(room.get());
+        return ResponseEntity.ok(room.get());
     }
 
     @DeleteMapping(value = "/rooms/{room_id:.*}")
