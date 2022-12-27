@@ -290,8 +290,16 @@ public class RestController {
         return ResponseEntity.ok(doorRepository.findById(doors_id).orElse(null));
     }
 
-    //TODO
     //UPDATE DOOR
+
+    @PutMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
+    public ResponseEntity<Door> updateDoor(@PathVariable Long room_id,
+                                                       @PathVariable Long door_id) {
+        Room room = roomRepository.findById(room_id).orElse(null);
+        final Optional<Door> door = room.getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
+        return ResponseEntity.ok(door.orElse(null));
+    }
+
     //DELETE DOOR
     //GET OPEN DOOR
     //POST OPEN DOOR
