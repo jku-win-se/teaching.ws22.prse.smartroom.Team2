@@ -272,6 +272,30 @@ public class RestController {
     //------------------------------
     //------------------------------
 
+//DOOR
+    @GetMapping("/doors")
+    public ResponseEntity<List<Door>> getAllDoors() {
+        return ResponseEntity.ok(doorRepository.findAll());
+    }
+
+    @PostMapping("/doors")
+    public ResponseEntity<Door> addDoor() {
+        final Door door = new Door();
+        doorRepository.save(door);
+        return ResponseEntity.ok(door);
+    }
+
+    @RequestMapping(value = "/doors/{doors_id:.*}", method = RequestMethod.GET)
+    public ResponseEntity<Door> getDoor(@PathVariable Long doors_id) {
+        return ResponseEntity.ok(doorRepository.findById(doors_id).orElse(null));
+    }
+
+    //TODO
+    //UPDATE DOOR
+    //DELETE DOOR
+    //GET OPEN DOOR
+    //POST OPEN DOOR
+
  /*
     //CO2SENSOR
     @GetMapping("/co2sensors")
@@ -394,29 +418,7 @@ public class RestController {
     }
 
 
-//DOOR
-    @GetMapping("/doors")
-    public ResponseEntity<List<Door>> getAllDoors() {
-        return ResponseEntity.ok(doorRepository.findAll());
-    }
 
-    @PostMapping("/doors")
-    public ResponseEntity<Door> addDoor() {
-        final Door door = new Door();
-        doorRepository.save(door);
-        return ResponseEntity.ok(door);
-    }
-
-    @RequestMapping(value = "/doors/{doors_id:.*}", method = RequestMethod.GET)
-    public ResponseEntity<Door> getDoor(@PathVariable Long doors_id) {
-        return ResponseEntity.ok(doorRepository.findById(doors_id).orElse(null));
-    }
-
-    //TODO
-    //UPDATE DOOR
-    //DELETE DOOR
-    //GET OPEN DOOR
-    //POST OPEN DOOR
 
     //------------------------------
     //------------------------------
