@@ -18,6 +18,8 @@ public class Ventilator implements Powerable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    private String name;
+
     @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     @JsonBackReference
@@ -36,6 +38,14 @@ public class Ventilator implements Powerable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Room getRoom() {
@@ -62,10 +72,14 @@ public class Ventilator implements Powerable {
     public boolean getState() {
         final Optional<VentilatorRecord> vr =
                 this.ventilatorRecords.stream().max(Comparator.comparing(VentilatorRecord::getTimestamp));
-        if (vr != null && vr.isPresent()) {
-            return vr.get().getState();
-        }
-        return false;
+        return vr.map(VentilatorRecord::getState).orElse(false);
+    }
+
+    @JsonIgnore
+    public Optional<VentilatorRecord> getLatestVentilatorRecord() {
+        final Optional<VentilatorRecord> vr =
+                this.ventilatorRecords.stream().max(Comparator.comparing(VentilatorRecord::getTimestamp));
+        return vr;
     }
 
     public void setState(boolean state) {
@@ -73,6 +87,10 @@ public class Ventilator implements Powerable {
         vr.setTimestamp(LocalDateTime.now());
         vr.setState(state);
         this.ventilatorRecords.add(vr);
+    }
+
+    public boolean getTurnOn() {
+        return this.getState();
     }
 
     @JsonIgnore

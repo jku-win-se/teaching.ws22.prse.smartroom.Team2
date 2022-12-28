@@ -18,6 +18,7 @@ public class RestController {
     private final LightSourceRepository lightSourceRepository;
     private final LightSourceRecordRepository lightSourceRecordRepository;
     private final VentilatorRepository ventilatorRepository;
+    private final VentilatorRecordRepository ventilatorRecordRepository;
     private final TemperatureSensorRepository temperatureSensorRepository;
     private final Co2SensorRepository co2SensorRepository;
     private final HumiditySensorRepository humiditySensorRepository;
@@ -33,7 +34,8 @@ public class RestController {
                           final Co2SensorRepository co2SensorRepository,
                           final HumiditySensorRepository humiditySensorRepository,
                           final LightSourceRecordRepository lightSourceRecordRepository,
-                          final PeopleInRoomRepository peopleInRoomRepository) {
+                          final PeopleInRoomRepository peopleInRoomRepository,
+                          final VentilatorRecordRepository ventilatorRecordRepository) {
         this.roomRepository = roomRepository;
         this.doorRepository = doorRepository;
         this.windoRepository = windoRepository;
@@ -44,9 +46,10 @@ public class RestController {
         this.humiditySensorRepository = humiditySensorRepository;
         this.lightSourceRecordRepository = lightSourceRecordRepository;
         this.peopleInRoomRepository = peopleInRoomRepository;
+        this.ventilatorRecordRepository = ventilatorRecordRepository;
     }
 
-    //ROOMS
+    // ============================== ROOMS =====================================
     @GetMapping("/rooms")
     public ResponseEntity<List<Room>> getAllRooms() {
         return ResponseEntity.ok(roomRepository.findAll());
@@ -87,6 +90,8 @@ public class RestController {
         return ResponseEntity.ok(room);
     }
 
+    // ============================== PEOPLE IN ROOMS =====================================
+
     @GetMapping(value = "/rooms/{room_id:.*}/PeopleInRoom")
     public ResponseEntity<List<PeopleInRoom>> getPeopleInRoom(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
@@ -108,7 +113,7 @@ public class RestController {
         return ResponseEntity.ok(room.get().getNumPeopleInRoom());
     }
 
-    //LIGHTSOURCES
+    // ============================== LIGHTS =====================================
     @GetMapping(value = "/rooms/{room_id:.*}/lights")
     public ResponseEntity<List<LightSource>> getRoomLights(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
@@ -196,15 +201,10 @@ public class RestController {
         return ResponseEntity.ok(ls);
     }
 
-    //TODO
-    //GET ACTIVATE LIGHT
-    //POST ACTIVATE LIGHT
-    //POST SET COLOR
+    //TODO POST SET COLOR
 
-    //------------------------------
-    //------------------------------
 
-    //VENTILATOR
+    // ============================== VENTILATORS =====================================
     @GetMapping(value = "/rooms/{room_id:.*}/ventilators")
     public ResponseEntity<List<Ventilator>> getVentilators(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
@@ -212,12 +212,15 @@ public class RestController {
     }
 
     @PostMapping(value = "/rooms/{room_id}/ventilators")
-    public ResponseEntity<Ventilator> addVentilator(@PathVariable Long room_id) {
+    public ResponseEntity<Ventilator> addVentilator(@PathVariable Long room_id,
+                                                    @RequestParam Optional<String> name) {
         final Optional<Room> room = roomRepository.findById(room_id);
         final Ventilator ventilator = new Ventilator();
-        room.get().addVentilator(ventilator);
+
         if (room.isPresent()) {
-            ventilator.setRoom(room.orElse(null));
+            room.get().addVentilator(ventilator);
+            name.ifPresent(ventilator::setName);
+            ventilator.setRoom(room.get());
             ventilatorRepository.save(ventilator);
         }
         return ResponseEntity.ok(ventilator);
@@ -227,19 +230,7 @@ public class RestController {
     public ResponseEntity<Ventilator> getVentilator(@PathVariable Long room_id,
                                                     @PathVariable Long ventilator_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
-        Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
-        return ResponseEntity.ok(vent.orElse(null));
-    }
-
-    @PutMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}")
-    public ResponseEntity<Ventilator> updateVentilator(@PathVariable Long room_id,
-                                                       @PathVariable Long ventilator_id,
-                                                       @RequestParam boolean state) {
-        final Room room = roomRepository.getById(room_id);
-        final Optional<Ventilator> vent = room.getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
-        if (vent.isPresent()) {
-            vent.get().setState(state);
-        }
+        final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
         return ResponseEntity.ok(vent.orElse(null));
     }
 
@@ -254,15 +245,62 @@ public class RestController {
         return ResponseEntity.ok(vent);
     }
 
-    //TODO
-    //POST ACTIVATE VENTILATOR
-    //GET ACTIVATE VENTILATOR
-    //POST ACTIVATE VENTILATOR
+    @PatchMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}")
+    public ResponseEntity<Ventilator> updateVentilator(@PathVariable Long room_id,
+                                                       @PathVariable Long ventilator_id,
+                                                       @RequestParam String name) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
+        vent.ifPresent(ventilator -> ventilator.setName(name));
+        ventilatorRepository.save(vent.get());
+        return ResponseEntity.ok(vent.orElse(null));
+    }
 
-    //------------------------------
-    //------------------------------
+    @PostMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}/Operations")
+    public ResponseEntity<Ventilator> updateVentilatorState(@PathVariable Long room_id,
+                                                            @PathVariable Long ventilator_id,
+                                                            @RequestParam Optional<Boolean> turnon) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
 
-    //WINDOWS
+        if (vent.isPresent() && turnon.isPresent()) {
+            VentilatorRecord vr = new VentilatorRecord();
+            vr.setVentilator(vent.get());
+            vr.setTimestamp(LocalDateTime.now());
+            vr.setState(turnon.get());
+            vent.get().addVentilatorRecord(vr);
+            ventilatorRecordRepository.save(vr);
+        }
+        return ResponseEntity.ok(vent.orElse(null));
+    }
+
+    @GetMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}/Activation")
+    public ResponseEntity<VentilatorRecord> getVentilatorState(@PathVariable Long room_id,
+                                                               @PathVariable Long ventilator_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
+        final Optional<VentilatorRecord> vr = vent.get().getLatestVentilatorRecord();
+        return ResponseEntity.ok(vr.get());
+    }
+
+    @PostMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}/Activation")
+    public ResponseEntity<Ventilator> activateVentilator(@PathVariable Long room_id,
+                                                         @PathVariable Long ventilator_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
+
+        if (vent.isPresent()) {
+            VentilatorRecord vr = new VentilatorRecord();
+            vr.setVentilator(vent.get());
+            vr.setTimestamp(LocalDateTime.now());
+            vr.setState(!(vent.get().getState()));
+            vent.get().addVentilatorRecord(vr);
+            ventilatorRecordRepository.save(vr);
+        }
+        return ResponseEntity.ok(vent.orElse(null));
+    }
+
+    // ============================== WINDOWS =====================================
     @GetMapping(value = "/rooms/{room_id:.*}/windows")
     public ResponseEntity<List<Windo>> getWindows(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
@@ -280,7 +318,6 @@ public class RestController {
         }
         return ResponseEntity.ok(window);
     }
-
 
     @GetMapping(value = "/rooms/{room_id:.*}/window_id/{window_id:.*}")
     public ResponseEntity<Windo> getWindow(@PathVariable Long room_id,
@@ -313,10 +350,7 @@ public class RestController {
     //GET OPEN WINDOW
     //POST OPEN WINDOW
 
-    //------------------------------
-    //------------------------------
-
-    //DOOR
+    // ============================== DOORS =====================================
     @GetMapping(value = "/rooms/{room_id:.*}/doors")
     public ResponseEntity<List<Door>> getDoors(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
@@ -347,8 +381,6 @@ public class RestController {
         return ResponseEntity.ok(ls.orElse(null));
     }
 
-    //UPDATE DOOR
-
     @PutMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
     public ResponseEntity<Door> updateDoor(@PathVariable Long room_id,
                                            @PathVariable Long door_id,
@@ -361,8 +393,6 @@ public class RestController {
         }
         return ResponseEntity.ok(door.orElse(null));
     }
-
-    //DELETE DOOR
 
     @DeleteMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
     public ResponseEntity<Door> deleteDoor(@PathVariable Long room_id,
