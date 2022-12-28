@@ -1,5 +1,7 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,6 +14,7 @@ public class DoorRecord {
     private Long id;
 
     @ManyToOne
+    @JsonBackReference
     private Door door;
 
     private LocalDateTime timestamp;

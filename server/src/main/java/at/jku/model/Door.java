@@ -73,12 +73,15 @@ public class Door implements Openable {
 
     @JsonIgnore
     public boolean getState() {
-        final Optional<DoorRecord> door =
+        final Optional<DoorRecord> dr =
                 this.doorRecords.stream().max(Comparator.comparing(DoorRecord::getTimestamp));
-        if (door != null && door.isPresent()) {
-            return door.get().getState();
-        }
-        return false;
+        return dr.map(DoorRecord::getState).orElse(false);
+    }
+
+    public Optional<DoorRecord> getLatestDoorRecord() {
+        final Optional<DoorRecord> dr =
+                this.doorRecords.stream().max(Comparator.comparing(DoorRecord::getTimestamp));
+        return dr;
     }
 
     public void setState(boolean state) {

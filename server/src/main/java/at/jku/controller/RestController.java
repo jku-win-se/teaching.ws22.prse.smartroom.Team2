@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class RestController {
     private final RoomRepository roomRepository;
     private final DoorRepository doorRepository;
+    private final DoorRecordRepository doorRecordRepository;
     private final WindoRepository windoRepository;
     private final LightSourceRepository lightSourceRepository;
     private final LightSourceRecordRepository lightSourceRecordRepository;
@@ -35,7 +36,8 @@ public class RestController {
                           final HumiditySensorRepository humiditySensorRepository,
                           final LightSourceRecordRepository lightSourceRecordRepository,
                           final PeopleInRoomRepository peopleInRoomRepository,
-                          final VentilatorRecordRepository ventilatorRecordRepository) {
+                          final VentilatorRecordRepository ventilatorRecordRepository,
+                          final DoorRecordRepository doorRecordRepository) {
         this.roomRepository = roomRepository;
         this.doorRepository = doorRepository;
         this.windoRepository = windoRepository;
@@ -47,6 +49,7 @@ public class RestController {
         this.lightSourceRecordRepository = lightSourceRecordRepository;
         this.peopleInRoomRepository = peopleInRoomRepository;
         this.ventilatorRecordRepository = ventilatorRecordRepository;
+        this.doorRecordRepository = doorRecordRepository;
     }
 
     // ============================== ROOMS =====================================
@@ -373,11 +376,12 @@ public class RestController {
         return ResponseEntity.ok(door);
     }
 
-
     @GetMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
-    public ResponseEntity<Door> getDoor(@PathVariable Long room_id, @PathVariable Long door_id) {
+    public ResponseEntity<Door> getDoor(@PathVariable Long room_id,
+                                        @PathVariable Long door_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
-        Optional<Door> ls = room.get().getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
+        final Optional<Door> ls = room.get().getDoors().stream()
+                .filter(l -> l.getId().equals(door_id)).findFirst();
         return ResponseEntity.ok(ls.orElse(null));
     }
 
@@ -404,9 +408,34 @@ public class RestController {
         doorRepository.delete(gd);
         return ResponseEntity.ok(gd);
     }
-    /** TODO: GET OPEN DOOR
-     TODO: POST OPEN DOOR
-     */
+
+    @GetMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}/Open")
+    public ResponseEntity<DoorRecord> getDoorState(@PathVariable Long room_id,
+                                                   @PathVariable Long door_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Door> door = room.get().getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
+        final Optional<DoorRecord> dr = door.get().getLatestDoorRecord();
+
+
+        return ResponseEntity.ok(dr.isPresent() ? dr.get() : null);
+    }
+
+    @PostMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}/Open")
+    public ResponseEntity<Door> openDoor(@PathVariable Long room_id,
+                                         @PathVariable Long door_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Door> door = room.get().getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
+        if (door.isPresent()) {
+            final DoorRecord dr = new DoorRecord();
+            dr.setDoor(door.get());
+            dr.setTimestamp(LocalDateTime.now());
+            dr.setState(!(door.get().getState()));
+            door.get().addDoorRecord(dr);
+            doorRecordRepository.save(dr);
+        }
+        return ResponseEntity.ok(door.orElse(null));
+    }
+
  /*
     //CO2SENSOR
     @GetMapping("/co2sensors")
