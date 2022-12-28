@@ -51,6 +51,12 @@ public class Windo implements Openable {
         return this.windowRecords;
     }
 
+    public Optional<WindowRecord> getLatestWindowRecord() {
+        final Optional<WindowRecord> wr =
+                this.windowRecords.stream().max(Comparator.comparing(WindowRecord::getTimestamp));
+        return wr;
+    }
+
     public void addWindowRecord(WindowRecord windowRecord) {
         if (windowRecord == null) {
             return;

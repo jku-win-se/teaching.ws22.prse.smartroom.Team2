@@ -24,6 +24,7 @@ public class RestController {
     private final Co2SensorRepository co2SensorRepository;
     private final HumiditySensorRepository humiditySensorRepository;
     private final PeopleInRoomRepository peopleInRoomRepository;
+    private final WindowRecordRepository windowRecordRepository;
 
 
     public RestController(final RoomRepository roomRepository,
@@ -37,7 +38,8 @@ public class RestController {
                           final LightSourceRecordRepository lightSourceRecordRepository,
                           final PeopleInRoomRepository peopleInRoomRepository,
                           final VentilatorRecordRepository ventilatorRecordRepository,
-                          final DoorRecordRepository doorRecordRepository) {
+                          final DoorRecordRepository doorRecordRepository,
+                          WindowRecordRepository windowRecordRepository) {
         this.roomRepository = roomRepository;
         this.doorRepository = doorRepository;
         this.windoRepository = windoRepository;
@@ -50,6 +52,7 @@ public class RestController {
         this.peopleInRoomRepository = peopleInRoomRepository;
         this.ventilatorRecordRepository = ventilatorRecordRepository;
         this.doorRecordRepository = doorRecordRepository;
+        this.windowRecordRepository = windowRecordRepository;
     }
 
     // ============================== ROOMS =====================================
@@ -204,7 +207,22 @@ public class RestController {
         return ResponseEntity.ok(ls);
     }
 
-    //TODO POST SET COLOR
+    @PostMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}/SetColor")
+    public ResponseEntity<LightSource> chgLightSourceColor(@PathVariable Long room_id,
+                                                           @PathVariable Long light_id,
+                                                           @RequestParam Optional<String> hex,
+                                                           @RequestParam Optional<Integer> brightness) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<LightSource> ls = room.get()
+                .getLightSources().stream()
+                .filter(l -> l.getId().equals(light_id)).findFirst();
+        if (room.isPresent() && ls.isPresent() && hex.isPresent() && brightness.isPresent()) {
+            ls.get().setHex(hex.get());
+            ls.get().setBrightness(brightness.get());
+            lightSourceRepository.save(ls.get());
+        }
+        return ResponseEntity.ok(ls.orElse(null));
+    }
 
 
     // ============================== VENTILATORS =====================================
@@ -322,7 +340,7 @@ public class RestController {
         return ResponseEntity.ok(window);
     }
 
-    @GetMapping(value = "/rooms/{room_id:.*}/window_id/{window_id:.*}")
+    @GetMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}")
     public ResponseEntity<Windo> getWindow(@PathVariable Long room_id,
                                            @PathVariable Long window_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
@@ -330,7 +348,7 @@ public class RestController {
         return ResponseEntity.ok(window.orElse(null));
     }
 
-    @PutMapping(value = "/rooms/{room_id:.*}/window_id/{window_id:.*}")
+    @PutMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}")
     public ResponseEntity<Windo> updateWindow(@PathVariable Long room_id,
                                               @PathVariable Long window_id) {
         final Room room = roomRepository.getById(room_id);
@@ -338,7 +356,7 @@ public class RestController {
         return ResponseEntity.ok(window.orElse(null));
     }
 
-    @DeleteMapping(value = "/rooms/{room_id:.*}/window_id/{window_id:.*}")
+    @DeleteMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}")
     public ResponseEntity<Windo> deleteWindow(@PathVariable Long room_id,
                                               @PathVariable Long window_id) {
         final Room room = roomRepository.findById(room_id).orElse(null);
@@ -349,9 +367,30 @@ public class RestController {
         return ResponseEntity.ok(windo);
     }
 
-    //TODO
-    //GET OPEN WINDOW
-    //POST OPEN WINDOW
+    @GetMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}/Open")
+    public ResponseEntity<WindowRecord> getWindowState(@PathVariable Long room_id,
+                                                       @PathVariable Long window_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Windo> win = room.get().getWindows().stream().filter(l -> l.getId().equals(window_id)).findFirst();
+        final Optional<WindowRecord> wr = win.get().getLatestWindowRecord();
+        return ResponseEntity.ok(wr.isPresent() ? wr.get() : null);
+    }
+
+    @PostMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}/Open")
+    public ResponseEntity<Windo> openWindow(@PathVariable Long room_id,
+                                            @PathVariable Long window_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Windo> win = room.get().getWindows().stream().filter(l -> l.getId().equals(window_id)).findFirst();
+        if (win.isPresent()) {
+            final WindowRecord wr = new WindowRecord();
+            wr.setWindow(win.get());
+            wr.setTimestamp(LocalDateTime.now());
+            wr.setState(!(win.get().getState()));
+            win.get().addWindowRecord(wr);
+            windowRecordRepository.save(wr);
+        }
+        return ResponseEntity.ok(win.orElse(null));
+    }
 
     // ============================== DOORS =====================================
     @GetMapping(value = "/rooms/{room_id:.*}/doors")

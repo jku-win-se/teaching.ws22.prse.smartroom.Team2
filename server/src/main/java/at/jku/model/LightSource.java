@@ -66,6 +66,14 @@ public class LightSource implements Powerable {
         this.room = room;
     }
 
+    public String getHex() {
+        return this.hex;
+    }
+
+    public int getBrightness() {
+        return this.brightness;
+    }
+
     @JsonIgnore
     public boolean getState() {
         final Optional<LightSourceRecord> lsr =

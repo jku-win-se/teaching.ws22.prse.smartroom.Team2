@@ -1,5 +1,7 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +15,7 @@ public class WindowRecord {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private Windo window;
 
     private LocalDateTime timestamp;

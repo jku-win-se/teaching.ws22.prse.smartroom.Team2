@@ -130,6 +130,28 @@ public class Room {
         this.ventilators.add(ventilator);
     }
 
+    public Set<HumiditySensor> getHumiditySensors() {
+        return this.humiditySensors;
+    }
+
+    public void addHumiditySensor(HumiditySensor humiditySensor) {
+        if (humiditySensor == null) {
+            return;
+        }
+        this.humiditySensors.add(humiditySensor);
+    }
+
+    public Set<Co2Sensor> getCo2Sensors() {
+        return this.co2Sensors;
+    }
+
+    public void addCo2Sensor(Co2Sensor co2Sensor) {
+        if (co2Sensor == null) {
+            return;
+        }
+        this.co2Sensors.add(co2Sensor);
+    }
+
     public Set<TemperatureSensor> getTemperatureSensors() {
         return temperatureSensors;
     }
@@ -140,6 +162,7 @@ public class Room {
         }
         this.temperatureSensors.add(temperatureSensor);
     }
+
 
     public Set<LightSource> getLightSources() {
         return lightSources;
