@@ -1,7 +1,6 @@
 package at.jku.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -70,4 +69,7 @@ public class Co2Sensor {
         return csr.map(Co2SensorRecord::getCo2).orElse(-1.0d);
     }
 
+    public Optional<Co2SensorRecord> getLatestCo2SensorRecord() {
+        return this.co2SensorRecords.stream().max(Comparator.comparing(Co2SensorRecord::getTimestamp));
+    }
 }

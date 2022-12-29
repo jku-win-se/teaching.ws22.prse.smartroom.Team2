@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -500,6 +501,47 @@ public class RestController {
         }
         return ResponseEntity.ok(room.get().getAirQualityDevices().stream().collect(Collectors.toList()));
     }
+
+    @GetMapping(value = "/room/{room_id:.*}/AirQuality/temperature")
+    public ResponseEntity<TemperatureSensorRecord> getAirQualityTemperature(@PathVariable Long room_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        if (!room.isPresent()) {
+            return ResponseEntity.ok(null);
+        }
+
+        Optional<TemperatureSensorRecord> tsr =
+                room.get().getAirQualityDevices().stream()
+                        .map(aqd -> aqd.getTemperatureSensor().getLatestTemperatureSensorRecord())
+                        .max(Comparator.comparing(t -> t.isPresent() ? t.get().getTimestamp() : null)).get();
+        return ResponseEntity.ok(tsr.orElse(null));
+    }
+
+    @GetMapping(value = "/room/{room_id:.*}/AirQuality/humidity")
+    public ResponseEntity<HumiditySensorRecord> getAirQualityHumidity(@PathVariable Long room_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        if (!room.isPresent()) {
+            return ResponseEntity.ok(null);
+        }
+        Optional<HumiditySensorRecord> hsr =
+                room.get().getAirQualityDevices().stream()
+                        .map(aqd -> aqd.getHumiditySensor().getLatestHumiditySensorRecord())
+                        .max(Comparator.comparing(t -> t.isPresent() ? t.get().getTimestamp() : null)).get();
+        return ResponseEntity.ok(hsr.orElse(null));
+    }
+
+    @GetMapping(value = "/room/{room_id:.*}/AirQuality/co2")
+    public ResponseEntity<Co2SensorRecord> getAirQualityCo2(@PathVariable Long room_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        if (!room.isPresent()) {
+            return ResponseEntity.ok(null);
+        }
+        Optional<Co2SensorRecord> csr =
+                room.get().getAirQualityDevices().stream()
+                        .map(aqd -> aqd.getCo2Sensor().getLatestCo2SensorRecord())
+                        .max(Comparator.comparing(t -> t.isPresent() ? t.get().getTimestamp() : null)).get();
+        return ResponseEntity.ok(csr.orElse(null));
+    }
+
 
     @PostMapping(value = "/room/AirQuality")
     public ResponseEntity<AirQualityDevice> addAirQuality(@RequestParam Long room_id,

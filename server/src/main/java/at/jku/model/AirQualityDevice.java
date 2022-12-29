@@ -132,4 +132,8 @@ public class AirQualityDevice implements Powerable {
     public void togglePower() {
         this.setState(!this.getState());
     }
+
+    public Optional<AirQualityDeviceRecord> getLatestAirQualityDeviceRecord() {
+        return this.airQualityDeviceRecords.stream().max(Comparator.comparing(AirQualityDeviceRecord::getTimestamp));
+    }
 }

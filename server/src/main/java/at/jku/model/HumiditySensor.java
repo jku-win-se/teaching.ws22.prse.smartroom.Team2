@@ -1,7 +1,6 @@
 package at.jku.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -61,4 +60,9 @@ public class HumiditySensor {
                 this.humiditySensorRecords.stream().max(Comparator.comparing(HumiditySensorRecord::getTimestamp));
         return hsr.map(HumiditySensorRecord::getHumidity).orElse(-1.0d);
     }
+
+    public Optional<HumiditySensorRecord> getLatestHumiditySensorRecord() {
+        return this.humiditySensorRecords.stream().max(Comparator.comparing(HumiditySensorRecord::getTimestamp));
+    }
+
 }

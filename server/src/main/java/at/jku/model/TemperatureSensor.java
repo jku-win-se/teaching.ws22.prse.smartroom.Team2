@@ -1,7 +1,6 @@
 package at.jku.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -61,4 +60,9 @@ public class TemperatureSensor {
                 this.temperatureSensorRecords.stream().max(Comparator.comparing(TemperatureSensorRecord::getTimestamp));
         return tsr.map(TemperatureSensorRecord::getTemperature).orElse(-1.0d);
     }
+
+    public Optional<TemperatureSensorRecord> getLatestTemperatureSensorRecord() {
+        return this.temperatureSensorRecords.stream().max(Comparator.comparing(TemperatureSensorRecord::getTimestamp));
+    }
+
 }

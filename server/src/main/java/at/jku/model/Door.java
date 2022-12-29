@@ -79,9 +79,7 @@ public class Door implements Openable {
     }
 
     public Optional<DoorRecord> getLatestDoorRecord() {
-        final Optional<DoorRecord> dr =
-                this.doorRecords.stream().max(Comparator.comparing(DoorRecord::getTimestamp));
-        return dr;
+        return this.doorRecords.stream().max(Comparator.comparing(DoorRecord::getTimestamp));
     }
 
     public void setState(boolean state) {
@@ -109,10 +107,6 @@ public class Door implements Openable {
     }
 
     public void toggle() {
-        if (this.getState()) {
-            this.setState(false);
-        } else {
-            this.setState(true);
-        }
+        this.setState(!this.getState());
     }
 }

@@ -52,9 +52,7 @@ public class Windo implements Openable {
     }
 
     public Optional<WindowRecord> getLatestWindowRecord() {
-        final Optional<WindowRecord> wr =
-                this.windowRecords.stream().max(Comparator.comparing(WindowRecord::getTimestamp));
-        return wr;
+        return this.windowRecords.stream().max(Comparator.comparing(WindowRecord::getTimestamp));
     }
 
     public void addWindowRecord(WindowRecord windowRecord) {
@@ -68,10 +66,7 @@ public class Windo implements Openable {
     public boolean getState() {
         final Optional<WindowRecord> win =
                 this.windowRecords.stream().max(Comparator.comparing(WindowRecord::getTimestamp));
-        if (win != null && win.isPresent()) {
-            return win.get().getState();
-        }
-        return false;
+        return win.map(WindowRecord::getState).orElse(false);
     }
 
     public void setState(boolean state) {
@@ -99,10 +94,6 @@ public class Windo implements Openable {
     }
 
     public void toggle() {
-        if (this.getState()) {
-            this.setState(false);
-        } else {
-            this.setState(true);
-        }
+        this.setState(!this.getState());
     }
 }
