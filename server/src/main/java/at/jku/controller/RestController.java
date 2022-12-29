@@ -484,6 +484,35 @@ public class RestController {
         return ResponseEntity.ok(door.orElse(null));
     }
 
+    // ============================== AIR-QUALITY =====================================
+    /*
+    @PostMapping(value = "/Room/AirQuality")
+    public ResponseEntity<Room> addAirQuality(@RequestParam Long room_id,
+                                              @RequestParam Long ventilator_id,
+                                              @RequestParam Long ventilator_id) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Door> door = room.get().getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
+        if (door.isPresent()) {
+            final DoorRecord dr = new DoorRecord();
+            dr.setDoor(door.get());
+            dr.setTimestamp(LocalDateTime.now());
+            dr.setState(!(door.get().getState()));
+            door.get().addDoorRecord(dr);
+            doorRecordRepository.save(dr);
+        }
+        return ResponseEntity.ok(door.orElse(null));
+    }
+
+*/
+
+
+
+
+
+
+
+
+
  /*
     //CO2SENSOR
     @GetMapping("/co2sensors")
@@ -605,15 +634,6 @@ public class RestController {
         return ResponseEntity.ok(temperatureSensor);
     }
 
-
-
-
-    //------------------------------
-    //------------------------------
      */
-
-
-    //------------------------------
-    //------------------------------
 }
 

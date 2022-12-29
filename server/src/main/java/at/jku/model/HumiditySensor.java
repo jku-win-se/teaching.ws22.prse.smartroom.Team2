@@ -15,10 +15,10 @@ public class HumiditySensor implements Powerable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne //(cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    @OneToOne //(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "airqualitydevice_id", referencedColumnName = "id")
     @JsonBackReference
-    private Room room;
+    private AirQualityDevice airQualityDevice;
 
     @OneToMany(mappedBy = "humiditySensor", cascade = CascadeType.ALL)
     private List<HumiditySensorRecord> humiditySensorRecords;
@@ -35,12 +35,12 @@ public class HumiditySensor implements Powerable {
         this.id = id;
     }
 
-    public Room getRoom() {
-        return room;
+    public AirQualityDevice getAirQualityDevice() {
+        return this.airQualityDevice;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setAirQualityDevice(AirQualityDevice airQualityDevice) {
+        this.airQualityDevice = airQualityDevice;
     }
 
     @JsonIgnore

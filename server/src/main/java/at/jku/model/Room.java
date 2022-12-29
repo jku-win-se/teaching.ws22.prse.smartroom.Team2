@@ -25,24 +25,33 @@ public class Room {
     private Set<Windo> windows;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<Ventilator> ventilators;
+    /*
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<TemperatureSensor> temperatureSensors;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<Co2Sensor> co2Sensors;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<HumiditySensor> humiditySensors;
+    */
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<LightSource> lightSources;
+
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<PeopleInRoom> peopleInRooms;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private Set<AirQualityDevice> airQualityDevices;
 
     public Room() {
         this.doors = new HashSet<>();
         this.windows = new HashSet<>();
         this.ventilators = new HashSet<>();
+        /*
         this.temperatureSensors = new HashSet<>();
         this.co2Sensors = new HashSet<>();
         this.humiditySensors = new HashSet<>();
+        */
+        this.airQualityDevices = new HashSet<>();
         this.lightSources = new HashSet<>();
         this.peopleInRooms = new ArrayList<>();
     }
@@ -52,9 +61,12 @@ public class Room {
         this.doors = new HashSet<>();
         this.windows = new HashSet<>();
         this.ventilators = new HashSet<>();
+        /*
         this.temperatureSensors = new HashSet<>();
         this.co2Sensors = new HashSet<>();
         this.humiditySensors = new HashSet<>();
+         */
+        this.airQualityDevices = new HashSet<>();
         this.lightSources = new HashSet<>();
         this.peopleInRooms = new ArrayList<>();
     }
@@ -130,6 +142,7 @@ public class Room {
         this.ventilators.add(ventilator);
     }
 
+    /*
     public Set<HumiditySensor> getHumiditySensors() {
         return this.humiditySensors;
     }
@@ -162,6 +175,7 @@ public class Room {
         }
         this.temperatureSensors.add(temperatureSensor);
     }
+     */
 
 
     public Set<LightSource> getLightSources() {
@@ -181,21 +195,21 @@ public class Room {
     }
 
     public double getTemperature() {
-        return temperatureSensors.stream()
-                .mapToDouble(TemperatureSensor::getTemperature)
+        return airQualityDevices.stream()
+                .mapToDouble(AirQualityDevice::getTemperature)
                 .max().orElse(-273.15d);
 
     }
 
     public double getHumidity() {
-        return humiditySensors.stream()
-                .mapToDouble(HumiditySensor::getHumidity)
+        return airQualityDevices.stream()
+                .mapToDouble(AirQualityDevice::getHumidity)
                 .max().orElse(-1.0d);
     }
 
     public double getCo2() {
-        return co2Sensors.stream()
-                .mapToDouble(Co2Sensor::getCo2)
+        return airQualityDevices.stream()
+                .mapToDouble(AirQualityDevice::getCo2)
                 .max().orElse(-1.0d);
     }
 }
