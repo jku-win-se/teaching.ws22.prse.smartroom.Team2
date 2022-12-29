@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
-public class HumiditySensor implements Powerable {
+public class HumiditySensor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +19,6 @@ public class HumiditySensor implements Powerable {
     private Long id;
 
     @OneToOne //(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "airqualitydevice_id", referencedColumnName = "id")
     @JsonBackReference
     private AirQualityDevice airQualityDevice;
 
@@ -43,48 +45,16 @@ public class HumiditySensor implements Powerable {
         this.airQualityDevice = airQualityDevice;
     }
 
-    @JsonIgnore
-    public boolean getState() {
-        // TODO get state from latest db entry for this device
-        return false;
-    }
-
-    public void setState(boolean state) {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
-    }
-
-    @JsonIgnore
-    public boolean isOn() {
-        // TODO get state from latest db entry for this device
-        return false;
-    }
-
-    public void powerOn() {
-        if (!this.isOn()) {
-            this.togglePower();
-        }
-    }
-
-    public void powerOff() {
-        if (this.isOn()) {
-            this.togglePower();
-        }
-    }
-
-    public void togglePower() {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
-    }
-
     public void setHumidity(double humidity) {
-        // TODO create new Record (and therefore db entry) for temperature
+        HumiditySensorRecord hsr = new HumiditySensorRecord();
+        hsr.setTimestamp(LocalDateTime.now());
+        hsr.setHumidity(humidity);
+        this.humiditySensorRecords.add(hsr);
     }
 
     public double getHumidity() {
-        // Todo get value of newest record db entry and return
-        return 0;
+        final Optional<HumiditySensorRecord> hsr =
+                this.humiditySensorRecords.stream().max(Comparator.comparing(HumiditySensorRecord::getTimestamp));
+        return hsr.map(HumiditySensorRecord::getHumidity).orElse(-1.0d);
     }
 }

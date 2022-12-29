@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
-public class Co2Sensor implements Powerable {
+public class Co2Sensor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +19,6 @@ public class Co2Sensor implements Powerable {
     private Long id;
 
     @OneToOne //(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "airqualitydevice_id", referencedColumnName = "id")
     @JsonBackReference
     private AirQualityDevice airQualityDevice;
 
@@ -43,48 +45,25 @@ public class Co2Sensor implements Powerable {
         this.airQualityDevice = airQualityDevice;
     }
 
-    @JsonIgnore
-    public boolean getState() {
-        // TODO get state from latest db entry for this device
-        return false;
+    public List<Co2SensorRecord> getCo2SensorRecords() {
+        return co2SensorRecords;
     }
 
-    public void setState(boolean state) {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
-    }
-
-    @JsonIgnore
-    public boolean isOn() {
-        // TODO get state from latest db entry for this device
-        return false;
-    }
-
-    public void powerOn() {
-        if (!this.isOn()) {
-            this.togglePower();
-        }
-    }
-
-    public void powerOff() {
-        if (this.isOn()) {
-            this.togglePower();
-        }
-    }
-
-    public void togglePower() {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
+    public void setCo2SensorRecords(List<Co2SensorRecord> co2SensorRecords) {
+        this.co2SensorRecords = co2SensorRecords;
     }
 
     public void setCo2(double co2) {
-        // TODO create new Record (and therefore db entry) for temperature
+        Co2SensorRecord csr = new Co2SensorRecord();
+        csr.setTimestamp(LocalDateTime.now());
+        csr.setCo2(co2);
+        this.co2SensorRecords.add(csr);
     }
 
     public double getCo2() {
-        // Todo get value of newest record db entry and return
-        return 0;
+        final Optional<Co2SensorRecord> csr =
+                this.co2SensorRecords.stream().max(Comparator.comparing(Co2SensorRecord::getTimestamp));
+        return csr.map(Co2SensorRecord::getCo2).orElse(-1.0d);
     }
+
 }

@@ -19,8 +19,6 @@ public class Co2SensorRecord {
 
     private LocalDateTime timestamp;
 
-    private boolean state;
-
     private double co2;
 
     public Co2SensorRecord() {
@@ -32,15 +30,6 @@ public class Co2SensorRecord {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-
-    public boolean getState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
     }
 
     public double getCo2() {

@@ -19,8 +19,6 @@ public class TemperatureSensorRecord {
 
     private LocalDateTime timestamp;
 
-    private boolean state;
-
     private double temperature;
 
     public TemperatureSensorRecord() {
@@ -32,15 +30,6 @@ public class TemperatureSensorRecord {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-
-    public boolean getState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
     }
 
     public double getTemperature() {

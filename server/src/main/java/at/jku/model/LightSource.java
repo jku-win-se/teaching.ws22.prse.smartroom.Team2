@@ -88,7 +88,6 @@ public class LightSource implements Powerable {
         this.lightSourceRecords.add(lsr);
     }
 
-    @JsonIgnore
     public List<LightSourceRecord> getLightSourceRecords() {
         return this.lightSourceRecords;
     }
@@ -100,22 +99,26 @@ public class LightSource implements Powerable {
         this.lightSourceRecords.add(lightSourceRecord);
     }
 
+    @Override
     public boolean isOn() {
         return this.getState();
     }
 
+    @Override
     public void powerOn() {
         if (!this.isOn()) {
             this.togglePower();
         }
     }
 
+    @Override
     public void powerOff() {
         if (this.isOn()) {
             this.togglePower();
         }
     }
 
+    @Override
     public void togglePower() {
         this.setState(!this.getState());
     }
