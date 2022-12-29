@@ -45,6 +45,10 @@ public class TemperatureSensor {
         this.airQualityDevice = airQualityDevice;
     }
 
+    public void addTemperatureSensorRecord(TemperatureSensorRecord temperatureSensorRecord) {
+        this.temperatureSensorRecords.add(temperatureSensorRecord);
+    }
+
     public void setTemperature(double temperature) {
         TemperatureSensorRecord tsr = new TemperatureSensorRecord();
         tsr.setTimestamp(LocalDateTime.now());

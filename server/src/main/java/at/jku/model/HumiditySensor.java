@@ -45,6 +45,10 @@ public class HumiditySensor {
         this.airQualityDevice = airQualityDevice;
     }
 
+    public void addHumiditySensorRecord(HumiditySensorRecord humiditySensorRecord) {
+        this.humiditySensorRecords.add(humiditySensorRecord);
+    }
+
     public void setHumidity(double humidity) {
         HumiditySensorRecord hsr = new HumiditySensorRecord();
         hsr.setTimestamp(LocalDateTime.now());

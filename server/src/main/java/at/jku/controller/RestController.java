@@ -28,6 +28,8 @@ public class RestController {
     private final HumiditySensorRecordRepository humiditySensorRecordRepository;
     private final PeopleInRoomRepository peopleInRoomRepository;
     private final WindowRecordRepository windowRecordRepository;
+    private final AirQualityDeviceRepository airQualityDeviceRepository;
+    private final AirQualityDeviceRecordRepository airQualityDeviceRecordRepository;
 
 
     public RestController(final RoomRepository roomRepository,
@@ -45,7 +47,9 @@ public class RestController {
                           final WindowRecordRepository windowRecordRepository,
                           final TemperatureSensorRecordRepository temperatureSensorRecordRepository,
                           final Co2SensorRecordRepository co2SensorRecordRepository,
-                          final HumiditySensorRecordRepository humiditySensorRecordRepository) {
+                          final HumiditySensorRecordRepository humiditySensorRecordRepository,
+                          final AirQualityDeviceRepository airQualityDeviceRepository,
+                          final AirQualityDeviceRecordRepository airQualityDeviceRecordRepository) {
         this.roomRepository = roomRepository;
         this.doorRepository = doorRepository;
         this.windoRepository = windoRepository;
@@ -62,6 +66,8 @@ public class RestController {
         this.temperatureSensorRecordRepository = temperatureSensorRecordRepository;
         this.co2SensorRecordRepository = co2SensorRecordRepository;
         this.humiditySensorRecordRepository = humiditySensorRecordRepository;
+        this.airQualityDeviceRepository = airQualityDeviceRepository;
+        this.airQualityDeviceRecordRepository = airQualityDeviceRecordRepository;
     }
 
     // ============================== ROOMS =====================================
@@ -485,155 +491,78 @@ public class RestController {
     }
 
     // ============================== AIR-QUALITY =====================================
-    /*
-    @PostMapping(value = "/Room/AirQuality")
-    public ResponseEntity<Room> addAirQuality(@RequestParam Long room_id,
-                                              @RequestParam Long ventilator_id,
-                                              @RequestParam Long ventilator_id) {
+
+    @GetMapping(value = "/room/{room_id:.*}/AirQuality")
+    public ResponseEntity<List<AirQualityDevice>> getAirQuality(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Door> door = room.get().getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
-        if (door.isPresent()) {
-            final DoorRecord dr = new DoorRecord();
-            dr.setDoor(door.get());
-            dr.setTimestamp(LocalDateTime.now());
-            dr.setState(!(door.get().getState()));
-            door.get().addDoorRecord(dr);
-            doorRecordRepository.save(dr);
+        if (!room.isPresent()) {
+            return ResponseEntity.ok(null);
         }
-        return ResponseEntity.ok(door.orElse(null));
+        return ResponseEntity.ok(room.get().getAirQualityDevices().stream().collect(Collectors.toList()));
     }
 
-*/
-
-
-
-
-
-
-
-
-
- /*
-    //CO2SENSOR
-    @GetMapping("/co2sensors")
-    public ResponseEntity<List<Co2Sensor>> getAllCo2Sensors() {
-        return ResponseEntity.ok(co2SensorRepository.findAll());
-    }
-
-    @PostMapping("/co2sensors")
-    public ResponseEntity<Co2Sensor> addCo2Sensor() {
+    @PostMapping(value = "/room/AirQuality")
+    public ResponseEntity<AirQualityDevice> addAirQuality(@RequestParam Long room_id,
+                                                          @RequestParam Optional<Double> co2,
+                                                          @RequestParam Optional<Double> humidity,
+                                                          @RequestParam Optional<Double> temperature) {
+        final Optional<Room> room = roomRepository.findById(room_id);
+        if (!room.isPresent()) {
+            return ResponseEntity.ok(null);
+        }
+        final AirQualityDevice airQualityDevice = new AirQualityDevice();
+        final AirQualityDeviceRecord airQualityDeviceRecord = new AirQualityDeviceRecord();
         final Co2Sensor co2Sensor = new Co2Sensor();
-        co2SensorRepository.save(co2Sensor);
-        return ResponseEntity.ok(co2Sensor);
-    }
-
-    @RequestMapping(value = "/co2sensors/{co2sensor_id:.*}", method = RequestMethod.GET)
-    public ResponseEntity<Co2Sensor> getCo2Sensor(@PathVariable Long co2sensor_id) {
-        return ResponseEntity.ok(co2SensorRepository.findById(co2sensor_id).orElse(null));
-    }
-
-    @RequestMapping(value = "/co2sensors/{co2sensor_id:.*}", method = RequestMethod.PUT)
-    public ResponseEntity<Co2Sensor> updateCo2Sensor(@PathVariable Long co2sensor_id,
-                                             @RequestParam Optional<Room> room) {
-        Co2Sensor co2Sensor = co2SensorRepository.findById(co2sensor_id).orElse(null);
-        if (co2Sensor != null) {
-            if (room.isPresent()) {
-                co2Sensor.setRoom(room.get());
-            }
-        }
-        co2SensorRepository.save(co2Sensor);
-        return ResponseEntity.ok(co2Sensor);
-    }
-
-    @RequestMapping(value = "/co2sensors/{co2sensor_id:.*}", method = RequestMethod.DELETE)
-    public ResponseEntity<Co2Sensor> deleteCo2Sensor(@PathVariable Long co2sensor_id) {
-        Co2Sensor co2Sensor = co2SensorRepository.findById(co2sensor_id).orElse(null);
-        co2SensorRepository.delete(co2Sensor);
-        return ResponseEntity.ok(co2Sensor);
-    }
-
-
-    //------------------------------
-    //------------------------------
-
-    //HUMIDITYSENSOR
-    @GetMapping("/humiditysensors")
-    public ResponseEntity<List<HumiditySensor>> getAllHumiditySensors() {
-        return ResponseEntity.ok(humiditySensorRepository.findAll());
-    }
-
-    @PostMapping("/humiditysensors")
-    public ResponseEntity<HumiditySensor> addHumiditySensors() {
-        final HumiditySensor humiditySensor = new HumiditySensor();
-        humiditySensorRepository.save(humiditySensor);
-        return ResponseEntity.ok(humiditySensor);
-    }
-
-    @RequestMapping(value = "/humiditysensors/{humiditysensor_id:.*}", method = RequestMethod.GET)
-    public ResponseEntity<HumiditySensor> getHumiditySensor(@PathVariable Long humiditysensor_id) {
-        return ResponseEntity.ok(humiditySensorRepository.findById(humiditysensor_id).orElse(null));
-    }
-
-    @RequestMapping(value = "/humiditysensors/{humiditysensor_id:.*}", method = RequestMethod.PUT)
-    public ResponseEntity<HumiditySensor> updateHumiditySensor(@PathVariable Long humiditysensor_id,
-                                                     @RequestParam Optional<Room> room) {
-        HumiditySensor humiditySensor = humiditySensorRepository.findById(humiditysensor_id).orElse(null);
-        if (humiditySensor != null) {
-            if (room.isPresent()) {
-                humiditySensor.setRoom(room.get());
-            }
-        }
-        humiditySensorRepository.save(humiditySensor);
-        return ResponseEntity.ok(humiditySensor);
-    }
-
-    @RequestMapping(value = "/humiditysensors/{humiditysensor_id:.*}", method = RequestMethod.DELETE)
-    public ResponseEntity<HumiditySensor> deleteHumiditySensor(@PathVariable Long humiditysensor_id) {
-        HumiditySensor humiditySensor = humiditySensorRepository.findById(humiditysensor_id).orElse(null);
-        humiditySensorRepository.delete(humiditySensor);
-        return ResponseEntity.ok(humiditySensor);
-    }
-
-    //------------------------------
-    //------------------------------
-
-    //TEMPERATURESENSORS
-    @GetMapping("/temperaturesensors")
-    public ResponseEntity<List<TemperatureSensor>> getAllTemperatureSensors() {
-        return ResponseEntity.ok(temperatureSensorRepository.findAll());
-    }
-
-    @PostMapping("/temperaturesensors")
-    public ResponseEntity<TemperatureSensor> addTemperatureSensor() {
+        final Co2SensorRecord co2SensorRecord = new Co2SensorRecord();
         final TemperatureSensor temperatureSensor = new TemperatureSensor();
-        temperatureSensorRepository.save(temperatureSensor);
-        return ResponseEntity.ok(temperatureSensor);
-    }
-    @RequestMapping(value = "/temperaturesensors/{temperatursensor_id:.*}", method = RequestMethod.GET)
-    public ResponseEntity<TemperatureSensor> getTemperaturSensor(@PathVariable Long temperatursensor_id) {
-        return ResponseEntity.ok(temperatureSensorRepository.findById(temperatursensor_id).orElse(null));
-    }
+        final TemperatureSensorRecord temperatureSensorRecord = new TemperatureSensorRecord();
+        final HumiditySensor humiditySensor = new HumiditySensor();
+        final HumiditySensorRecord humiditySensorRecord = new HumiditySensorRecord();
 
-    @RequestMapping(value = "/humiditysensors/{humiditysensor_id:.*}", method = RequestMethod.PUT)
-    public ResponseEntity<TemperatureSensor> updateTemperaturSensor(@PathVariable Long temperatursensor_id,
-                                                               @RequestParam Optional<Room> room) {
-        TemperatureSensor temperatureSensor = temperatureSensorRepository.findById(temperatursensor_id).orElse(null);
-        if (temperatureSensor != null) {
-            if (room.isPresent()) {
-                temperatureSensor.setRoom(room.get());
-            }
+        airQualityDevice.setRoom(room.get());
+        airQualityDevice.setCo2Sensor(co2Sensor);
+        airQualityDevice.setHumiditySensor(humiditySensor);
+        airQualityDevice.setTemperatureSensor(temperatureSensor);
+        airQualityDeviceRecord.setAirQualityDevice(airQualityDevice);
+        airQualityDeviceRecord.setState(true);
+        airQualityDeviceRecord.setTimestamp(LocalDateTime.now());
+
+        co2Sensor.setAirQualityDevice(airQualityDevice);
+        temperatureSensor.setAirQualityDevice(airQualityDevice);
+        humiditySensor.setAirQualityDevice(airQualityDevice);
+
+        co2SensorRecord.setCo2Sensor(co2Sensor);
+        co2SensorRecord.setTimestamp(LocalDateTime.now());
+        if (co2.isPresent()) {
+            co2SensorRecord.setCo2(co2.get());
         }
+
+        temperatureSensorRecord.setTemperatureSensor(temperatureSensor);
+        temperatureSensorRecord.setTimestamp(LocalDateTime.now());
+        if (temperature.isPresent()) {
+            temperatureSensorRecord.setTemperature(temperature.get());
+        }
+
+        humiditySensorRecord.setHumiditySensor(humiditySensor);
+        humiditySensorRecord.setTimestamp(LocalDateTime.now());
+        if (humidity.isPresent()) {
+            humiditySensorRecord.setHumidity(humidity.get());
+        }
+
+        co2Sensor.addCo2SensorRecord(co2SensorRecord);
+        temperatureSensor.addTemperatureSensorRecord(temperatureSensorRecord);
+        humiditySensor.addHumiditySensorRecord(humiditySensorRecord);
+
+        airQualityDeviceRepository.save(airQualityDevice);
+        airQualityDeviceRecordRepository.save(airQualityDeviceRecord);
+        co2SensorRepository.save(co2Sensor);
+        co2SensorRecordRepository.save(co2SensorRecord);
         temperatureSensorRepository.save(temperatureSensor);
-        return ResponseEntity.ok(temperatureSensor);
+        temperatureSensorRecordRepository.save(temperatureSensorRecord);
+        humiditySensorRepository.save(humiditySensor);
+        humiditySensorRecordRepository.save(humiditySensorRecord);
+        return ResponseEntity.ok(airQualityDevice);
     }
 
-    @RequestMapping(value = "/humiditysensors/{humiditysensor_id:.*}", method = RequestMethod.DELETE)
-    public ResponseEntity<TemperatureSensor> deleteTemperaturSensor(@PathVariable Long temperatursensor_id) {
-        TemperatureSensor temperatureSensor = temperatureSensorRepository.findById(temperatursensor_id).orElse(null);
-        temperatureSensorRepository.delete(temperatureSensor);
-        return ResponseEntity.ok(temperatureSensor);
-    }
 
-     */
 }
-

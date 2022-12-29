@@ -53,6 +53,10 @@ public class Co2Sensor {
         this.co2SensorRecords = co2SensorRecords;
     }
 
+    public void addCo2SensorRecord(Co2SensorRecord co2SensorRecord) {
+        this.co2SensorRecords.add(co2SensorRecord);
+    }
+
     public void setCo2(double co2) {
         Co2SensorRecord csr = new Co2SensorRecord();
         csr.setTimestamp(LocalDateTime.now());

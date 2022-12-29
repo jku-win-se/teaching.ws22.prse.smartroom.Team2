@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,7 @@ public class AirQualityDevice implements Powerable {
     private HumiditySensor humiditySensor;
 
     public AirQualityDevice() {
+        this.airQualityDeviceRecords = new ArrayList<>();
 
     }
 
