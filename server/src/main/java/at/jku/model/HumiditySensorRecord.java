@@ -1,5 +1,7 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,6 +14,7 @@ public class HumiditySensorRecord {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private HumiditySensor humiditySensor;
 
     private LocalDateTime timestamp;

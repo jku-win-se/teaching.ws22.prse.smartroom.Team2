@@ -78,10 +78,7 @@ public class LightSource implements Powerable {
     public boolean getState() {
         final Optional<LightSourceRecord> lsr =
                 this.lightSourceRecords.stream().max(Comparator.comparing(LightSourceRecord::getTimestamp));
-        if (lsr.isPresent()) {
-            return lsr.get().getState();
-        }
-        return false;
+        return lsr.map(LightSourceRecord::getState).orElse(false);
     }
 
     public void setState(boolean state) {

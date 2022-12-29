@@ -21,8 +21,11 @@ public class RestController {
     private final VentilatorRepository ventilatorRepository;
     private final VentilatorRecordRepository ventilatorRecordRepository;
     private final TemperatureSensorRepository temperatureSensorRepository;
+    private final TemperatureSensorRecordRepository temperatureSensorRecordRepository;
     private final Co2SensorRepository co2SensorRepository;
+    private final Co2SensorRecordRepository co2SensorRecordRepository;
     private final HumiditySensorRepository humiditySensorRepository;
+    private final HumiditySensorRecordRepository humiditySensorRecordRepository;
     private final PeopleInRoomRepository peopleInRoomRepository;
     private final WindowRecordRepository windowRecordRepository;
 
@@ -39,7 +42,10 @@ public class RestController {
                           final PeopleInRoomRepository peopleInRoomRepository,
                           final VentilatorRecordRepository ventilatorRecordRepository,
                           final DoorRecordRepository doorRecordRepository,
-                          WindowRecordRepository windowRecordRepository) {
+                          final WindowRecordRepository windowRecordRepository,
+                          final TemperatureSensorRecordRepository temperatureSensorRecordRepository,
+                          final Co2SensorRecordRepository co2SensorRecordRepository,
+                          final HumiditySensorRecordRepository humiditySensorRecordRepository) {
         this.roomRepository = roomRepository;
         this.doorRepository = doorRepository;
         this.windoRepository = windoRepository;
@@ -53,6 +59,9 @@ public class RestController {
         this.ventilatorRecordRepository = ventilatorRecordRepository;
         this.doorRecordRepository = doorRecordRepository;
         this.windowRecordRepository = windowRecordRepository;
+        this.temperatureSensorRecordRepository = temperatureSensorRecordRepository;
+        this.co2SensorRecordRepository = co2SensorRecordRepository;
+        this.humiditySensorRecordRepository = humiditySensorRecordRepository;
     }
 
     // ============================== ROOMS =====================================
