@@ -7,7 +7,6 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -140,98 +139,6 @@
                   <Insets left="50.0" top="20.0" />
                </VBox.margin>
             </Label>
-            <HBox prefHeight="43.0" prefWidth="742.0">
-               <children>
-                  <Label maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="130.0" text="Light Bulb #1">
-                     <HBox.margin>
-                        <Insets left="50.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@lightbulb.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Label>
-                  <Slider blockIncrement="1.0" majorTickUnit="1.0" max="1.0" maxWidth="-Infinity" minWidth="-Infinity" minorTickCount="0" prefHeight="15.0" prefWidth="40.0" snapToTicks="true">
-                     <HBox.margin>
-                        <Insets top="12.0" />
-                     </HBox.margin>
-                  </Slider>
-                  <Label layoutX="60.0" layoutY="20.0" prefWidth="120.0" text="Door #1">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@door.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <HBox.margin>
-                        <Insets left="60.0" top="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Slider blockIncrement="1.0" layoutX="172.0" layoutY="22.0" majorTickUnit="1.0" max="1.0" maxWidth="-Infinity" minWidth="-Infinity" minorTickCount="0" prefHeight="15.0" prefWidth="40.0" snapToTicks="true">
-                     <HBox.margin>
-                        <Insets top="12.0" />
-                     </HBox.margin>
-                  </Slider>
-               </children>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="67.0" prefHeight="43.0" prefWidth="742.0">
-               <children>
-                  <Label prefWidth="130.0" text="Ventilator #1">
-                     <HBox.margin>
-                        <Insets left="50.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@fan.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Label>
-                  <Slider blockIncrement="1.0" majorTickUnit="1.0" max="1.0" maxWidth="-Infinity" minWidth="-Infinity" minorTickCount="0" prefHeight="15.0" prefWidth="40.0" snapToTicks="true">
-                     <HBox.margin>
-                        <Insets top="12.0" />
-                     </HBox.margin>
-                  </Slider>
-                  <Label layoutX="60.0" layoutY="20.0" prefWidth="120.0" text="Window #1">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@window.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <HBox.margin>
-                        <Insets left="60.0" top="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Slider blockIncrement="1.0" layoutX="172.0" layoutY="22.0" majorTickUnit="1.0" max="1.0" maxWidth="-Infinity" minWidth="-Infinity" minorTickCount="0" prefHeight="15.0" prefWidth="40.0" snapToTicks="true">
-                     <HBox.margin>
-                        <Insets top="12.0" />
-                     </HBox.margin>
-                  </Slider>
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </HBox>
-            <VBox prefHeight="200.0" prefWidth="641.0" />
          </children>
          <BorderPane.margin>
             <Insets bottom="20.0" top="-900.0" />
@@ -308,11 +215,14 @@
                <children>
                   <Label alignment="TOP_LEFT" prefHeight="26.0" prefWidth="403.0" text="Room temperature">
                      <HBox.margin>
-                        <Insets left="225.0" />
+                        <Insets left="225.0" top="20.0" />
                      </HBox.margin>
                      <font>
                         <Font size="20.0" />
                      </font>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
                   </Label>
                   <Label alignment="TOP_LEFT" layoutX="235.0" layoutY="10.0" prefHeight="26.0" prefWidth="200.0" text="Co2 Level">
                      <font>
