@@ -199,6 +199,7 @@ public class AllRoomsController extends APIClient implements Initializable {
         hb.getChildren().add(label);
 
         vb.getChildren().add(hb);
+
         for (int i = 0; i < ja.length(); i++) {
 
                     JSONObject json = ja.getJSONObject(i);
@@ -238,8 +239,8 @@ public class AllRoomsController extends APIClient implements Initializable {
                     label.setPrefWidth(50);
                     hb.getChildren().add(label);
 
-            ivTrash.setId("trash" + i);
-            ivTrash.setOnMouseClicked(event -> {
+                        ivTrash.setId("trash" + i);
+                        ivTrash.setOnMouseClicked(event -> {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setTitle("Delete room");
                         alert.setHeaderText("You are about to delete this room.");
