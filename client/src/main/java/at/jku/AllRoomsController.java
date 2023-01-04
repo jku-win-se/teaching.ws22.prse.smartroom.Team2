@@ -2,6 +2,7 @@ package at.jku;
 
 import com.opencsv.CSVWriter;
 
+import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -55,10 +56,6 @@ public class AllRoomsController extends APIClient implements Initializable {
     private void onActionImport() throws IOException {
         DigitalTwinApp.setRoot("import");
     }
-    @FXML
-    private void onActionEdit() throws IOException {
-        DigitalTwinApp.setRoot("editroom");
-    }
 
     @FXML
     private void onActionCheckBox() throws IOException {
@@ -87,10 +84,14 @@ public class AllRoomsController extends APIClient implements Initializable {
 
         for (Node node :
                 vb.getChildren()) {
+
             if (node.getId() != null && node.getId().equals("btnSelectAll")) {
                 break;
             }
-            ((CheckBox) ((((HBox) node).getChildren()).get(2))).setVisible(true);
+
+            if (node.getId() == null) {
+                (((HBox) node).getChildren()).get(5).setVisible(true);
+            }
         }
 
     }
@@ -100,11 +101,7 @@ public class AllRoomsController extends APIClient implements Initializable {
         //TODO: View Room
     }
 
-    @FXML
-    CheckBox checkbox1;
 
-    @FXML
-    CheckBox checkbox2;
 
     @FXML
     TextField textField;
@@ -127,10 +124,16 @@ public class AllRoomsController extends APIClient implements Initializable {
 
         for (Node node :
                 vb.getChildren()) {
+
             if (node.getId() != null && node.getId().equals("btnSelectAll")) {
                 break;
             }
-            ((CheckBox) ((((HBox) node).getChildren()).get(2))).setSelected(true);
+
+
+            if (node.getId() == null) {
+               CheckBox temp = (CheckBox) ((HBox) node).getChildren().get(5);
+               temp.setSelected(true);
+            }
         }
     }
 
@@ -172,25 +175,26 @@ public class AllRoomsController extends APIClient implements Initializable {
     @FXML
     BorderPane bp;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
-        vb = new VBox();
-        vb.setId("mainVb");
-        bp.setMargin(vb, new Insets(100, 0, 0, 20));
+      // bp.setMargin(vb, new Insets(100, 0, 0, 20));
+      // vb.setPrefWidth(1000);
 
         HttpResponse res = getRooms();
         JSONArray ja = new JSONArray(res.body().toString());
         Label label = new Label("ID");
         label.setFont(new Font("System", 20));
         label.setPrefWidth(30);
-        HBox hb = new HBox();
-        hb.getChildren().add(label);
 
+        HBox hb = new HBox();
+        hb.setId("idTitles");
+        hb.getChildren().add(label);
+        System.out.println(hb.getId());
         label = new Label("Name");
         label.setFont(new Font("System", 20));
-        label.setPrefWidth(90);
+        label.setPrefWidth(140);
         hb.getChildren().add(label);
 
         label = new Label("Size");
@@ -226,17 +230,17 @@ public class AllRoomsController extends APIClient implements Initializable {
                     label = new Label(id+"");
                     label.setFont(new Font("System", 20));
                     label.setPrefWidth(30);
-                    hb = new HBox();
+                     hb = new HBox();
                     hb.getChildren().add(label);
 
                     label = new Label(name);
                     label.setFont(new Font("System", 20));
-                    label.setPrefWidth(100);
+                    label.setPrefWidth(140);
                     hb.getChildren().add(label);
 
                     label = new Label(size +"");
                     label.setFont(new Font("System", 20));
-                    label.setPrefWidth(50);
+                    label.setPrefWidth(45);
                     hb.getChildren().add(label);
 
                         ivTrash.setId("trash" + i);
@@ -269,15 +273,24 @@ public class AllRoomsController extends APIClient implements Initializable {
 
                 }
             });
+                    System.out.println(hb.getId());
                     hb.getChildren().add(ivTrash);
                     hb.getChildren().add(ivSearch);
                     hb.getChildren().add(cb);
 
                     hb.setMargin(ivTrash, new Insets(0, 0, 5, 10));
                     hb.setMargin(ivSearch, new Insets(0, 0, 5, 10));
-                    hb.setMargin(cb, new Insets(5, 0, 0, 0));
+                    hb.setMargin(cb, new Insets(0, 0, 5, 10));
                     vb.getChildren().add(hb);
                 }
+
+
+
+        vb.getChildren().remove(btnSelectAll);
+        vb.getChildren().remove(textField);
+        vb.getChildren().remove(btnExportOK);
+
+
         vb.getChildren().add(btnSelectAll);
         vb.getChildren().add(textField);
         vb.getChildren().add(btnExportOK);

@@ -103,7 +103,7 @@
       </VBox>
    </top>
    <center>
-      <VBox prefHeight="817.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="vb" minWidth="-Infinity" prefHeight="693.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnSelectAll" mnemonicParsing="false" onAction="#onActionSelectAll" text="Select All" visible="false">
                <VBox.margin>
@@ -122,7 +122,7 @@
             </Button>
          </children>
          <BorderPane.margin>
-            <Insets top="200.0" />
+            <Insets left="20.0" top="100.0" />
          </BorderPane.margin>
       </VBox>
    </center>
