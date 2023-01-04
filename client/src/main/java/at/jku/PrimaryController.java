@@ -288,8 +288,8 @@ public class PrimaryController extends APIClient implements Initializable  {
                     }});
             }
 
-            JSONObject jsonDevice = new JSONObject(respDevice.body().toString());
-            System.out.println("JSON: " + jsonDevice);
+          //  JSONObject jsonDevice = new JSONObject(respDevice.body().toString());
+         //   System.out.println("JSON: " + jsonDevice);
             slider.setPrefWidth(40);
             slider.setPrefHeight(15);
             slider.setMinorTickCount(0);
