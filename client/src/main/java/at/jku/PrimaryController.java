@@ -24,7 +24,6 @@ import javafx.scene.text.Font;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static at.jku.Device.FAN;
 
 
 public class PrimaryController extends APIClient implements Initializable  {
@@ -183,7 +182,6 @@ public class PrimaryController extends APIClient implements Initializable  {
         HBox hb = new HBox();
 
         Slider slider;
-        Device type = Device.DOOR;
         boolean status = false;
         HttpResponse respDevice = null;
 
@@ -208,13 +206,14 @@ public class PrimaryController extends APIClient implements Initializable  {
                     public void changed(ObservableValue<? extends Number> obs, Number oldValue, Number newValue) {
 
                         if (oldValue.intValue() !=  newValue.intValue()) {
-                            postDoorState(room_id, (long) temp);
+                            HttpResponse newRes = postDoorState(1L, (long) 1);
                             System.out.println("Door changed");
+                            System.out.println(newRes.body().toString());
+                            newRes = getDoorState(1L,1L);
+                            System.out.println(newRes.body().toString());
                         }
                     }});
-
             }
-
             if (!addedElement && tempNoWindows > 0) {
                 int temp = noWindows - tempNoWindows + 1;
                 lbl = new Label("Window #" + temp);
@@ -228,7 +227,8 @@ public class PrimaryController extends APIClient implements Initializable  {
                     public void changed(ObservableValue<? extends Number> obs, Number oldValue, Number newValue) {
 
                         if (oldValue.intValue() !=  newValue.intValue()) {
-                        postWindowState(room_id, (long) temp);
+                        HttpResponse newRes = postWindowState(1L, 1L);
+                        System.out.println(newRes.body().toString());
                         System.out.println("Window changed");}
                     }});
             }
@@ -248,13 +248,16 @@ public class PrimaryController extends APIClient implements Initializable  {
 
                         if (oldValue.intValue() > newValue.intValue()) {
                             System.out.println("Turn off light source");
-                            postLightSourceActivation(1L, 1L, false);
+                            HttpResponse res = postLightSourceActivation(1L, 1L, false);
+                            System.out.println(res.body().toString());
+
 
                         }
                         else if (oldValue.intValue() < newValue.intValue())
                         {
                             System.out.println("Turn on light source!");
-                            postLightSourceActivation(1L, 1L, true);
+                            HttpResponse res = postLightSourceActivation(1L, 1L, true);
+                            System.out.println(res.body().toString());
                         }
                     }});
             }
@@ -271,15 +274,16 @@ public class PrimaryController extends APIClient implements Initializable  {
                     public void changed(ObservableValue<? extends Number> obs, Number oldValue, Number newValue) {
 
 
-                        if (oldValue.intValue() < newValue.intValue()) {
+                        if (oldValue.intValue() > newValue.intValue()) {
                             System.out.println("Turn off fan");
-                            postVentilatorState(room_id, temp, false);
+                           HttpResponse newRes =  postVentilatorState(1L, 1, false);
+                           System.out.println(newRes.body().toString());
 
                         }
                         else if (oldValue.intValue() < newValue.intValue())
                         {
                             System.out.println("Turn on fan!");
-                            postVentilatorState(room_id, temp, true);
+                            postVentilatorState(1L, 1, true);
                         }
                     }});
             }
