@@ -6,6 +6,7 @@ module at.jku {
     requires org.json;
     requires com.opencsv;
     requires java.desktop;
+    requires java.prefs;
     opens at.jku to javafx.fxml;
     exports at.jku;
 }
