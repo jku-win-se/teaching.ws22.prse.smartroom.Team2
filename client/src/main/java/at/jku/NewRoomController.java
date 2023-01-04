@@ -30,10 +30,7 @@ public class NewRoomController extends APIClient {
     private void onActionImport() throws IOException {
         DigitalTwinApp.setRoot("import");
     }
-    @FXML
-    private void onActionEdit() throws IOException {
-        DigitalTwinApp.setRoot("editroom");
-    }
+
 
     @FXML
     private void onActionSave() throws IOException {
