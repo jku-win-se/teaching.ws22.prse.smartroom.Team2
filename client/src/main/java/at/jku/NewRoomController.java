@@ -39,10 +39,57 @@ public class NewRoomController extends APIClient {
         alert.setHeaderText("You are about to create this room.");
         alert.setContentText("Are you ok with this?");
 
+        Long room_id = 4L;
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){;
             String name =  txtName.getText();
-            postRoom(name);
+
+            int size = 0;
+            int doors = 0;
+            int fans = 0;
+            int windows = 0;
+            int lightSources = 0;
+
+           if (txtSize.getText() != null) {
+            size = Integer.parseInt(txtSize.getText()); }
+
+            if (txtDoor.getText() != null) {
+            doors =  Integer.parseInt(txtDoor.getText());}
+
+            if (txtFans.getText() != null) {
+            fans = Integer.parseInt(txtFans.getText());}
+
+            if (txtWindows.getText() != null) {
+                windows = Integer.parseInt(txtWindows.getText());
+            }
+
+            if (txtLightSource.getText() != null) {
+            lightSources = Integer.parseInt(txtLightSource.getText()); }
+
+            if (size>0) {
+            postRoom(name, size); }
+            else {postRoom(name);}
+
+            //adding devices
+            for (int f=1; f<=fans; f++)
+            {
+                postVentilator(room_id);
+            }
+
+            for (int d=1; d<=doors; d++)
+            {
+                postDoor(room_id);
+            }
+
+            for (int w=1; w<=windows; w++)
+            {
+                postWindow(room_id);
+            }
+
+            for (int l=1; l<=lightSources; l++)
+            {
+                postLightSource(room_id);
+            }
 
         } else {
             // don't create new room
