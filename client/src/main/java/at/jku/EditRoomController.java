@@ -1,15 +1,9 @@
 package at.jku;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -24,13 +18,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EditRoomController extends APIClient implements Initializable {
 
+    //TODO: get actual room_id
     long roomID = 1L;
 
     @FXML
@@ -84,11 +77,8 @@ public class EditRoomController extends APIClient implements Initializable {
     @FXML
     Button btnEditCancel;
 
-    @FXML
-    ComboBox cbDevices;
 
-    @FXML
-    Label lblAddDevice;
+
 
     @FXML
     BorderPane bp;
@@ -96,11 +86,6 @@ public class EditRoomController extends APIClient implements Initializable {
     @FXML
     VBox vbDevices;
 
-    public void alertTrash(){
-
-
-
-    }
 
     public void setUpDevices() {
 
@@ -267,11 +252,13 @@ public class EditRoomController extends APIClient implements Initializable {
             label = new Label(name);
             hb.getChildren().add(label);
             label.setPrefWidth(200);
-            String hex = jo.getString("hex");
+            String hex = "";
+            if (jo.get("hex") != null) {
+                hex = jo.getString("hex");
+            }
             label = new Label(hex);
             hb.getChildren().add(label);
             label.setPrefWidth(100);
-
             int brightness = jo.getInt("brightness");
             label = new Label(brightness +"");
             hb.getChildren().add(label);
@@ -317,7 +304,9 @@ public class EditRoomController extends APIClient implements Initializable {
                 Button btnCancel = new Button("Cancel");
                 Button btnSave = new Button("Save");
                 btnSave.setOnAction(e -> {
-                    if (!txtHex.getText().isEmpty())
+
+                    //TODO: Edit Light Source doesn't work
+                    if (!txtName.getText().isEmpty())
 
                         patchLightSource(roomID, id, txtName.getText());
 
@@ -455,27 +444,152 @@ public class EditRoomController extends APIClient implements Initializable {
                 stage.setScene(scene);
                 stage.showAndWait();});
 
-
-
             hb.getChildren().add(ivTrash);
             hb.getChildren().add(ivEdit);
             hb.setMargin(ivTrash, new Insets(0, 10, 0, 0));
             hb.setMargin(ivEdit, new Insets(0, 10, 0, 0));
         }
 
-
     }
 
     @FXML
-    private void onActionAddDevice() throws IOException {
+    private void onActionAddWindow() throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Add window");
+        alert.setHeaderText("You are about to add a window to this room");
+        alert.setContentText("Are you ok with this?");
 
-
-        cbDevices.getItems().addAll(
-                "Option 4",
-                "Option 5",
-                "Option 6"
-        );
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            postWindow(roomID);
+        } else {
+            // don't add window
+        }
     }
+    @FXML
+    private void onActionAddLS() throws IOException{
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        TextField txtName = new TextField();
+
+        Button btnCancel = new Button("Cancel");
+        Button btnSave = new Button("Save");
+        btnSave.setOnAction(e -> {
+            if (!txtName.getText().isEmpty())
+
+            {postLightSource(roomID, txtName.getText());}
+
+            else {postLightSource(roomID);}
+
+            stage.close();
+        });
+
+        btnCancel.setOnAction(e -> {
+            stage.close();
+        });
+
+        Label label1 = new Label("Add light source ");
+        Label label2 = new Label("Name: (optional) ");
+
+        //TODO: Add hex and brightness too
+
+        GridPane layout = new GridPane();
+
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setVgap(5);
+        layout.setHgap(5);
+        layout.setMargin(btnSave, new Insets(0, 0,0,70));
+        layout.add(txtName, 1,1);
+        layout.add(btnSave, 1,2);
+        layout.add(btnCancel, 1,2);
+        layout.add(label1, 0,0);
+        layout.add(label2, 0,1);
+        Scene scene = new Scene(layout, 300, 120);
+        stage.setTitle("Add light source");
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    @FXML
+    private void onActionAddDoor() throws IOException{
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        TextField txtName = new TextField();
+
+        Button btnCancel = new Button("Cancel");
+        Button btnSave = new Button("Save");
+        btnSave.setOnAction(e -> {
+            String doorName = txtName.getText();
+            postDoor(roomID,doorName);
+            stage.close();
+        });
+
+        btnCancel.setOnAction(e -> {
+            stage.close();
+        });
+
+        Label label1 = new Label("Add door");
+        Label label2 = new Label("Name (optional):");
+
+        GridPane layout = new GridPane();
+
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setVgap(5);
+        layout.setHgap(5);
+
+        layout.add(txtName, 1,1);
+        layout.add(btnSave, 1,3);
+        layout.setMargin(btnSave, new Insets(0, 0,0,70));
+        layout.add(btnCancel, 1, 3);
+        layout.add(label1, 1,0);
+        layout.add(label2, 0,1);
+        Scene scene = new Scene(layout, 300, 120);
+        stage.setTitle("Add door");
+        stage.setScene(scene);
+        stage.showAndWait(); }
+
+    @FXML
+    private void onActionAddVentilator() throws IOException{
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        TextField txtName = new TextField();
+
+        Button btnCancel = new Button("Cancel");
+        Button btnSave = new Button("Save");
+        btnSave.setOnAction(e -> {
+            String ventilatorName = txtName.getText();
+            postVentilator(roomID,ventilatorName);
+            stage.close();
+        });
+
+        btnCancel.setOnAction(e -> {
+            stage.close();
+        });
+
+        Label label1 = new Label("Add ventilator");
+        Label label2 = new Label("Name (optional):");
+
+        GridPane layout = new GridPane();
+
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setVgap(5);
+        layout.setHgap(5);
+
+        layout.add(txtName, 1,1);
+        layout.add(btnSave, 1,3);
+        layout.setMargin(btnSave, new Insets(0, 0,0,70));
+        layout.add(btnCancel, 1, 3);
+        layout.add(label1, 1,0);
+        layout.add(label2, 0,1);
+        Scene scene = new Scene(layout, 300, 120);
+        stage.setTitle("Add ventilator");
+        stage.setScene(scene);
+        stage.showAndWait(); }
+
+
 
     @FXML
     private void onActionCancel() throws IOException {
