@@ -67,6 +67,8 @@ public class PrimaryController extends APIClient implements Initializable  {
     @FXML
     private void onActionSettings() throws IOException, BackingStoreException {
         TextInputDialog td = new TextInputDialog();
+        TextField t = new TextField();
+
         td.setTitle("Preference name");
         String name = null;
         // setHeaderText
@@ -199,9 +201,6 @@ public class PrimaryController extends APIClient implements Initializable  {
         //lblCo2.setText(String.valueOf(getCurrentCo2(room_id)));
 
 
-
-
-
         HttpResponse res = getRoom(room_id); //gets the current room
         JSONObject json = new JSONObject(res.body().toString());
         int size = json.getInt("size");
@@ -224,8 +223,6 @@ public class PrimaryController extends APIClient implements Initializable  {
 
         for (int i=1; i<=noOfElements; i++) {
             slider = new Slider(0, 1, 1);
-            System.out.println("Loop" + i);
-
 
             addedElement = false;
             if (tempNoDoors > 0) {
@@ -251,8 +248,6 @@ public class PrimaryController extends APIClient implements Initializable  {
 
                         if (oldValue.intValue() !=  newValue.intValue()) {
                             HttpResponse newRes = postDoorState(room_id, (long) temp);
-                            System.out.println("Door changed");
-                            System.out.println(newRes.body().toString());
                             newRes = getDoorState(room_id, (long) temp);
                         }
                     }});
@@ -277,8 +272,7 @@ public class PrimaryController extends APIClient implements Initializable  {
 
                         if (oldValue.intValue() !=  newValue.intValue()) {
                             HttpResponse newRes = postWindowState(room_id, (long) temp);
-                            System.out.println(newRes.body().toString());
-                            System.out.println("Window changed");}
+                        }
                     }});
             }
 
@@ -295,7 +289,6 @@ public class PrimaryController extends APIClient implements Initializable  {
                     initialValue = 1.0;
                 }
                 slider.setValue(initialValue);
-                System.out.println(respDevice.body().toString());
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
 
                     @Override
@@ -338,14 +331,12 @@ public class PrimaryController extends APIClient implements Initializable  {
 
 
                         if (oldValue.intValue() > newValue.intValue()) {
-                            System.out.println("Turn off fan");
                             HttpResponse newRes =  postVentilatorState(room_id, temp, false);
-                            System.out.println(newRes.body().toString());
+
 
                         }
                         else if (oldValue.intValue() < newValue.intValue())
                         {
-                            System.out.println("Turn on fan!");
                             postVentilatorState(room_id, temp, true);
                         }
                     }});
