@@ -14,91 +14,76 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;"
-            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="at.jku.PrimaryController">
+<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.PrimaryController">
     <opaqueInsets>
-        <Insets top="10.0"/>
+        <Insets top="10.0" />
     </opaqueInsets>
     <left>
-        <VBox id="left-menu" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="963.0" prefWidth="178.0"
-              style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F;">
+        <VBox id="left-menu" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="963.0" prefWidth="178.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F;">
             <children>
-                <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionHome"
-                        prefHeight="69.0" prefWidth="190.0"
-                        style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;"
-                        text="HOME" textFill="WHITE">
+                <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionHome" prefHeight="69.0" prefWidth="190.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="HOME" textFill="WHITE">
                     <VBox.margin>
-                        <Insets top="200.0"/>
+                        <Insets top="200.0" />
                     </VBox.margin>
                     <font>
-                        <Font size="20.0"/>
+                        <Font size="20.0" />
                     </font>
                     <graphic>
                         <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@home.png"/>
+                                <Image url="@home.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="btnAllrooms" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false"
-                        onAction="#onActionRooms" prefHeight="69.0" prefWidth="187.0"
-                        style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;"
-                        text="ALL ROOMS" textFill="WHITE">
+                <Button fx:id="btnAllrooms" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionRooms" prefHeight="69.0" prefWidth="187.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="ALL ROOMS" textFill="WHITE">
                     <font>
-                        <Font size="20.0"/>
+                        <Font size="20.0" />
                     </font>
                     <graphic>
                         <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@sofa.png"/>
+                                <Image url="@sofa.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="btnNewRoom" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false"
-                        onAction="#onActionNewRoom" prefHeight="69.0" prefWidth="188.0"
-                        style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;"
-                        text="NEW ROOM" textFill="WHITE">
+                <Button fx:id="btnNewRoom" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionNewRoom" prefHeight="69.0" prefWidth="188.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="NEW ROOM" textFill="WHITE">
                     <font>
-                        <Font size="20.0"/>
+                        <Font size="20.0" />
                     </font>
                     <graphic>
                         <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@plus.png"/>
+                                <Image url="@plus.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="btnImport" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false"
-                        onAction="#onActionImport" prefHeight="69.0" prefWidth="166.0"
-                        style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;"
-                        text="IMPORT" textFill="WHITE">
+                <Button fx:id="btnImport" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionImport" prefHeight="69.0" prefWidth="166.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="IMPORT" textFill="WHITE">
                     <font>
-                        <Font size="20.0"/>
+                        <Font size="20.0" />
                     </font>
                     <opaqueInsets>
-                        <Insets/>
+                        <Insets />
                     </opaqueInsets>
                     <VBox.margin>
-                        <Insets/>
+                        <Insets />
                     </VBox.margin>
                     <graphic>
                         <ImageView fitHeight="17.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@import.png"/>
+                                <Image url="@import.png" />
                             </image>
                             <cursor>
-                                <Cursor fx:constant="CLOSED_HAND"/>
+                                <Cursor fx:constant="CLOSED_HAND" />
                             </cursor>
                         </ImageView>
                     </graphic>
                 </Button>
             </children>
             <BorderPane.margin>
-                <Insets top="-200.0"/>
+                <Insets top="-200.0" />
             </BorderPane.margin>
         </VBox>
     </left>
@@ -107,130 +92,122 @@
             <children>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <ImageView fx:id="btnEdit" fitHeight="21.0" fitWidth="21.0" onMouseClicked="#onActionEdit"
-                                   pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="btnEdit" fitHeight="21.0" fitWidth="21.0" onMouseClicked="#onActionEdit" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@pencil.png"/>
+                                <Image url="@pencil.png" />
                             </image>
                             <HBox.margin>
-                                <Insets right="5.0" top="10.0"/>
+                                <Insets right="5.0" top="10.0" />
                             </HBox.margin>
                         </ImageView>
-                        <Label fx:id="lblWelcome" alignment="BOTTOM_LEFT" onMouseClicked="#onActionEdit"
-                               prefHeight="50.0" prefWidth="406.0" style="-fx-background-color: #F8F6F6;"
-                               text="Welcome, User." textAlignment="RIGHT">
+                        <Label fx:id="lblWelcome" alignment="BOTTOM_LEFT" onMouseClicked="#onActionEdit" prefHeight="50.0" prefWidth="406.0" style="-fx-background-color: #F8F6F6;" text="Welcome, User." textAlignment="RIGHT">
                             <opaqueInsets>
-                                <Insets/>
+                                <Insets />
                             </opaqueInsets>
                             <font>
-                                <Font name="System Bold" size="40.0"/>
+                                <Font name="System Bold" size="40.0" />
                             </font>
                         </Label>
                     </children>
                     <VBox.margin>
-                        <Insets left="200.0" top="50.0"/>
+                        <Insets left="200.0" top="50.0" />
                     </VBox.margin>
                 </HBox>
-                <VBox prefHeight="200.0" prefWidth="100.0"/>
-                <Button fx:id="btnChangeName" contentDisplay="CENTER" mnemonicParsing="false"
-                        onAction="#onActionSettings" prefHeight="26.0" prefWidth="107.0"
-                        style="-fx-background-color: #F8F6F6 #F8F6F6 #F8F6F6 #F8F6F6;" text="Change Name"
-                        textFill="#1e224f">
+                <VBox prefHeight="200.0" prefWidth="100.0" />
+                <Button fx:id="btnChangeName" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionSettings" prefHeight="26.0" prefWidth="107.0" style="-fx-background-color: #F8F6F6 #F8F6F6 #F8F6F6 #F8F6F6;" text="Change Name" textFill="#1e224f">
                     <VBox.margin>
-                        <Insets left="205.0"/>
+                        <Insets left="205.0" />
                     </VBox.margin>
                     <font>
-                        <Font size="10.0"/>
+                        <Font size="10.0" />
                     </font>
                 </Button>
                 <Label fx:id="lblRoomId" prefHeight="17.0" prefWidth="589.0" text="Room 1">
                     <font>
-                        <Font size="30.0"/>
+                        <Font size="30.0" />
                     </font>
                     <VBox.margin>
-                        <Insets left="230.0"/>
+                        <Insets left="230.0" />
                     </VBox.margin>
                 </Label>
             </children>
             <BorderPane.margin>
-                <Insets/>
+                <Insets />
             </BorderPane.margin>
         </VBox>
     </top>
     <center>
-        <VBox fx:id="vbRoomSetup" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="653.0"
-              BorderPane.alignment="CENTER">
+        <VBox fx:id="vbRoomSetup" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="653.0" BorderPane.alignment="CENTER">
             <children>
                 <Label text="Room Setup">
                     <font>
-                        <Font size="30.0"/>
+                        <Font size="30.0" />
                     </font>
                     <VBox.margin>
-                        <Insets left="50.0" top="20.0"/>
+                        <Insets left="50.0" top="20.0" />
                     </VBox.margin>
                 </Label>
             </children>
             <BorderPane.margin>
-                <Insets bottom="20.0" top="-900.0"/>
+                <Insets bottom="20.0" top="-900.0" />
             </BorderPane.margin>
         </VBox>
     </center>
     <right>
-        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="912.0"
-              prefWidth="233.0" BorderPane.alignment="CENTER">
+        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="912.0" prefWidth="233.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets top="-540.0"/>
+                <Insets top="-540.0" />
             </BorderPane.margin>
             <children>
                 <Label alignment="TOP_RIGHT" text="20:20">
                     <opaqueInsets>
-                        <Insets/>
+                        <Insets />
                     </opaqueInsets>
                     <VBox.margin>
-                        <Insets bottom="40.0" left="175.0" top="15.0"/>
+                        <Insets bottom="40.0" left="175.0" top="15.0" />
                     </VBox.margin>
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                 </Label>
                 <Label text="Room Temperature">
                     <font>
-                        <Font size="15.0"/>
+                        <Font size="15.0" />
                     </font>
                 </Label>
                 <Label fx:id="lblTemp" text="23°">
                     <font>
-                        <Font size="48.0"/>
+                        <Font size="48.0" />
                     </font>
                 </Label>
                 <Label text="Co2 Level">
                     <font>
-                        <Font size="15.0"/>
+                        <Font size="15.0" />
                     </font>
                 </Label>
                 <Label fx:id="lblCo2" prefHeight="86.0" prefWidth="230.0" text="500pm">
                     <font>
-                        <Font size="48.0"/>
+                        <Font size="48.0" />
                     </font>
                 </Label>
                 <Label text="Number of people">
                     <font>
-                        <Font size="15.0"/>
+                        <Font size="15.0" />
                     </font>
                 </Label>
                 <Label fx:id="lblPeople" text="2">
                     <font>
-                        <Font size="48.0"/>
+                        <Font size="48.0" />
                     </font>
                 </Label>
                 <Label layoutX="10.0" layoutY="293.0" text="Room size">
                     <font>
-                        <Font size="15.0"/>
+                        <Font size="15.0" />
                     </font>
                 </Label>
                 <Label fx:id="lblSize" layoutX="10.0" layoutY="312.0" text="60 qm">
                     <font>
-                        <Font size="48.0"/>
+                        <Font size="48.0" />
                     </font>
                 </Label>
             </children>
@@ -239,50 +216,51 @@
     <bottom>
         <VBox prefHeight="411.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets top="-900.0"/>
+                <Insets top="-900.0" />
             </BorderPane.margin>
             <children>
                 <HBox prefHeight="40.0" prefWidth="1052.0">
                     <children>
                         <Label alignment="TOP_LEFT" prefHeight="26.0" prefWidth="403.0" text="Room temperature">
                             <HBox.margin>
-                                <Insets left="225.0" top="20.0"/>
+                                <Insets left="225.0" top="20.0" />
                             </HBox.margin>
                             <font>
-                                <Font size="20.0"/>
+                                <Font size="20.0" />
                             </font>
                             <padding>
-                                <Insets top="10.0"/>
+                                <Insets top="10.0" />
                             </padding>
                         </Label>
-                        <Label alignment="TOP_LEFT" layoutX="235.0" layoutY="10.0" prefHeight="26.0" prefWidth="200.0"
-                               text="Co2 Level">
+                        <Label alignment="TOP_LEFT" layoutX="235.0" layoutY="10.0" prefHeight="26.0" prefWidth="200.0" text="Co2 Level">
                             <font>
-                                <Font size="20.0"/>
+                                <Font size="20.0" />
                             </font>
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
                         </Label>
                     </children>
                 </HBox>
-                <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                      prefHeight="180.0" prefWidth="1052.0">
+                <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="1052.0">
                     <children>
                         <LineChart fx:id="lcRoom" prefHeight="180.0" prefWidth="390.0">
                             <xAxis>
-                                <CategoryAxis side="BOTTOM"/>
+                                <CategoryAxis side="BOTTOM" />
                             </xAxis>
                             <yAxis>
-                                <NumberAxis side="LEFT"/>
+                                <NumberAxis side="LEFT" />
                             </yAxis>
                             <HBox.margin>
-                                <Insets left="230.0"/>
+                                <Insets left="230.0" />
                             </HBox.margin>
                         </LineChart>
                         <LineChart fx:id="lcCo2" maxHeight="-Infinity" prefHeight="180.0" prefWidth="390.0">
                             <xAxis>
-                                <CategoryAxis side="BOTTOM"/>
+                                <CategoryAxis side="BOTTOM" />
                             </xAxis>
                             <yAxis>
-                                <NumberAxis side="LEFT"/>
+                                <NumberAxis side="LEFT" />
                             </yAxis>
                         </LineChart>
                     </children>
@@ -291,10 +269,10 @@
                     <children>
                         <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="403.0" text="Number of people">
                             <HBox.margin>
-                                <Insets left="225.0"/>
+                                <Insets left="225.0" />
                             </HBox.margin>
                             <font>
-                                <Font size="20.0"/>
+                                <Font size="20.0" />
                             </font>
                         </Label>
                     </children>
@@ -303,117 +281,115 @@
                     <children>
                         <LineChart fx:id="lcPeople" prefHeight="173.0" prefWidth="386.0">
                             <xAxis>
-                                <CategoryAxis side="BOTTOM"/>
+                                <CategoryAxis side="BOTTOM" />
                             </xAxis>
                             <yAxis>
-                                <NumberAxis side="LEFT"/>
+                                <NumberAxis side="LEFT" />
                             </yAxis>
                             <HBox.margin>
-                                <Insets left="230.0"/>
+                                <Insets left="230.0" />
                             </HBox.margin>
                         </LineChart>
                         <HBox prefHeight="163.0" prefWidth="321.0" style="-fx-background-color: #FFFFFF;">
                             <opaqueInsets>
-                                <Insets bottom="30.0" left="30.0"/>
+                                <Insets bottom="30.0" left="30.0" />
                             </opaqueInsets>
                             <children>
                                 <VBox prefHeight="163.0" prefWidth="335.0">
                                     <children>
                                         <Label text="Room equipment">
                                             <font>
-                                                <Font size="18.0"/>
+                                                <Font size="18.0" />
                                             </font>
                                             <VBox.margin>
-                                                <Insets top="20.0"/>
+                                                <Insets top="20.0" />
                                             </VBox.margin>
                                         </Label>
                                         <HBox maxWidth="-Infinity" prefHeight="20.0" prefWidth="297.0">
                                             <children>
                                                 <Label prefHeight="20.0" prefWidth="290.0" text="Doors:">
                                                     <font>
-                                                        <Font size="16.0"/>
+                                                        <Font size="16.0" />
                                                     </font>
                                                 </Label>
                                                 <Label fx:id="lblDoor" text="1">
                                                     <font>
-                                                        <Font size="16.0"/>
+                                                        <Font size="16.0" />
                                                     </font>
                                                 </Label>
                                             </children>
                                             <VBox.margin>
-                                                <Insets bottom="10.0"/>
+                                                <Insets bottom="10.0" />
                                             </VBox.margin>
                                         </HBox>
                                         <HBox prefHeight="20.0" prefWidth="290.0">
                                             <children>
                                                 <Label prefHeight="20.0" prefWidth="290.0" text="Windows">
                                                     <font>
-                                                        <Font size="16.0"/>
+                                                        <Font size="16.0" />
                                                     </font>
                                                     <HBox.margin>
-                                                        <Insets/>
+                                                        <Insets />
                                                     </HBox.margin>
                                                 </Label>
                                                 <Label fx:id="lblWindow" text="1">
                                                     <font>
-                                                        <Font size="16.0"/>
+                                                        <Font size="16.0" />
                                                     </font>
                                                     <HBox.margin>
-                                                        <Insets/>
+                                                        <Insets />
                                                     </HBox.margin>
                                                 </Label>
                                             </children>
                                             <VBox.margin>
-                                                <Insets bottom="10.0"/>
+                                                <Insets bottom="10.0" />
                                             </VBox.margin>
                                         </HBox>
                                         <HBox prefHeight="20.0" prefWidth="290.0">
                                             <children>
-                                                <Label maxWidth="-Infinity" minWidth="-Infinity" prefHeight="20.0"
-                                                       prefWidth="290.0" text="Light bulbs">
+                                                <Label maxWidth="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="290.0" text="Light bulbs">
                                                     <font>
-                                                        <Font size="16.0"/>
+                                                        <Font size="16.0" />
                                                     </font>
                                                 </Label>
                                                 <Label fx:id="lblLightBulb" text="1">
                                                     <font>
-                                                        <Font size="16.0"/>
+                                                        <Font size="16.0" />
                                                     </font>
                                                     <HBox.margin>
-                                                        <Insets/>
+                                                        <Insets />
                                                     </HBox.margin>
                                                 </Label>
                                             </children>
                                             <VBox.margin>
-                                                <Insets bottom="10.0"/>
+                                                <Insets bottom="10.0" />
                                             </VBox.margin>
                                         </HBox>
                                         <HBox prefHeight="20.0" prefWidth="232.0">
                                             <children>
-                                                <Label maxWidth="-Infinity" minWidth="-Infinity" prefHeight="20.0"
-                                                       prefWidth="290.0" text="Fans">
+                                                <Label maxWidth="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="290.0" text="Fans">
                                                     <font>
-                                                        <Font size="16.0"/>
+                                                        <Font size="16.0" />
                                                     </font>
                                                 </Label>
                                                 <Label fx:id="lblFan" text="1">
                                                     <font>
-                                                        <Font size="16.0"/>
+                                                        <Font size="16.0" />
                                                     </font>
                                                     <HBox.margin>
-                                                        <Insets/>
+                                                        <Insets />
                                                     </HBox.margin>
                                                 </Label>
                                             </children>
                                         </HBox>
                                     </children>
                                     <HBox.margin>
-                                        <Insets left="10.0" right="10.0"/>
+                                        <Insets left="10.0" right="10.0" />
                                     </HBox.margin>
                                 </VBox>
                             </children>
                             <HBox.margin>
-                                <Insets bottom="10.0" left="40.0"/>
+                                <Insets bottom="10.0" left="40.0" />
                             </HBox.margin>
                         </HBox>
                     </children>

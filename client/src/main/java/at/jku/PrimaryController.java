@@ -1,25 +1,15 @@
 package at.jku;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.http.HttpResponse;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import java.util.prefs.BackingStoreException;
-import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
-
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -27,9 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -198,15 +186,24 @@ public class PrimaryController extends APIClient implements Initializable  {
         lblWindow.setText(String.valueOf(noWindows));
         lblLightBulb.setText(String.valueOf(noLightBulbs));
         lblFan.setText(String.valueOf(noFans));
-        //lblCo2.setText(String.valueOf(getCurrentCo2(room_id)));
+        JSONObject jo = new JSONObject(getAirQualityCo2(room_id).body().toString());
+        lblCo2.setText(jo.getInt("co2") + "ppm");
+        jo = new JSONObject(getAirQualityTemperature(room_id).body().toString());
+        lblTemp.setText(jo.getDouble("temperature") + " °C");
+        JSONArray ja = new JSONArray(getPeopleInRoom(room_id).body().toString());
 
+        for (int i = 0; i<ja.length(); i++)
+        {
+            jo = (JSONObject) ja.get(i);
+            lblPeople.setText(String.valueOf(jo.getInt("nopeopleInRoom")));
+        }
 
-        HttpResponse res = getRoom(room_id); //gets the current room
+        HttpResponse res = getRoom(room_id);
         JSONObject json = new JSONObject(res.body().toString());
         int size = json.getInt("size");
         long id = json.getLong("id");
         String name = json.getString("name");
-        lblSize.setText(String.valueOf(size));
+        lblSize.setText(size + "qm");
         lblRoomId.setText(name);
 
         Label lbl = null;
@@ -235,12 +232,12 @@ public class PrimaryController extends APIClient implements Initializable  {
                 JSONObject state = new JSONObject(respDevice.body().toString());
                 double initialValue = 0.0;
 
-                if (state.getBoolean("state") == true) {
-                    initialValue = 1.0;
-                }
-
+                if (!state.toString().startsWith("{\"path")){
+                    if ( state.getBoolean("state") == true){
+                        initialValue = 1.0;
+                    }
+                  }
                 slider.setValue(initialValue);
-
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
 
                     @Override
@@ -261,9 +258,12 @@ public class PrimaryController extends APIClient implements Initializable  {
                 respDevice = getWindowState(room_id, (long) temp);
                 JSONObject state = new JSONObject(respDevice.body().toString());
                 double initialValue = 0.0;
-                if ( state.getBoolean("state") == true){
-                    initialValue = 1.0;
-                }
+
+                if (!state.toString().startsWith("{\"path")){
+                    if ( state.getBoolean("state") == true){
+                        initialValue = 1.0;
+                    }
+                     }
                 slider.setValue(initialValue);
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
 
@@ -283,12 +283,13 @@ public class PrimaryController extends APIClient implements Initializable  {
                 addedElement = true;
                 tempNoLightBulbs--;
                 respDevice = getLightSourceActivation(room_id, temp);
-                JSONObject state = new JSONObject(respDevice.body().toString());
                 double initialValue = 0.0;
-                if ( state.getBoolean("on") == true){
-                    initialValue = 1.0;
-                }
-                slider.setValue(initialValue);
+                if (!respDevice.body().toString().isEmpty()){
+                    JSONObject state = new JSONObject(respDevice.body().toString());
+                    if (state.getBoolean("on")){
+                        initialValue = 1.0;
+                    }
+                slider.setValue(initialValue); }
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
 
                     @Override
@@ -309,7 +310,10 @@ public class PrimaryController extends APIClient implements Initializable  {
                             System.out.println(res.body().toString());
                         }
                     }});
+
             }
+
+
 
             if (!addedElement && tempNoFans > 0) {
                 int temp = noFans - tempNoFans + 1; //current id for device
@@ -318,11 +322,12 @@ public class PrimaryController extends APIClient implements Initializable  {
                 tempNoFans--;
                 respDevice = getVentilatorState(room_id, temp);
                 JSONObject state = new JSONObject(respDevice.body().toString());
-                System.out.println(respDevice.body().toString());
                 double initialValue = 0.0;
-                if ( state.getBoolean("state") == true){
-                    initialValue = 1.0;
-                }
+                if (!state.toString().startsWith("{\"path")){
+                    if ( state.getBoolean("state") == true){
+                        initialValue = 1.0;
+                    }
+                    }
                 slider.setValue(initialValue);
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
 
@@ -366,8 +371,6 @@ public class PrimaryController extends APIClient implements Initializable  {
             hb.setMargin(lbl, new Insets(10, 0, 0, 50));
             hb.setMargin(slider, new Insets(10, 0, 0, 50));
 
-
-            // vbRoomSetup.setMargin(hb, new Insets())
         }
 
         userName = prefs.get("userName", "");
