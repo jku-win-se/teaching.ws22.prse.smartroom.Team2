@@ -14,7 +14,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.URL;
 import java.net.http.HttpResponse;
@@ -56,9 +55,16 @@ public class EditRoomController extends APIClient implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
-            int size = Math.toIntExact(Long.valueOf(txtSize.getText()));
-            String name =  txtName.getText();
-            putRoom(roomID, name, size);
+
+            if (txtSize.getText().isEmpty())
+            {
+                putRoom(roomID, txtName.getText());
+            }
+            else if (txtName.getText().isEmpty()) {
+                putRoom(roomID, Integer.valueOf(txtSize.getText()));}
+
+            else {
+            putRoom(roomID, txtName.getText(), Integer.valueOf(txtSize.getText()));}
   } else {
             // don't create new room
         }
@@ -589,8 +595,6 @@ public class EditRoomController extends APIClient implements Initializable {
         stage.setScene(scene);
         stage.showAndWait(); }
 
-
-
     @FXML
     private void onActionCancel() throws IOException {
         txtSize.setText("");
@@ -599,6 +603,10 @@ public class EditRoomController extends APIClient implements Initializable {
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
+        HttpResponse respRoom = getRoom(roomID);
+        JSONObject jo = new JSONObject(respRoom.body().toString());
+        txtName.setPromptText(jo.getString("name"));
+        txtSize.setPromptText(String.valueOf(jo.getInt("size")));
         setUpDevices();
 
     }

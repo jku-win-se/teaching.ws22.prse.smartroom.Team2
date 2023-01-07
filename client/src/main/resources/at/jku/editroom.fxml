@@ -114,7 +114,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtEditName" layoutX="10.0" layoutY="44.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="Test001">
+            <TextField fx:id="txtName" layoutX="10.0" layoutY="44.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="Test001">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
@@ -127,7 +127,7 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtEditId" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="1">
+            <TextField fx:id="txtSize" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="1">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
@@ -259,9 +259,9 @@
                      </children>
                   </HBox>
                   <Separator prefWidth="200.0" />
-                  <ScrollPane fx:id="sp" maxHeight="-Infinity" prefHeight="300.0" prefWidth="200.0">
+                  <ScrollPane fx:id="sp" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0">
                     <content>
-                      <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="650.0">
+                      <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0">
                            <children>
                               <VBox fx:id="vbDevices" prefHeight="500.0" prefWidth="650.0" />
                            </children>
