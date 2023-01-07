@@ -99,7 +99,7 @@ public class PrimaryController extends APIClient implements Initializable  {
 
     String userName;
 
-
+//TODO: room_id übernehmen von all rooms controller oder automatisch id=1 festlegen (mit get rest methode)
     Long room_id = 1L;
 
     public int getNumberOfWindows(Long room_id) {
@@ -218,13 +218,14 @@ public class PrimaryController extends APIClient implements Initializable  {
         HttpResponse respDevice = null;
 
 
+
         for (int i=1; i<=noOfElements; i++) {
             slider = new Slider(0, 1, 1);
-
             addedElement = false;
             if (tempNoDoors > 0) {
                 int temp = noDoors - tempNoDoors + 1;
                 lbl = new Label("Door #" + temp);
+                System.out.println("temp");
                 img = new Image(getClass().getResourceAsStream("door.png"));
                 addedElement = true;
                 tempNoDoors--;
@@ -256,14 +257,18 @@ public class PrimaryController extends APIClient implements Initializable  {
                 addedElement = true;
                 tempNoWindows--;
                 respDevice = getWindowState(room_id, (long) temp);
-                JSONObject state = new JSONObject(respDevice.body().toString());
                 double initialValue = 0.0;
+                if (!respDevice.body().toString().isEmpty()) {
+                JSONObject state = new JSONObject(respDevice.body().toString());
+
+                System.out.println( "windows" + " " + respDevice.body().toString());
+
 
                 if (!state.toString().startsWith("{\"path")){
                     if ( state.getBoolean("state") == true){
                         initialValue = 1.0;
                     }
-                     }
+                     } }
                 slider.setValue(initialValue);
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
 
