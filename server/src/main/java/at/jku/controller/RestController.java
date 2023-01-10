@@ -609,4 +609,47 @@ public class RestController {
         humiditySensorRecordRepository.save(humiditySensorRecord);
         return ResponseEntity.ok(airQualityDevice);
     }
+    @PutMapping(value = "/room/{room_id:.*}/AirQuality/{airquality_id:.*}")
+    public ResponseEntity<AirQualityDevice> chgAirQuality(@PathVariable Long room_id,
+                                                          @PathVariable Long airquality_id,
+                                                          @RequestParam Optional<Double> co2,
+                                                          @RequestParam Optional<Double> humidity,
+                                                          @RequestParam Optional<Double> temperature) {
+
+        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<AirQualityDevice> aqd = room.get().getAirQualityDevices().stream()
+                .filter(a -> a.getId().equals(airquality_id)).findFirst();
+
+        if (room.isPresent() && aqd.isPresent()) {
+            if (co2.isPresent()) {
+                Co2SensorRecord co2r = new Co2SensorRecord();
+                co2r.setTimestamp(LocalDateTime.now());
+                co2r.setCo2Sensor(aqd.get().getCo2Sensor());
+                co2r.setCo2(co2.get());
+                co2SensorRecordRepository.save(co2r);
+                aqd.get().getCo2Sensor().setCo2(co2.get());
+            }
+
+            if (humidity.isPresent()) {
+                HumiditySensorRecord hsr= new HumiditySensorRecord();
+                hsr.setTimestamp(LocalDateTime.now());
+                hsr.setHumiditySensor(aqd.get().getHumiditySensor());
+                hsr.setHumidity(humidity.get());
+                humiditySensorRecordRepository.save(hsr);
+                aqd.get().getHumiditySensor().setHumidity(humidity.get());
+
+            }
+
+            if (temperature.isPresent()) {
+                TemperatureSensorRecord tsr= new TemperatureSensorRecord();
+                tsr.setTimestamp(LocalDateTime.now());
+                tsr.setTemperatureSensor(aqd.get().getTemperatureSensor());
+                tsr.setTemperature(temperature.get());
+                temperatureSensorRecordRepository.save(tsr);
+                aqd.get().getTemperatureSensor().setTemperature(temperature.get());
+            }
+        }
+        return ResponseEntity.ok(aqd.get());
+    }
+
 }
