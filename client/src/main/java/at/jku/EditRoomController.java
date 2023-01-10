@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 
 public class EditRoomController extends APIClient implements Initializable {
 
-    //TODO: get actual room_id
+    //TODO: get actual room_id from primary controller
     long roomID = 1L;
 
     @FXML

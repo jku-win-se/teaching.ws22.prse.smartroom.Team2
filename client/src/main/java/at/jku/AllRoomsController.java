@@ -57,7 +57,7 @@ public class AllRoomsController extends APIClient implements Initializable {
 
     @FXML
     private void onActionCheckBox() throws IOException {
-        //TODO: add action for checkbox: pick room for export
+        //TODO: add action for checkbox: pick some room for export
     }
 
 
@@ -201,6 +201,7 @@ public class AllRoomsController extends APIClient implements Initializable {
             Image imgSearch2 = new Image(getClass().getResourceAsStream("search.png"));
             ivSearch.setImage(imgSearch2);
 
+<<<<<<< Updated upstream
             CheckBox cb = new CheckBox();
             cb.setId("cb" + i);
             cb.setVisible(false);
@@ -243,6 +244,52 @@ public class AllRoomsController extends APIClient implements Initializable {
                     // don't delete room
                 }
             });
+=======
+            //TODO: setroot primarycontroller und room_id übergeben
+
+                    CheckBox cb = new CheckBox();
+                    cb.setId("cb" + i);
+                    cb.setVisible(false);
+                    String name = json.getString("name");
+                    int size = json.getInt("size");
+                    int id = json.getInt("id");
+
+                    label = new Label(id+"");
+                    label.setFont(new Font("System", 13));
+                    label.setPrefWidth(30);
+                    hb = new HBox();
+                    hb.getChildren().add(label);
+
+                    label = new Label(name);
+                    label.setFont(new Font("System", 13));
+                    label.setPrefWidth(140);
+                    hb.getChildren().add(label);
+
+                    label = new Label(size +"");
+                    label.setFont(new Font("System", 13));
+                    label.setPrefWidth(45);
+                    hb.getChildren().add(label);
+
+                        ivTrash.setId("trash" + i);
+                        ivTrash.setOnMouseClicked(event -> {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Delete room");
+                        alert.setHeaderText("You are about to delete this room.");
+                        alert.setContentText("Are you ok with this?");
+
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.get() == ButtonType.OK) {
+                            deleteRoom(Long.valueOf(id));
+                            try {
+                                DigitalTwinApp.setRoot("allrooms");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            // don't delete room
+                        }
+                    });
+>>>>>>> Stashed changes
 
 
             ivSearch.setId("detail" + i);
@@ -254,6 +301,7 @@ public class AllRoomsController extends APIClient implements Initializable {
 
                 }
             });
+<<<<<<< Updated upstream
             System.out.println(hb.getId());
             hb.getChildren().add(ivTrash);
             hb.getChildren().add(ivSearch);
@@ -264,5 +312,17 @@ public class AllRoomsController extends APIClient implements Initializable {
             hb.setMargin(cb, new Insets(0, 0, 5, 10));
             vb.getChildren().add(hb);
         }
+=======
+                    System.out.println(hb.getId());
+                    hb.getChildren().add(ivTrash);
+                    hb.getChildren().add(ivSearch);
+                    hb.getChildren().add(cb);
+
+                    hb.setMargin(ivTrash, new Insets(0, 0, 5, 10));
+                    hb.setMargin(ivSearch, new Insets(0, 0, 5, 10));
+                    hb.setMargin(cb, new Insets(0, 0, 5, 10));
+                    vb.getChildren().add(hb);
+                }
+>>>>>>> Stashed changes
     }
 }
