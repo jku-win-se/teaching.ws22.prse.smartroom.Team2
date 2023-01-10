@@ -402,4 +402,41 @@ public class APIClient implements API {
     public HttpResponse getAirQualityCo2(Long roomID) {
         return GET(BASE_URL + "/room/" + roomID + "/AirQuality/co2");
     }
+
+    @Override
+    public HttpResponse putAirQuality(Long roomID, Long AirQualityID, double co2, double humidity, double temperature) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?co2=" + co2 + "&humidity=" + humidity + "&temperature=" + temperature);
+
+    }
+
+    @Override
+    public HttpResponse putAirQualityCo2(Long roomID, Long AirQualityID, double co2) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?co2=" + co2);
+    }
+
+    @Override
+    public HttpResponse putAirQualityHumidity(Long roomID, Long AirQualityID, double humidity) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?humidity=" + humidity);
+    }
+
+    @Override
+    public HttpResponse putAirQualityTemperature(Long roomID, Long AirQualityID, double temperature) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?temperature=" + temperature);
+    }
+
+    @Override
+    public HttpResponse putAirQualityCo2Humidity(Long roomID, Long AirQualityID, double co2, double humidity) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?co2=" + co2 + "&humidity=" + humidity);
+    }
+
+    @Override
+    public HttpResponse putAirQualityCo2Temperature(Long roomID, Long AirQualityID, double co2, double temperature) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?co2=" + co2 + "&temperature=" + temperature);
+    }
+
+    @Override
+    public HttpResponse putAirQualityTemperatureHumidity(Long roomID, Long AirQualityID, double temperature, double humidity) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?temperature=" + temperature + "&humidity=" + humidity);
+    }
+
 }

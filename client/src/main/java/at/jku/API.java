@@ -119,4 +119,24 @@ public interface API {
 
     public HttpResponse getAirQualityCo2(Long roomID);
 
+    public HttpResponse putAirQuality(Long roomID, Long AirQualityID, double co2, double humidity, double temperature);
+
+    public HttpResponse putAirQualityCo2(Long roomID, Long AirQualityID, double co2);
+
+    public HttpResponse putAirQualityHumidity(Long roomID, Long AirQualityID, double humidity);
+
+
+    public HttpResponse putAirQualityTemperature(Long roomID, Long AirQualityID, double temperature);
+
+    public HttpResponse putAirQualityCo2Humidity(Long roomID, Long AirQualityID, double co2, double humidity);
+
+    public HttpResponse putAirQualityCo2Temperature(Long roomID, Long AirQualityID, double co2, double temperature);
+
+    public HttpResponse putAirQualityTemperatureHumidity(Long roomID, Long AirQualityID, double temperature, double humidity);
+
+
+
+
+
 }
+
