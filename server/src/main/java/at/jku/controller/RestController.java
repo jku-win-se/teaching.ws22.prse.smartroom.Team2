@@ -609,6 +609,4 @@ public class RestController {
         humiditySensorRecordRepository.save(humiditySensorRecord);
         return ResponseEntity.ok(airQualityDevice);
     }
-
-
 }
