@@ -209,7 +209,6 @@ public class PrimaryController extends APIClient implements Initializable  {
             if (tempNoDoors > 0) {
                 int temp = noDoors - tempNoDoors + 1;
                 lbl = new Label("Door #" + temp);
-                System.out.println("temp");
                 img = new Image(getClass().getResourceAsStream("door.png"));
                 addedElement = true;
                 tempNoDoors--;
@@ -244,10 +243,6 @@ public class PrimaryController extends APIClient implements Initializable  {
                 double initialValue = 0.0;
                 if (!respDevice.body().toString().isEmpty()) {
                     JSONObject state = new JSONObject(respDevice.body().toString());
-
-                    System.out.println( "windows" + " " + respDevice.body().toString());
-
-
                     if (!state.toString().startsWith("{\"path")){
                         if ( state.getBoolean("state") == true){
                             initialValue = 1.0;
