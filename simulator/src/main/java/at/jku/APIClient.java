@@ -5,7 +5,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.LocalDateTime;
 
 public class APIClient implements API {
 
@@ -224,19 +223,19 @@ public class APIClient implements API {
     @Override
     public HttpResponse postLightSourceColor(Long roomID, Long lightID, String hex) {
         return POST(BASE_URL + "/rooms" + "/" + roomID
-                + "/lights" + "/" + lightID + "?hex=" + hex);
+                + "/lights" + "/" + lightID + "/SetColor?hex=" + hex);
     }
 
     @Override
     public HttpResponse postLightSourceColor(Long roomID, Long lightID, int brightness) {
         return POST(BASE_URL + "/rooms" + "/" + roomID
-                + "/lights" + "/" + lightID + "?brightness=" + brightness);
+                + "/lights" + "/" + lightID + "/SetColor?brightness=" + brightness);
     }
 
     @Override
     public HttpResponse postLightSourceColor(Long roomID, Long lightID, String hex, int brightness) {
         return POST(BASE_URL + "/rooms" + "/" + roomID
-                + "/lights" + "/" + lightID + "?hex=" + hex + "&brightness=" + brightness);
+                + "/lights" + "/" + lightID + "/SetColor?hex=" + hex + "&brightness=" + brightness);
     }
 
     @Override

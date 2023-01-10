@@ -223,7 +223,7 @@ public class APIClient implements API {
     @Override
     public HttpResponse postLightSourceColor(Long roomID, Long lightID, String hex) {
         return POST(BASE_URL + "/rooms" + "/" + roomID
-                + "/lights" + "/" + lightID + "?hex=" + hex);
+                + "/lights" + "/" + lightID + "/SetColor?hex=" + hex);
     }
 
     @Override
