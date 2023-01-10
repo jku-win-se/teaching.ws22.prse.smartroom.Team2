@@ -171,7 +171,6 @@ public class AllRoomsController extends APIClient implements Initializable {
         HBox hb = new HBox();
         hb.setId("idTitles");
         hb.getChildren().add(label);
-        System.out.println(hb.getId());
         label = new Label("Name");
         label.setFont(new Font("System", 20));
         label.setPrefWidth(138);
@@ -253,7 +252,6 @@ public class AllRoomsController extends APIClient implements Initializable {
 
                 }
             });
-            System.out.println(hb.getId());
             hb.getChildren().add(ivTrash);
             hb.getChildren().add(ivSearch);
             hb.getChildren().add(cb);

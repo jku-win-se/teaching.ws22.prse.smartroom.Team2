@@ -36,6 +36,11 @@ public class PrimaryController extends APIClient implements Initializable  {
     }
 
     @FXML
+    private void onActionRefresh() throws IOException {
+        DigitalTwinApp.setRoot("primary");
+    }
+
+    @FXML
     private void onActionNewRoom() throws IOException {
         DigitalTwinApp.setRoot("newroom");
     }
@@ -148,16 +153,6 @@ public class PrimaryController extends APIClient implements Initializable  {
         }
         return no;}
 
-    public int getCurrentCo2(Long room_id) {
-
-        int no = 0;
-        HttpResponse res = getAirQualityCo2(1L);
-        JSONObject json = new JSONObject(res.body().toString());
-        System.out.println(json);
-        int temp = json.getInt("Co2");
-        return temp;
-    }
-
 
     @FXML
     BorderPane bp;
@@ -225,7 +220,6 @@ public class PrimaryController extends APIClient implements Initializable  {
             if (tempNoDoors > 0) {
                 int temp = noDoors - tempNoDoors + 1;
                 lbl = new Label("Door #" + temp);
-                System.out.println("temp");
                 img = new Image(getClass().getResourceAsStream("door.png"));
                 addedElement = true;
                 tempNoDoors--;
@@ -260,9 +254,6 @@ public class PrimaryController extends APIClient implements Initializable  {
                 double initialValue = 0.0;
                 if (!respDevice.body().toString().isEmpty()) {
                 JSONObject state = new JSONObject(respDevice.body().toString());
-
-                System.out.println( "windows" + " " + respDevice.body().toString());
-
 
                 if (!state.toString().startsWith("{\"path")){
                     if ( state.getBoolean("state") == true){

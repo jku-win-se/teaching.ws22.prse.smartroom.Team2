@@ -19,9 +19,9 @@
         <Insets top="10.0" />
     </opaqueInsets>
     <left>
-        <VBox id="left-menu" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="963.0" prefWidth="178.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F;">
+        <VBox id="left-menu" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1017.0" prefWidth="178.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F;">
             <children>
-                <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionHome" prefHeight="69.0" prefWidth="190.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="HOME" textFill="WHITE">
+                <Button fx:id="home" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionHome" prefHeight="69.0" prefWidth="190.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="HOME" textFill="WHITE">
                     <VBox.margin>
                         <Insets top="200.0" />
                     </VBox.margin>
@@ -36,7 +36,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="btnAllrooms" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionRooms" prefHeight="69.0" prefWidth="187.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="ALL ROOMS" textFill="WHITE">
+                <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionRooms" prefHeight="69.0" prefWidth="187.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="ALL ROOMS" textFill="WHITE">
                     <font>
                         <Font size="20.0" />
                     </font>
@@ -48,7 +48,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="btnNewRoom" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionNewRoom" prefHeight="69.0" prefWidth="188.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="NEW ROOM" textFill="WHITE">
+                <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionNewRoom" prefHeight="69.0" prefWidth="188.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="NEW ROOM" textFill="WHITE">
                     <font>
                         <Font size="20.0" />
                     </font>
@@ -60,7 +60,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="btnImport" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionImport" prefHeight="69.0" prefWidth="166.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="IMPORT" textFill="WHITE">
+                <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionImport" prefHeight="69.0" prefWidth="166.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="IMPORT" textFill="WHITE">
                     <font>
                         <Font size="20.0" />
                     </font>
@@ -100,7 +100,7 @@
                                 <Insets right="5.0" top="10.0" />
                             </HBox.margin>
                         </ImageView>
-                        <Label fx:id="lblWelcome" alignment="BOTTOM_LEFT" onMouseClicked="#onActionEdit" prefHeight="50.0" prefWidth="406.0" style="-fx-background-color: #F8F6F6;" text="Welcome, User." textAlignment="RIGHT">
+                        <Label fx:id="lblWelcome" alignment="BOTTOM_LEFT" onMouseClicked="#onActionEdit" prefHeight="50.0" prefWidth="313.0" style="-fx-background-color: #F8F6F6;" text="Welcome, User." textAlignment="RIGHT">
                             <opaqueInsets>
                                 <Insets />
                             </opaqueInsets>
@@ -114,14 +114,23 @@
                     </VBox.margin>
                 </HBox>
                 <VBox prefHeight="200.0" prefWidth="100.0" />
-                <Button fx:id="btnChangeName" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionSettings" prefHeight="26.0" prefWidth="107.0" style="-fx-background-color: #F8F6F6 #F8F6F6 #F8F6F6 #F8F6F6;" text="Change Name" textFill="#1e224f">
-                    <VBox.margin>
-                        <Insets left="205.0" />
-                    </VBox.margin>
-                    <font>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                      <Button fx:id="btnChangeName" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionSettings" prefHeight="26.0" prefWidth="107.0" style="-fx-background-color: #F8F6F6 #F8F6F6 #F8F6F6 #F8F6F6;" text="Change Name" textFill="#1e224f">
+                          <font>
+                              <Font size="10.0" />
+                          </font>
+                     <HBox.margin>
+                        <Insets left="200.0" />
+                     </HBox.margin>
+                      </Button>
+                  <Button fx:id="btnRefresh" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionRefresh" prefHeight="26.0" prefWidth="107.0" style="-fx-background-color: #F8F6F6 #F8F6F6 #F8F6F6 #F8F6F6;" text="Refresh" textFill="#1e224f">
+                     <font>
                         <Font size="10.0" />
-                    </font>
-                </Button>
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
                 <Label fx:id="lblRoomId" prefHeight="17.0" prefWidth="589.0" text="Room 1">
                     <font>
                         <Font size="30.0" />
@@ -159,7 +168,7 @@
                 <Insets top="-540.0" />
             </BorderPane.margin>
             <children>
-                <Label alignment="TOP_RIGHT" text="20:20">
+                <Label alignment="TOP_RIGHT">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
