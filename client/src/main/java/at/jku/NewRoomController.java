@@ -1,11 +1,9 @@
 package at.jku;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -39,6 +37,8 @@ public class NewRoomController extends APIClient {
         alert.setHeaderText("You are about to create this room.");
         alert.setContentText("Are you ok with this?");
 
+
+        //TODO: get the ACTUAL last room_id
         Long room_id = 4L;
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){;
@@ -50,24 +50,24 @@ public class NewRoomController extends APIClient {
             int windows = 0;
             int lightSources = 0;
 
-           if (txtSize.getText() != null) {
-            size = Integer.parseInt(txtSize.getText()); }
+            if (txtSize.getText() != null) {
+                size = Integer.parseInt(txtSize.getText()); }
 
             if (txtDoor.getText() != null) {
-            doors =  Integer.parseInt(txtDoor.getText());}
+                doors =  Integer.parseInt(txtDoor.getText());}
 
             if (txtFans.getText() != null) {
-            fans = Integer.parseInt(txtFans.getText());}
+                fans = Integer.parseInt(txtFans.getText());}
 
             if (txtWindows.getText() != null) {
                 windows = Integer.parseInt(txtWindows.getText());
             }
 
             if (txtLightSource.getText() != null) {
-            lightSources = Integer.parseInt(txtLightSource.getText()); }
+                lightSources = Integer.parseInt(txtLightSource.getText()); }
 
             if (size>0) {
-            postRoom(name, size); }
+                postRoom(name, size); }
             else {postRoom(name);}
 
             //adding devices

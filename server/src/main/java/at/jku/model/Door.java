@@ -52,6 +52,7 @@ public class Door implements Openable {
         rooms.add(room);
     }
 
+    @JsonIgnore
     public Set<Room> getRooms(Room room) {
         return rooms;
     }
