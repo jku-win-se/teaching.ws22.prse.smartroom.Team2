@@ -229,13 +229,13 @@ public class APIClient implements API {
     @Override
     public HttpResponse postLightSourceColor(Long roomID, Long lightID, int brightness) {
         return POST(BASE_URL + "/rooms" + "/" + roomID
-                + "/lights" + "/" + lightID + "?brightness=" + brightness);
+                + "/lights" + "/" + lightID + "/SetColor?brightness=" + brightness);
     }
 
     @Override
     public HttpResponse postLightSourceColor(Long roomID, Long lightID, String hex, int brightness) {
         return POST(BASE_URL + "/rooms" + "/" + roomID
-                + "/lights" + "/" + lightID + "?hex=" + hex + "&brightness=" + brightness);
+                + "/lights" + "/" + lightID + "/SetColor?hex=" + hex + "&brightness=" + brightness);
     }
 
     @Override

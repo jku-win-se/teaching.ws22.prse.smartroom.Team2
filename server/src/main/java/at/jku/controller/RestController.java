@@ -167,7 +167,7 @@ public class RestController {
     }
 
 
-    @PutMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
+    @PatchMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
     public ResponseEntity<LightSource> updateLightSource(@PathVariable Long room_id,
                                                          @PathVariable Long light_id,
                                                          @RequestParam Optional<String> name) {
@@ -232,9 +232,13 @@ public class RestController {
         final Optional<LightSource> ls = room.get()
                 .getLightSources().stream()
                 .filter(l -> l.getId().equals(light_id)).findFirst();
-        if (room.isPresent() && ls.isPresent() && hex.isPresent() && brightness.isPresent()) {
-            ls.get().setHex(hex.get());
-            ls.get().setBrightness(brightness.get());
+        if (room.isPresent() && ls.isPresent()) {
+            if (hex.isPresent()) {
+                ls.get().setHex(hex.get());
+            }
+            if (brightness.isPresent()) {
+                ls.get().setBrightness(brightness.get());
+            }
             lightSourceRepository.save(ls.get());
         }
         return ResponseEntity.ok(ls.orElse(null));
@@ -295,8 +299,8 @@ public class RestController {
 
     @PostMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}/Operations")
     public ResponseEntity<Ventilator> postVentilatorState(@PathVariable Long room_id,
-                                                            @PathVariable Long ventilator_id,
-                                                            @RequestParam Optional<Boolean> turnon) {
+                                                          @PathVariable Long ventilator_id,
+                                                          @RequestParam Optional<Boolean> turnon) {
         final Optional<Room> room = roomRepository.findById(room_id);
         final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
 
@@ -394,7 +398,7 @@ public class RestController {
 
     @PostMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}/Open")
     public ResponseEntity<Windo> postWindowState(@PathVariable Long room_id,
-                                            @PathVariable Long window_id) {
+                                                 @PathVariable Long window_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
         final Optional<Windo> win = room.get().getWindows().stream().filter(l -> l.getId().equals(window_id)).findFirst();
         if (win.isPresent()) {
@@ -477,7 +481,7 @@ public class RestController {
 
     @PostMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}/Open")
     public ResponseEntity<Door> postDoorState(@PathVariable Long room_id,
-                                         @PathVariable Long door_id) {
+                                              @PathVariable Long door_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
         final Optional<Door> door = room.get().getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
         if (door.isPresent()) {
