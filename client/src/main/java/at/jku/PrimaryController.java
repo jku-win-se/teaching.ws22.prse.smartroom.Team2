@@ -25,6 +25,9 @@ import org.json.JSONObject;
 
 public class PrimaryController extends APIClient implements Initializable  {
 
+    //TODO: room_id übernehmen von all rooms controller oder automatisch id=1 festlegen (mit get rest methode)
+    Long room_id = 1L;
+
     @FXML
     private void onActionRooms() throws IOException {
         DigitalTwinApp.setRoot("allrooms");
@@ -54,32 +57,8 @@ public class PrimaryController extends APIClient implements Initializable  {
         DigitalTwinApp.setRoot("editroom");
     }
 
-    Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
-
-
-    @FXML
-    private void onActionSettings() throws IOException, BackingStoreException {
-        TextInputDialog td = new TextInputDialog();
-        TextField t = new TextField();
-
-        td.setTitle("Preference name");
-        String name = null;
-        // setHeaderText
-        td.setHeaderText("Enter a name for the preference");
-        Optional<String> result = td.showAndWait();
-        if (result.isPresent()) {
-            name = td.getEditor().getText();
-            lblWelcome.setText("Welcome, " + name + ".");
-            userName = prefs.get("userName", "User");
-            prefs.exportNode(new FileOutputStream("prefs.xml"));
-        }
-    }
-
-
-
     @FXML
     ImageView btnEdit;
-
     @FXML
     Label lblRoomId;
     @FXML
@@ -98,14 +77,33 @@ public class PrimaryController extends APIClient implements Initializable  {
     Label lblLightBulb;
     @FXML
     Label lblFan;
-
     @FXML
     Label lblWelcome;
+    @FXML
+    BorderPane bp;
+    @FXML
+    VBox vbRoomSetup;
 
     String userName;
 
-//TODO: room_id übernehmen von all rooms controller oder automatisch id=1 festlegen (mit get rest methode)
-    Long room_id = 1L;
+    Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+
+    @FXML
+    private void onActionSettings() throws IOException, BackingStoreException {
+        TextInputDialog td = new TextInputDialog();
+        TextField t = new TextField();
+
+        td.setTitle("Preference name");
+        String name = null;
+        td.setHeaderText("Enter a name for the preference");
+        Optional<String> result = td.showAndWait();
+        if (result.isPresent()) {
+            name = td.getEditor().getText();
+            lblWelcome.setText("Welcome, " + name + ".");
+            userName = prefs.get("userName", "User");
+            prefs.exportNode(new FileOutputStream("prefs.xml"));
+        }
+    }
 
     public int getNumberOfWindows(Long room_id) {
 
@@ -152,15 +150,6 @@ public class PrimaryController extends APIClient implements Initializable  {
             no++;
         }
         return no;}
-
-
-    @FXML
-    BorderPane bp;
-
-    @FXML
-    VBox vbRoomSetup;
-
-
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
@@ -220,6 +209,7 @@ public class PrimaryController extends APIClient implements Initializable  {
             if (tempNoDoors > 0) {
                 int temp = noDoors - tempNoDoors + 1;
                 lbl = new Label("Door #" + temp);
+                System.out.println("temp");
                 img = new Image(getClass().getResourceAsStream("door.png"));
                 addedElement = true;
                 tempNoDoors--;
@@ -231,7 +221,7 @@ public class PrimaryController extends APIClient implements Initializable  {
                     if ( state.getBoolean("state") == true){
                         initialValue = 1.0;
                     }
-                  }
+                }
                 slider.setValue(initialValue);
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
 
@@ -253,13 +243,16 @@ public class PrimaryController extends APIClient implements Initializable  {
                 respDevice = getWindowState(room_id, (long) temp);
                 double initialValue = 0.0;
                 if (!respDevice.body().toString().isEmpty()) {
-                JSONObject state = new JSONObject(respDevice.body().toString());
+                    JSONObject state = new JSONObject(respDevice.body().toString());
 
-                if (!state.toString().startsWith("{\"path")){
-                    if ( state.getBoolean("state") == true){
-                        initialValue = 1.0;
-                    }
-                     } }
+                    System.out.println( "windows" + " " + respDevice.body().toString());
+
+
+                    if (!state.toString().startsWith("{\"path")){
+                        if ( state.getBoolean("state") == true){
+                            initialValue = 1.0;
+                        }
+                    } }
                 slider.setValue(initialValue);
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
 
@@ -285,7 +278,7 @@ public class PrimaryController extends APIClient implements Initializable  {
                     if (state.getBoolean("on")){
                         initialValue = 1.0;
                     }
-                slider.setValue(initialValue); }
+                    slider.setValue(initialValue); }
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
 
                     @Override
@@ -323,7 +316,7 @@ public class PrimaryController extends APIClient implements Initializable  {
                     if ( state.getBoolean("state") == true){
                         initialValue = 1.0;
                     }
-                    }
+                }
                 slider.setValue(initialValue);
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
 

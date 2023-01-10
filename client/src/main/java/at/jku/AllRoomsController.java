@@ -59,7 +59,6 @@ public class AllRoomsController extends APIClient implements Initializable {
         //TODO: add action for checkbox: pick room for export
     }
 
-
     @FXML
     private void onActionExport() throws IOException {
         textField.setVisible(true);
@@ -84,8 +83,6 @@ public class AllRoomsController extends APIClient implements Initializable {
     private void onActionSearch() throws IOException {
         //TODO: View Room
     }
-
-
 
     @FXML
     TextField textField;

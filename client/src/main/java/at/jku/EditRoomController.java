@@ -23,7 +23,8 @@ import java.util.ResourceBundle;
 public class EditRoomController extends APIClient implements Initializable {
 
     //TODO: get actual room_id from primary controller
-    long roomID = 1L;
+    long roomID = 1L; //just for testing purposes
+
 
     @FXML
     private void onActionRooms() throws IOException {
@@ -45,6 +46,23 @@ public class EditRoomController extends APIClient implements Initializable {
         DigitalTwinApp.setRoot("import");
     }
 
+    @FXML
+    TextField txtName;
+
+    @FXML
+    TextField txtSize;
+
+    @FXML
+    Button btnEditSave;
+
+    @FXML
+    Button btnEditCancel;
+
+    @FXML
+    BorderPane bp;
+
+    @FXML
+    VBox vbDevices;
 
     @FXML
     private void onActionSave() throws IOException {
@@ -70,28 +88,151 @@ public class EditRoomController extends APIClient implements Initializable {
         }
     }
 
-
     @FXML
-    TextField txtName;
-
-    @FXML
-    TextField txtSize;
-
-    @FXML
-    Button btnEditSave;
-
-    @FXML
-    Button btnEditCancel;
+    private void onActionCancel() {
+        txtSize.setText("");
+        txtName.setText("");
+    }
 
 
 
 
     @FXML
-    BorderPane bp;
+    private void onActionAddWindow() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Add window");
+        alert.setHeaderText("You are about to add a window to this room");
+        alert.setContentText("Are you ok with this?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            postWindow(roomID);
+        } else {
+            // don't add window
+        }
+    }
+    @FXML
+    private void onActionAddLS(){
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        TextField txtName = new TextField();
+
+        Button btnCancel = new Button("Cancel");
+        Button btnSave = new Button("Save");
+        btnSave.setOnAction(e -> {
+            if (!txtName.getText().isEmpty())
+
+            {postLightSource(roomID, txtName.getText());}
+
+            else {postLightSource(roomID);}
+
+            stage.close();
+        });
+
+        btnCancel.setOnAction(e -> {
+            stage.close();
+        });
+
+        Label label1 = new Label("Add light source ");
+        Label label2 = new Label("Name: (optional) ");
+
+        //TODO: Add hex and brightness too
+
+        GridPane layout = new GridPane();
+
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setVgap(5);
+        layout.setHgap(5);
+        layout.setMargin(btnSave, new Insets(0, 0,0,70));
+        layout.add(txtName, 1,1);
+        layout.add(btnSave, 1,2);
+        layout.add(btnCancel, 1,2);
+        layout.add(label1, 0,0);
+        layout.add(label2, 0,1);
+        Scene scene = new Scene(layout, 300, 120);
+        stage.setTitle("Add light source");
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
 
     @FXML
-    VBox vbDevices;
+    private void onActionAddDoor(){
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
 
+        TextField txtName = new TextField();
+
+        Button btnCancel = new Button("Cancel");
+        Button btnSave = new Button("Save");
+        btnSave.setOnAction(e -> {
+            String doorName = txtName.getText();
+            postDoor(roomID,doorName);
+            stage.close();
+        });
+
+        btnCancel.setOnAction(e -> {
+            stage.close();
+        });
+
+        Label label1 = new Label("Add door");
+        Label label2 = new Label("Name (optional):");
+
+        GridPane layout = new GridPane();
+
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setVgap(5);
+        layout.setHgap(5);
+
+        layout.add(txtName, 1,1);
+        layout.add(btnSave, 1,3);
+        layout.setMargin(btnSave, new Insets(0, 0,0,70));
+        layout.add(btnCancel, 1, 3);
+        layout.add(label1, 1,0);
+        layout.add(label2, 0,1);
+        Scene scene = new Scene(layout, 300, 120);
+        stage.setTitle("Add door");
+        stage.setScene(scene);
+        stage.showAndWait(); }
+
+    @FXML
+    private void onActionAddVentilator(){
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        TextField txtName = new TextField();
+
+        Button btnCancel = new Button("Cancel");
+        Button btnSave = new Button("Save");
+        btnSave.setOnAction(e -> {
+            String ventilatorName = txtName.getText();
+            postVentilator(roomID,ventilatorName);
+            stage.close();
+        });
+
+        btnCancel.setOnAction(e -> {
+            stage.close();
+        });
+
+        Label label1 = new Label("Add ventilator");
+        Label label2 = new Label("Name (optional):");
+
+        GridPane layout = new GridPane();
+
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setVgap(5);
+        layout.setHgap(5);
+
+        layout.add(txtName, 1,1);
+        layout.add(btnSave, 1,3);
+        layout.setMargin(btnSave, new Insets(0, 0,0,70));
+        layout.add(btnCancel, 1, 3);
+        layout.add(label1, 1,0);
+        layout.add(label2, 0,1);
+        Scene scene = new Scene(layout, 300, 120);
+        stage.setTitle("Add ventilator");
+        stage.setScene(scene);
+        stage.showAndWait(); }
 
     public void setUpDevices() {
 
@@ -423,7 +564,7 @@ public class EditRoomController extends APIClient implements Initializable {
                 btnSave.setOnAction(e -> {
                     if (!txtName.getText().isEmpty())
                     {
-                    patchVentilator(roomID, id, txtName.getText());}
+                        patchVentilator(roomID, id, txtName.getText());}
                     stage.close();
                 });
 
@@ -456,149 +597,6 @@ public class EditRoomController extends APIClient implements Initializable {
             hb.setMargin(ivEdit, new Insets(0, 10, 0, 0));
         }
 
-    }
-
-    @FXML
-    private void onActionAddWindow() throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Add window");
-        alert.setHeaderText("You are about to add a window to this room");
-        alert.setContentText("Are you ok with this?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            postWindow(roomID);
-        } else {
-            // don't add window
-        }
-    }
-    @FXML
-    private void onActionAddLS() throws IOException{
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-
-        TextField txtName = new TextField();
-
-        Button btnCancel = new Button("Cancel");
-        Button btnSave = new Button("Save");
-        btnSave.setOnAction(e -> {
-            if (!txtName.getText().isEmpty())
-
-            {postLightSource(roomID, txtName.getText());}
-
-            else {postLightSource(roomID);}
-
-            stage.close();
-        });
-
-        btnCancel.setOnAction(e -> {
-            stage.close();
-        });
-
-        Label label1 = new Label("Add light source ");
-        Label label2 = new Label("Name: (optional) ");
-
-        //TODO: Add hex and brightness too
-
-        GridPane layout = new GridPane();
-
-        layout.setPadding(new Insets(10, 10, 10, 10));
-        layout.setVgap(5);
-        layout.setHgap(5);
-        layout.setMargin(btnSave, new Insets(0, 0,0,70));
-        layout.add(txtName, 1,1);
-        layout.add(btnSave, 1,2);
-        layout.add(btnCancel, 1,2);
-        layout.add(label1, 0,0);
-        layout.add(label2, 0,1);
-        Scene scene = new Scene(layout, 300, 120);
-        stage.setTitle("Add light source");
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
-
-    @FXML
-    private void onActionAddDoor() throws IOException{
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-
-        TextField txtName = new TextField();
-
-        Button btnCancel = new Button("Cancel");
-        Button btnSave = new Button("Save");
-        btnSave.setOnAction(e -> {
-            String doorName = txtName.getText();
-            postDoor(roomID,doorName);
-            stage.close();
-        });
-
-        btnCancel.setOnAction(e -> {
-            stage.close();
-        });
-
-        Label label1 = new Label("Add door");
-        Label label2 = new Label("Name (optional):");
-
-        GridPane layout = new GridPane();
-
-        layout.setPadding(new Insets(10, 10, 10, 10));
-        layout.setVgap(5);
-        layout.setHgap(5);
-
-        layout.add(txtName, 1,1);
-        layout.add(btnSave, 1,3);
-        layout.setMargin(btnSave, new Insets(0, 0,0,70));
-        layout.add(btnCancel, 1, 3);
-        layout.add(label1, 1,0);
-        layout.add(label2, 0,1);
-        Scene scene = new Scene(layout, 300, 120);
-        stage.setTitle("Add door");
-        stage.setScene(scene);
-        stage.showAndWait(); }
-
-    @FXML
-    private void onActionAddVentilator() throws IOException{
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-
-        TextField txtName = new TextField();
-
-        Button btnCancel = new Button("Cancel");
-        Button btnSave = new Button("Save");
-        btnSave.setOnAction(e -> {
-            String ventilatorName = txtName.getText();
-            postVentilator(roomID,ventilatorName);
-            stage.close();
-        });
-
-        btnCancel.setOnAction(e -> {
-            stage.close();
-        });
-
-        Label label1 = new Label("Add ventilator");
-        Label label2 = new Label("Name (optional):");
-
-        GridPane layout = new GridPane();
-
-        layout.setPadding(new Insets(10, 10, 10, 10));
-        layout.setVgap(5);
-        layout.setHgap(5);
-
-        layout.add(txtName, 1,1);
-        layout.add(btnSave, 1,3);
-        layout.setMargin(btnSave, new Insets(0, 0,0,70));
-        layout.add(btnCancel, 1, 3);
-        layout.add(label1, 1,0);
-        layout.add(label2, 0,1);
-        Scene scene = new Scene(layout, 300, 120);
-        stage.setTitle("Add ventilator");
-        stage.setScene(scene);
-        stage.showAndWait(); }
-
-    @FXML
-    private void onActionCancel() throws IOException {
-        txtSize.setText("");
-        txtName.setText("");
     }
 
     @Override

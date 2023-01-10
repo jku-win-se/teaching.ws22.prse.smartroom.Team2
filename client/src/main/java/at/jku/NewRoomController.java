@@ -10,6 +10,31 @@ import java.util.Optional;
 public class NewRoomController extends APIClient {
 
     @FXML
+    TextField txtName;
+
+    @FXML
+    TextField txtSize;
+
+    @FXML
+    TextField txtWindows;
+
+    @FXML
+    TextField txtFans;
+
+    @FXML
+    TextField txtDoor;
+
+    @FXML
+    TextField txtLightSource;
+
+    @FXML
+    Button btnSave;
+
+    @FXML
+    Button btnCancel;
+
+
+    @FXML
     private void onActionRooms() throws IOException {
         DigitalTwinApp.setRoot("allrooms");
     }
@@ -39,7 +64,7 @@ public class NewRoomController extends APIClient {
 
 
         //TODO: get the ACTUAL last room_id
-        Long room_id = 4L;
+        Long room_id = 4L; //just for testing purposes
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){;
             String name =  txtName.getText();
@@ -95,40 +120,13 @@ public class NewRoomController extends APIClient {
             // don't create new room
         }
     }
-
-    @FXML
-    TextField txtName;
-
-    @FXML
-    TextField txtSize;
-
-    @FXML
-    TextField txtWindows;
-
-    @FXML
-    TextField txtFans;
-
-    @FXML
-    TextField txtDoor;
-
-    @FXML
-    TextField txtLightSource;
-
-    @FXML
-    Button btnSave;
-
-    @FXML
-    Button btnCancel;
-
     @FXML
     private void onActionCancel() throws IOException {
-
         txtName.setText("");
         txtSize.setText("");
         txtWindows.setText("");
         txtFans.setText("");
         txtDoor.setText("");
         txtLightSource.setText("");
-
     }
 }
