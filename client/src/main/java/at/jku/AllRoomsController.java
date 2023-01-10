@@ -37,7 +37,6 @@ public class AllRoomsController extends APIClient implements Initializable {
     @FXML
     private void onActionHome() throws IOException {
         DigitalTwinApp.setRoot("primary");
-        System.out.println("Exception");
     }
 
     @FXML
