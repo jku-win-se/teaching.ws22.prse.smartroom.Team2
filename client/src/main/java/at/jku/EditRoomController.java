@@ -99,7 +99,7 @@ public class EditRoomController extends APIClient implements Initializable {
 
 
     @FXML
-    private void onActionAddWindow() {
+    private void onActionAddWindow() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Add window");
         alert.setHeaderText("You are about to add a window to this room");
@@ -108,6 +108,8 @@ public class EditRoomController extends APIClient implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
             postWindow(roomID);
+            DigitalTwinApp.setRoot("editroom");
+            DigitalTwinApp.setRoot("editroom");
         } else {
             // don't add window
         }
@@ -123,11 +125,13 @@ public class EditRoomController extends APIClient implements Initializable {
         Button btnSave = new Button("Save");
         btnSave.setOnAction(e -> {
             if (!txtName.getText().isEmpty())
-
             {postLightSource(roomID, txtName.getText());}
-
             else {postLightSource(roomID);}
-
+            try {
+                DigitalTwinApp.setRoot("editroom");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             stage.close();
         });
 
@@ -169,6 +173,11 @@ public class EditRoomController extends APIClient implements Initializable {
         btnSave.setOnAction(e -> {
             String doorName = txtName.getText();
             postDoor(roomID,doorName);
+            try {
+                DigitalTwinApp.setRoot("editroom");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             stage.close();
         });
 
@@ -208,6 +217,11 @@ public class EditRoomController extends APIClient implements Initializable {
         btnSave.setOnAction(e -> {
             String ventilatorName = txtName.getText();
             postVentilator(roomID,ventilatorName);
+            try {
+                DigitalTwinApp.setRoot("editroom");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             stage.close();
         });
 
