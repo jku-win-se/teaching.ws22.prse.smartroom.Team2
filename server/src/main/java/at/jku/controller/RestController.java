@@ -32,7 +32,6 @@ public class RestController {
     private final AirQualityDeviceRepository airQualityDeviceRepository;
     private final AirQualityDeviceRecordRepository airQualityDeviceRecordRepository;
 
-
     public RestController(final RoomRepository roomRepository,
                           final DoorRepository doorRepository,
                           final WindoRepository windoRepository,
@@ -415,7 +414,7 @@ public class RestController {
         return ResponseEntity.ok(room.get().getDoors().stream().collect(Collectors.toList()));
     }
 
-    @PostMapping(value = "/rooms/{room_id:.*}/doors")
+    @PutMapping(value = "/rooms/{room_id:.*}/doors")
     public ResponseEntity<Door> addDoor(@PathVariable Long room_id,
                                         @RequestParam Optional<String> name) {
         final Optional<Room> room = roomRepository.findById(room_id);
@@ -430,6 +429,29 @@ public class RestController {
         }
         return ResponseEntity.ok(door);
     }
+
+    @PutMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
+    public ResponseEntity<Door> connectDoor(@PathVariable Long room_id,
+                                            @PathVariable Long door_id,
+                                            @RequestParam Long room2
+                                        ) {
+        final Optional<Room> room_1 = roomRepository.findById(room_id);
+        final Optional<Room> room_2 = roomRepository.findById(room2);
+        final Optional<Door> door = room_1.get().getDoors().stream()
+                .filter(l -> l.getId().equals(door_id)).findFirst();
+
+        if (room_1.isPresent()) {
+            if (room_2.isPresent()) {
+                if (door.isPresent()) {
+               door.get().addRoom(room_2.get());
+               room_2.get().addDoor(door.get());
+            }}
+        }
+        doorRepository.save(door.get());
+        roomRepository.save(room_2.get());
+        return ResponseEntity.ok(door.get());
+    }
+
 
     @GetMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
     public ResponseEntity<Door> getDoor(@PathVariable Long room_id,

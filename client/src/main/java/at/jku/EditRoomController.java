@@ -292,12 +292,20 @@ public class EditRoomController extends APIClient implements Initializable {
                 stage.initModality(Modality.APPLICATION_MODAL);
 
                 TextField txtName = new TextField();
+                TextField txtConnectsTo = new TextField();
+
 
                 Button btnCancel = new Button("Cancel");
                 Button btnSave = new Button("Save");
                 btnSave.setOnAction(e -> {
                     String doorName = txtName.getText();
-                    putDoor(roomID, id, doorName);
+
+                    if (!txtConnectsTo.getText().isEmpty())
+                    {
+                    connectDoor(roomID, id, Long.valueOf(txtConnectsTo.getText()));}
+
+                    if (!doorName.isEmpty()){
+                        putDoor(roomID, id, doorName);}
                     stage.close();
                 });
 
@@ -307,6 +315,7 @@ public class EditRoomController extends APIClient implements Initializable {
 
                 Label label1 = new Label("Edit door  ");
                 Label label2 = new Label("Name:");
+                Label label3 = new Label("Connects with room: ");
 
                 GridPane layout = new GridPane();
 
@@ -316,10 +325,12 @@ public class EditRoomController extends APIClient implements Initializable {
 
                 layout.add(txtName, 1,1);
                 layout.add(btnSave, 1,3);
+                layout.add(txtConnectsTo, 1,2);
                 layout.setMargin(btnSave, new Insets(0, 0,0,70));
                 layout.add(btnCancel, 1, 3);
                 layout.add(label1, 1,0);
                 layout.add(label2, 0,1);
+                layout.add(label3, 0,2);
                 Scene scene = new Scene(layout, 250, 130);
                 stage.setTitle("Edit");
                 stage.setScene(scene);

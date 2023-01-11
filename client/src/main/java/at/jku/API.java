@@ -103,6 +103,8 @@ public interface API {
 
     public HttpResponse putDoor(Long roomID, int doorID, String name);
 
+    HttpResponse connectDoor(Long roomID, int doorID, Long roomID_2);
+
     HttpResponse deleteDoor(Long roomID, Long doorID);
 
     public HttpResponse getDoorState(Long roomID, Long doorID);
