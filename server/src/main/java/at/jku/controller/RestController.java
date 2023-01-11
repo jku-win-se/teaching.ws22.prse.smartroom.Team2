@@ -433,7 +433,7 @@ public class RestController {
         }
         return ResponseEntity.ok(door);
     }
-
+/*
     @PutMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
     public ResponseEntity<Door> connectDoor(@PathVariable Long room_id,
                                             @PathVariable Long door_id,
@@ -455,7 +455,7 @@ public class RestController {
         roomRepository.save(room_2.get());
         return ResponseEntity.ok(door.get());
     }
-
+*/
 
     @GetMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
     public ResponseEntity<Door> getDoor(@PathVariable Long room_id,

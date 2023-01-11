@@ -300,9 +300,9 @@ public class EditRoomController extends APIClient implements Initializable {
                 btnSave.setOnAction(e -> {
                     String doorName = txtName.getText();
 
-                    if (!txtConnectsTo.getText().isEmpty())
+                  /*  if (!txtConnectsTo.getText().isEmpty())
                     {
-                    connectDoor(roomID, id, Long.valueOf(txtConnectsTo.getText()));}
+                   connectDoor(roomID, id, Long.valueOf(txtConnectsTo.getText()));} */
 
                     if (!doorName.isEmpty()){
                         putDoor(roomID, id, doorName);}

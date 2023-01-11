@@ -358,12 +358,13 @@ public class APIClient implements API {
         return PUT(BASE_URL + "/rooms" + "/" + roomID + "/doors/"
                 + doorID + "?name=" + name);
     }
-
+/*
     @Override
     public HttpResponse connectDoor(Long roomID, int doorID, Long roomID_2) {
         return PUT(BASE_URL + "/rooms" + "/" + roomID + "/doors/"
                 + doorID  + "?roomID=" + roomID_2);
     }
+    */
 
     @Override
     public HttpResponse deleteDoor(Long roomID, Long doorID) {
