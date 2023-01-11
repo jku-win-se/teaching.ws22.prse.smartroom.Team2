@@ -83,6 +83,7 @@ public class EditRoomController extends APIClient implements Initializable {
 
             else {
             putRoom(roomID, txtName.getText(), Integer.valueOf(txtSize.getText()));}
+            DigitalTwinApp.setRoot("editroom");
   } else {
             // don't create new room
         }
@@ -306,6 +307,11 @@ public class EditRoomController extends APIClient implements Initializable {
 
                     if (!doorName.isEmpty()){
                         putDoor(roomID, id, doorName);}
+                    try {
+                        DigitalTwinApp.setRoot("editroom");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                     stage.close();
                 });
 
@@ -478,6 +484,11 @@ public class EditRoomController extends APIClient implements Initializable {
                         postLightSourceColor(roomID, (long) id, txtHex.getText());
                     }
                     stage.close();
+                    try {
+                        DigitalTwinApp.setRoot("editroom");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 });
 
                 btnCancel.setOnAction(e -> {
@@ -576,6 +587,12 @@ public class EditRoomController extends APIClient implements Initializable {
                     if (!txtName.getText().isEmpty())
                     {
                         patchVentilator(roomID, id, txtName.getText());}
+
+                    try {
+                        DigitalTwinApp.setRoot("editroom");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                     stage.close();
                 });
 
