@@ -100,7 +100,7 @@
                                 <Insets right="5.0" top="10.0" />
                             </HBox.margin>
                         </ImageView>
-                        <Label fx:id="lblWelcome" alignment="BOTTOM_LEFT" onMouseClicked="#onActionEdit" prefHeight="50.0" prefWidth="313.0" style="-fx-background-color: #F8F6F6;" text="Welcome, User." textAlignment="RIGHT">
+                        <Label fx:id="lblWelcome" alignment="BOTTOM_LEFT" onMouseClicked="#onActionEdit" prefHeight="50.0" prefWidth="545.0" style="-fx-background-color: #F8F6F6;" text="Welcome, User." textAlignment="RIGHT">
                             <opaqueInsets>
                                 <Insets />
                             </opaqueInsets>
@@ -121,7 +121,7 @@
                               <Font size="10.0" />
                           </font>
                      <HBox.margin>
-                        <Insets left="200.0" />
+                        <Insets left="208.0" />
                      </HBox.margin>
                       </Button>
                   <Button fx:id="btnRefresh" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onActionRefresh" prefHeight="26.0" prefWidth="107.0" style="-fx-background-color: #F8F6F6 #F8F6F6 #F8F6F6 #F8F6F6;" text="Refresh" textFill="#1e224f">
@@ -316,7 +316,7 @@
                                         </Label>
                                         <HBox maxWidth="-Infinity" prefHeight="20.0" prefWidth="297.0">
                                             <children>
-                                                <Label prefHeight="20.0" prefWidth="290.0" text="Doors:">
+                                                <Label maxWidth="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="290.0" text="Doors:">
                                                     <font>
                                                         <Font size="16.0" />
                                                     </font>
@@ -333,7 +333,7 @@
                                         </HBox>
                                         <HBox prefHeight="20.0" prefWidth="290.0">
                                             <children>
-                                                <Label prefHeight="20.0" prefWidth="290.0" text="Windows">
+                                                <Label maxWidth="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="290.0" text="Windows">
                                                     <font>
                                                         <Font size="16.0" />
                                                     </font>
@@ -380,6 +380,9 @@
                                                     <font>
                                                         <Font size="16.0" />
                                                     </font>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </HBox.margin>
                                                 </Label>
                                                 <Label fx:id="lblFan" text="1">
                                                     <font>
