@@ -199,7 +199,9 @@ public class AllRoomsController extends APIClient implements Initializable {
             CheckBox cb = new CheckBox();
             cb.setId("cb" + i);
             cb.setVisible(false);
-            String name = json.getString("name");
+            String name = "";
+            if (!json.getString("name").isEmpty())
+            { name = json.getString("name");}
             int size = json.getInt("size");
             int id = json.getInt("id");
 
