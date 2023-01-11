@@ -89,7 +89,7 @@
       </VBox>
    </left>
    <top>
-      <VBox prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
@@ -100,7 +100,7 @@
          <children>
             <Label text="Edit room">
                <font>
-                  <Font name="Arial" size="40.0" />
+                  <Font size="30.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />

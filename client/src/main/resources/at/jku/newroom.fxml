@@ -86,7 +86,7 @@
       </VBox>
    </left>
    <top>
-      <VBox prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
@@ -97,7 +97,7 @@
          <children>
             <Label text="Create new room">
                <font>
-                  <Font name="Arial" size="40.0" />
+                  <Font size="30.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
@@ -193,7 +193,7 @@
                   </Button>
                   <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onActionSave" prefHeight="27.0" prefWidth="66.0" text="Save">
                      <HBox.margin>
-                        <Insets left="40.0" top="30.0" />
+                        <Insets left="70.0" top="30.0" />
                      </HBox.margin>
                      <font>
                         <Font size="14.0" />

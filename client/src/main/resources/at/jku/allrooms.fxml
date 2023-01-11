@@ -23,7 +23,7 @@
          <children>
             <Button fx:id="home" alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionHome" prefHeight="69.0" prefWidth="190.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="HOME" textFill="WHITE">
                <VBox.margin>
-                  <Insets top="220.0" />
+                  <Insets top="200.0" />
                </VBox.margin>
                <font>
                   <Font size="20.0" />
@@ -88,7 +88,7 @@
       </VBox>
    </left>
    <top>
-      <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="140.0" prefWidth="1224.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
