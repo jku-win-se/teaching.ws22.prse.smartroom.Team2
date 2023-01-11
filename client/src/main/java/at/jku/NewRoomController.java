@@ -75,20 +75,20 @@ public class NewRoomController extends APIClient {
             int windows = 0;
             int lightSources = 0;
 
-            if (txtSize.getText() != null) {
+            if (!txtSize.getText().isEmpty()) {
                 size = Integer.parseInt(txtSize.getText()); }
 
-            if (txtDoor.getText() != null) {
+            if (!txtDoor.getText().isEmpty()) {
                 doors =  Integer.parseInt(txtDoor.getText());}
 
-            if (txtFans.getText() != null) {
+            if (!txtFans.getText().isEmpty()) {
                 fans = Integer.parseInt(txtFans.getText());}
 
-            if (txtWindows.getText() != null) {
+            if (!txtWindows.getText().isEmpty()) {
                 windows = Integer.parseInt(txtWindows.getText());
             }
 
-            if (txtLightSource.getText() != null) {
+            if (!txtLightSource.getText().isEmpty()) {
                 lightSources = Integer.parseInt(txtLightSource.getText()); }
 
             if (size>0) {
