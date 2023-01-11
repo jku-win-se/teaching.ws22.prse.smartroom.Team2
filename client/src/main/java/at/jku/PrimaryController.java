@@ -152,9 +152,9 @@ public class PrimaryController extends APIClient implements Initializable  {
         return no;}
 
     @Override
-    public void initialize (URL url, ResourceBundle resourceBundle){
+    public void initialize (URL url, ResourceBundle resourceBundle) {
 
-        int noDoors =getNumberOfDoors(room_id);
+        int noDoors = getNumberOfDoors(room_id);
         int noWindows = getNumberOfWindows(room_id);
         int noLightBulbs = getNumberOfLightSources(room_id);
         int noFans = getNumberOfVentilators(room_id);
@@ -171,13 +171,12 @@ public class PrimaryController extends APIClient implements Initializable  {
         lblLightBulb.setText(String.valueOf(noLightBulbs));
         lblFan.setText(String.valueOf(noFans));
         JSONObject jo = new JSONObject(getAirQualityCo2(room_id).body().toString());
-        lblCo2.setText(jo.getInt("co2") + "ppm");
+        lblCo2.setText(jo.getInt("co2") + " ppm");
         jo = new JSONObject(getAirQualityTemperature(room_id).body().toString());
-        lblTemp.setText(jo.getDouble("temperature") + " °C");
+        lblTemp.setText(jo.getInt("temperature") + " °C");
         JSONArray ja = new JSONArray(getPeopleInRoom(room_id).body().toString());
 
-        for (int i = 0; i<ja.length(); i++)
-        {
+        for (int i = 0; i < ja.length(); i++) {
             jo = (JSONObject) ja.get(i);
             lblPeople.setText(String.valueOf(jo.getInt("nopeopleInRoom")));
         }
@@ -187,32 +186,45 @@ public class PrimaryController extends APIClient implements Initializable  {
         int size = json.getInt("size");
         long id = json.getLong("id");
         String name = json.getString("name");
-        lblSize.setText(size + "qm");
+        lblSize.setText(size + " qm");
         lblRoomId.setText(name);
 
         Label lbl = null;
         Image img = null;
 
-        int noOfElements = noDoors+noFans+noLightBulbs+noWindows;
+        int noOfElements = noDoors + noFans + noLightBulbs + noWindows;
         boolean addedElement;
         HBox hb = new HBox();
-
+        vbRoomSetup.getChildren().add(hb);
         Slider slider;
         boolean status = false;
         HttpResponse respDevice = null;
 
+        HttpResponse respDoors = getDoors(room_id);
+        JSONArray arrDoors = new JSONArray(respDoors.body().toString());
 
+        HttpResponse respWindows = getWindows(room_id);
+        JSONArray arrWindows = new JSONArray(respWindows.body().toString());
+
+        HttpResponse respFans = getVentilators(room_id);
+        JSONArray arrFans = new JSONArray(respFans.body().toString());
+
+        HttpResponse respLights = getLightSources(room_id);
+        JSONArray arrLights = new JSONArray(respLights.body().toString());
 
         for (int i=1; i<=noOfElements; i++) {
             slider = new Slider(0, 1, 1);
             addedElement = false;
             if (tempNoDoors > 0) {
-                int temp = noDoors - tempNoDoors + 1;
-                lbl = new Label("Door #" + temp);
+                int temp = noDoors - tempNoDoors;
+                JSONObject jd = (JSONObject) arrDoors.get(temp);
+                id = jd.getInt("id");
+                lbl = new Label("Door #" + id);
+                lbl.setId("door"+id);
                 img = new Image(getClass().getResourceAsStream("door.png"));
                 addedElement = true;
                 tempNoDoors--;
-                respDevice = getDoorState(room_id, (long) temp);
+                respDevice = getDoorState(room_id, id);
                 JSONObject state = new JSONObject(respDevice.body().toString());
                 double initialValue = 0.0;
 
@@ -222,24 +234,27 @@ public class PrimaryController extends APIClient implements Initializable  {
                     }
                 }
                 slider.setValue(initialValue);
-                slider.valueProperty().addListener(new ChangeListener<Number>() {
+                    long finalId2 = id;
+                    slider.valueProperty().addListener(new ChangeListener<Number>() {
 
                     @Override
                     public void changed(ObservableValue<? extends Number> obs, Number oldValue, Number newValue) {
 
                         if (oldValue.intValue() !=  newValue.intValue()) {
-                            HttpResponse newRes = postDoorState(room_id, (long) temp);
-                            newRes = getDoorState(room_id, (long) temp);
+                            HttpResponse newRes = postDoorState(room_id, finalId2);
                         }
                     }});
             }
             if (!addedElement && tempNoWindows > 0) {
-                int temp = noWindows - tempNoWindows + 1;
-                lbl = new Label("Window #" + temp);
+                int temp = noWindows - tempNoWindows;
+                JSONObject jd = (JSONObject) arrWindows.get(temp);
+                id =  jd.getInt("id");
+                lbl = new Label("Window #" + id);
+                lbl.setId("window"+id);
                 img = new Image(getClass().getResourceAsStream("window.png"));
                 addedElement = true;
                 tempNoWindows--;
-                respDevice = getWindowState(room_id, (long) temp);
+                respDevice = getWindowState(room_id,  id);
                 double initialValue = 0.0;
                 if (!respDevice.body().toString().isEmpty()) {
                     JSONObject state = new JSONObject(respDevice.body().toString());
@@ -249,24 +264,28 @@ public class PrimaryController extends APIClient implements Initializable  {
                         }
                     } }
                 slider.setValue(initialValue);
-                slider.valueProperty().addListener(new ChangeListener<Number>() {
+                    long finalId = id;
+                    slider.valueProperty().addListener(new ChangeListener<Number>() {
 
                     @Override
                     public void changed(ObservableValue<? extends Number> obs, Number oldValue, Number newValue) {
 
                         if (oldValue.intValue() !=  newValue.intValue()) {
-                            HttpResponse newRes = postWindowState(room_id, (long) temp);
+                            HttpResponse newRes = postWindowState(room_id, finalId);
                         }
                     }});
             }
 
             if (!addedElement && tempNoLightBulbs > 0) {
-                int temp = noLightBulbs - tempNoLightBulbs + 1; //id of this specific device
-                lbl = new Label("LightBulb #" + temp);
+                int temp = noLightBulbs - tempNoLightBulbs;
+                JSONObject jd = (JSONObject) arrLights.get(temp);
+                id =  jd.getInt("id");
+                lbl = new Label("LightBulb #" + id);
+                lbl.setId("light"+id);
                 img = new Image(getClass().getResourceAsStream("lightbulb.png"));
                 addedElement = true;
                 tempNoLightBulbs--;
-                respDevice = getLightSourceActivation(room_id, temp);
+                respDevice = getLightSourceActivation(room_id, (int) id);
                 double initialValue = 0.0;
                 if (!respDevice.body().toString().isEmpty()){
                     JSONObject state = new JSONObject(respDevice.body().toString());
@@ -274,7 +293,8 @@ public class PrimaryController extends APIClient implements Initializable  {
                         initialValue = 1.0;
                     }
                     slider.setValue(initialValue); }
-                slider.valueProperty().addListener(new ChangeListener<Number>() {
+                    long finalId1 = id;
+                    slider.valueProperty().addListener(new ChangeListener<Number>() {
 
                     @Override
                     public void changed(ObservableValue<? extends Number> obs, Number oldValue, Number newValue) {
@@ -282,29 +302,28 @@ public class PrimaryController extends APIClient implements Initializable  {
 
                         if (oldValue.intValue() > newValue.intValue()) {
                             System.out.println("Turn off light source");
-                            HttpResponse res = postLightSourceActivation(room_id, (long) temp, false);
-                            System.out.println(res.body().toString());
+                            HttpResponse res = postLightSourceActivation(room_id, finalId1, false);
+                           // System.out.println(res.body().toString());
 
 
                         }
                         else if (oldValue.intValue() < newValue.intValue())
                         {
                             System.out.println("Turn on light source!");
-                            HttpResponse res = postLightSourceActivation(room_id, (long) temp, true);
-                            System.out.println(res.body().toString());
+                            HttpResponse res = postLightSourceActivation(room_id, finalId1, true);
+                            // System.out.println(res.body().toString());
                         }
                     }});
-
             }
-
-
-
             if (!addedElement && tempNoFans > 0) {
-                int temp = noFans - tempNoFans + 1; //current id for device
-                lbl = new Label("Ventilator #" + temp);
+                int temp = noFans - tempNoFans;
+                JSONObject jd = (JSONObject) arrFans.get(temp);
+                id =  jd.getInt("id");
+                lbl = new Label("Ventilator #" + id);
+                lbl.setId("vent"+id);
                 img = new Image(getClass().getResourceAsStream("fan.png"));
                 tempNoFans--;
-                respDevice = getVentilatorState(room_id, temp);
+                respDevice = getVentilatorState(room_id, (int) id);
                 JSONObject state = new JSONObject(respDevice.body().toString());
                 double initialValue = 0.0;
                 if (!state.toString().startsWith("{\"path")){
@@ -313,24 +332,24 @@ public class PrimaryController extends APIClient implements Initializable  {
                     }
                 }
                 slider.setValue(initialValue);
-                slider.valueProperty().addListener(new ChangeListener<Number>() {
+                    int finalId3 = (int) id;
+                    slider.valueProperty().addListener(new ChangeListener<Number>() {
 
                     @Override
                     public void changed(ObservableValue<? extends Number> obs, Number oldValue, Number newValue) {
 
 
                         if (oldValue.intValue() > newValue.intValue()) {
-                            HttpResponse newRes =  postVentilatorState(room_id, temp, false);
+                            HttpResponse newRes =  postVentilatorState(room_id, finalId3, false);
 
 
                         }
                         else if (oldValue.intValue() < newValue.intValue())
                         {
-                            postVentilatorState(room_id, temp, true);
+                            postVentilatorState(room_id, finalId3, true);
                         }
                     }});
             }
-
             slider.setPrefWidth(40);
             slider.setPrefHeight(15);
             slider.setMinorTickCount(0);
@@ -343,10 +362,12 @@ public class PrimaryController extends APIClient implements Initializable  {
             iv.setFitHeight(20);
             iv.setImage(img);
             lbl.setGraphic(iv);
+            lbl.setPrefWidth(100);
 
             if (i%2!=0)
             {
                 hb = new HBox();
+                hb.setId("hb"+i);
                 vbRoomSetup.getChildren().add(hb);
             }
             hb.getChildren().add(lbl);
@@ -354,11 +375,9 @@ public class PrimaryController extends APIClient implements Initializable  {
             hb.setMargin(iv, new Insets(15, 0, 0, 0));
             hb.setMargin(lbl, new Insets(10, 0, 0, 50));
             hb.setMargin(slider, new Insets(10, 0, 0, 50));
-
+        }
+            userName = prefs.get("userName", "");
+            lblWelcome.setText("Welcome, " + userName + ".");
         }
 
-        userName = prefs.get("userName", "");
-        lblWelcome.setText("Welcome, " + userName + ".");
     }
-
-}
