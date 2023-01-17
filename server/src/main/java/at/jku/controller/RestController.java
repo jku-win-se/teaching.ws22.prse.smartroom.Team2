@@ -629,8 +629,23 @@ public class RestController {
         temperatureSensorRecordRepository.save(temperatureSensorRecord);
         humiditySensorRepository.save(humiditySensor);
         humiditySensorRecordRepository.save(humiditySensorRecord);
+
+        // Automation Rule: Unlock all doors if temp > 70
+        if (temperature.get() > 70) {
+            // open doors
+            room.get().getDoors().stream().forEach(d -> {
+                DoorRecord doorRecord = new DoorRecord();
+                doorRecord.setDoor(d);
+                doorRecord.setState(true);
+                doorRecord.setTimestamp(LocalDateTime.now());
+                d.addDoorRecord(doorRecord);
+                doorRecordRepository.save(doorRecord);
+                d.open();
+            });
+        }
         return ResponseEntity.ok(airQualityDevice);
     }
+
     @PutMapping(value = "/room/{room_id:.*}/AirQuality/{airquality_id:.*}")
     public ResponseEntity<AirQualityDevice> chgAirQuality(@PathVariable Long room_id,
                                                           @PathVariable Long airquality_id,
@@ -653,7 +668,7 @@ public class RestController {
             }
 
             if (humidity.isPresent()) {
-                HumiditySensorRecord hsr= new HumiditySensorRecord();
+                HumiditySensorRecord hsr = new HumiditySensorRecord();
                 hsr.setTimestamp(LocalDateTime.now());
                 hsr.setHumiditySensor(aqd.get().getHumiditySensor());
                 hsr.setHumidity(humidity.get());
@@ -663,7 +678,7 @@ public class RestController {
             }
 
             if (temperature.isPresent()) {
-                TemperatureSensorRecord tsr= new TemperatureSensorRecord();
+                TemperatureSensorRecord tsr = new TemperatureSensorRecord();
                 tsr.setTimestamp(LocalDateTime.now());
                 tsr.setTemperatureSensor(aqd.get().getTemperatureSensor());
                 tsr.setTemperature(temperature.get());
@@ -671,6 +686,21 @@ public class RestController {
                 aqd.get().getTemperatureSensor().setTemperature(temperature.get());
             }
         }
+
+        // Automation Rule: Unlock all doors if temp > 70
+        if (temperature.get() > 70) {
+            // open doors
+            room.get().getDoors().stream().forEach(d -> {
+                DoorRecord doorRecord = new DoorRecord();
+                doorRecord.setDoor(d);
+                doorRecord.setState(true);
+                doorRecord.setTimestamp(LocalDateTime.now());
+                d.addDoorRecord(doorRecord);
+                doorRecordRepository.save(doorRecord);
+                d.open();
+            });
+        }
+
         return ResponseEntity.ok(aqd.get());
     }
 

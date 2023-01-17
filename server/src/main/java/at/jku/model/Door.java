@@ -1,5 +1,6 @@
 package at.jku.model;
 
+import at.jku.repository.DoorRecordRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class Door implements Openable {
     private Long id;
 
     private String name;
+
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
