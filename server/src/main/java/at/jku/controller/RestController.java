@@ -381,7 +381,7 @@ public class RestController {
         final Room room = roomRepository.findById(room_id).orElse(null);
         final Windo windo = room.getWindows().stream()
                 .filter(l -> l.getId().equals(window_id)).findFirst().orElse(null);
-        room.getVentilators().remove(windo);
+        room.getWindows().remove(windo);
         windoRepository.delete(windo);
         return ResponseEntity.ok(windo);
     }
