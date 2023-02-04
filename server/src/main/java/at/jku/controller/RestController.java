@@ -2,15 +2,11 @@ package at.jku.controller;
 
 import at.jku.model.*;
 import at.jku.repository.*;
-import net.bytebuddy.asm.Advice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @org.springframework.web.bind.annotation.RestController
@@ -85,8 +81,8 @@ public class RestController {
     /**
      * add a room to program and database with optional name and size, id is program-managed
      *
-     * @param name
-     * @param size
+     * @param name name of room
+     * @param size size of room
      * @return the newly created room entity and its properties as http response (json)
      */
     @PostMapping("/rooms")
@@ -103,47 +99,47 @@ public class RestController {
     /**
      * get room by its id
      *
-     * @param room_id
+     * @param roomID room id
      * @return the room entity and its properties as http response (json)
      */
 
-    @GetMapping(value = "/rooms/{room_id:.*}")
-    public ResponseEntity<Room> getRoom(@PathVariable Long room_id) {
-        return ResponseEntity.ok(roomRepository.findById(room_id).orElse(null));
+    @GetMapping(value = "/rooms/{roomID:.*}")
+    public ResponseEntity<Room> getRoom(@PathVariable Long roomID) {
+        return ResponseEntity.ok(roomRepository.findById(roomID).orElse(null));
     }
 
     /**
      * update room properties by id
      *
-     * @param room_id
-     * @param name
-     * @param size
+     * @param roomID room id
+     * @param name   room name
+     * @param size   room size
      * @return the updated room entity with all its properties as http response (json)
      */
-    @PutMapping(value = "/rooms/{room_id:.*}")
-    public ResponseEntity<Room> updateRoom(@PathVariable Long room_id,
+    @PutMapping(value = "/rooms/{roomID:.*}")
+    public ResponseEntity<Room> updateRoom(@PathVariable Long roomID,
                                            @RequestParam Optional<String> name,
                                            @RequestParam Optional<Integer> size) {
-        Optional<Room> room = roomRepository.findById(room_id);
+        Optional<Room> room = roomRepository.findById(roomID);
         if (room.isPresent()) {
             name.ifPresent(s -> room.get().setName(s));
             size.ifPresent(integer -> room.get().setSize(integer));
+            roomRepository.save(room.get());
         }
-        roomRepository.save(room.get());
-        return ResponseEntity.ok(room.get());
+        return ResponseEntity.ok(room.orElse(null));
     }
 
     /**
      * delete a room by its id
      *
-     * @param room_id
+     * @param roomID room id
      * @return the deleted room entity as http response (json)
      */
-    @DeleteMapping(value = "/rooms/{room_id:.*}")
-    public ResponseEntity<Room> deleteRoom(@PathVariable Long room_id) {
-        Room room = roomRepository.findById(room_id).orElse(null);
-        roomRepository.delete(room);
-        return ResponseEntity.ok(room);
+    @DeleteMapping(value = "/rooms/{roomID:.*}")
+    public ResponseEntity<Room> deleteRoom(@PathVariable Long roomID) {
+        Optional<Room> room = roomRepository.findById(roomID);
+        room.ifPresent(roomRepository::delete);
+        return ResponseEntity.ok(room.orElse(null));
     }
 
     // ============================== PEOPLE IN ROOMS =====================================
@@ -151,41 +147,37 @@ public class RestController {
     /**
      * get actual count of people in room (latest database entry)
      *
-     * @param room_id
+     * @param roomID room id
      * @return peopleInRoom object as http response (json)
      */
-    @GetMapping(value = "/rooms/{room_id:.*}/PeopleInRoom")
-    public ResponseEntity<List<PeopleInRoom>> getPeopleInRoom(@PathVariable Long room_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        return ResponseEntity.ok(room.get().getPeopleInRooms().stream().collect(Collectors.toList()));
+    @GetMapping(value = "/rooms/{roomID:.*}/PeopleInRoom")
+    public ResponseEntity<List<PeopleInRoom>> getPeopleInRoom(@PathVariable Long roomID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        return ResponseEntity.ok(room.map(value -> new ArrayList<>(value.getPeopleInRooms())).orElse(null));
     }
 
     /**
      * set the number of peopleInRoom by room id
      *
-     * @param room_id
-     * @param people_count
+     * @param roomID      room id
+     * @param peopleCount number of people
      * @return created peopleInRoom object as http response (json)
      */
-    @PostMapping(value = "/rooms/{room_id:.*}/PeopleInRoom")
-    public ResponseEntity<PeopleInRoom> chgPeopleInRoom(@PathVariable Long room_id,
-                                                        @RequestParam Optional<Integer> people_count) {
-        final Optional<Room> room = roomRepository.findById(room_id);
+    @PostMapping(value = "/rooms/{roomID:.*}/PeopleInRoom")
+    public ResponseEntity<PeopleInRoom> chgPeopleInRoom(@PathVariable Long roomID,
+                                                        @RequestParam Optional<Integer> peopleCount) {
+        final Optional<Room> room = roomRepository.findById(roomID);
         PeopleInRoom pir = new PeopleInRoom();
-        if (room.isPresent() && people_count.isPresent()) {
+        if (room.isPresent() && peopleCount.isPresent()) {
             pir.setTimestamp(LocalDateTime.now());
             pir.setRoom(room.get());
-            pir.setNOPeopleInRoom(people_count.get());
+            pir.setNOPeopleInRoom(peopleCount.get());
             room.get().addPeopleInRoom(pir);
             peopleInRoomRepository.save(pir);
 
             // Automation rule: Turn off running devices if the room is empty
-            if (people_count.get() <= 0) {
-                Set<LightSource> lights = room.get().getLightSources();
-                Set<Ventilator> vents = room.get().getVentilators();
-                Set<AirQualityDevice> aqd = room.get().getAirQualityDevices();
-
-                lights.stream().forEach(l -> {
+            if (peopleCount.get() <= 0) {
+                room.get().getLightSources().forEach(l -> {
                     LightSourceRecord lr = new LightSourceRecord();
                     lr.setLightSource(l);
                     lr.setTimestamp(LocalDateTime.now());
@@ -193,7 +185,7 @@ public class RestController {
                     l.addLightSourceRecord(lr);
                     lightSourceRecordRepository.save(lr);
                 });
-                vents.stream().forEach(v -> {
+                room.get().getVentilators().forEach(v -> {
                     VentilatorRecord vr = new VentilatorRecord();
                     vr.setVentilator(v);
                     vr.setTimestamp(LocalDateTime.now());
@@ -201,7 +193,7 @@ public class RestController {
                     v.addVentilatorRecord(vr);
                     ventilatorRecordRepository.save(vr);
                 });
-                aqd.stream().forEach(a -> {
+                room.get().getAirQualityDevices().forEach(a -> {
                     AirQualityDeviceRecord ar = new AirQualityDeviceRecord();
                     ar.setAirQualityDevice(a);
                     ar.setTimestamp(LocalDateTime.now());
@@ -211,7 +203,7 @@ public class RestController {
                 });
             }
         }
-        return ResponseEntity.ok(room.get().getNumPeopleInRoom());
+        return ResponseEntity.ok(room.isPresent() ? room.get().getNumPeopleInRoom() : null);
     }
 
     // ============================== LIGHTS =====================================
@@ -219,20 +211,20 @@ public class RestController {
     /**
      * get all lightSources of a room by its id
      *
-     * @param room_id
+     * @param room_id room id
      * @return all lightSource objects of the given room as http response (json)
      */
     @GetMapping(value = "/rooms/{room_id:.*}/lights")
     public ResponseEntity<List<LightSource>> getRoomLights(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
-        return ResponseEntity.ok(room.get().getLightSources().stream().collect(Collectors.toList()));
+        return ResponseEntity.ok(room.isPresent() ? room.get().getLightSources().stream().collect(Collectors.toList()) : null);
     }
 
     /**
      * add a new lightSource to a given room by its id
      *
-     * @param room_id
-     * @param name
+     * @param room_id room id
+     * @param name    light source name
      * @return the newly created lightSource object as http response (json)
      */
     @PostMapping(value = "/rooms/{room_id}/lights")
@@ -254,8 +246,8 @@ public class RestController {
     /**
      * get a specific lightSource of a specific room by ids of those
      *
-     * @param room_id
-     * @param light_id
+     * @param room_id  room id
+     * @param light_id light id
      * @return the lightSource object as http response (json)
      */
     @GetMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
@@ -269,9 +261,9 @@ public class RestController {
     /**
      * update the name of a lightSource by its id and the room id which it is located in
      *
-     * @param room_id
-     * @param light_id
-     * @param name
+     * @param room_id  room id
+     * @param light_id light id
+     * @param name     light source name
      * @return the updated lightSource object as http response (json)
      */
     @PatchMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
@@ -292,8 +284,8 @@ public class RestController {
     /**
      * get the activation status (on/off = true/false) of a lightSource by its containing room id and its own id
      *
-     * @param room_id
-     * @param light_id
+     * @param room_id  room id
+     * @param light_id light source id
      * @return the lightSource object as http response (json)
      */
     @GetMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}/Activation")
@@ -309,9 +301,9 @@ public class RestController {
     /**
      * set a lightSources status (on/off = true/false) by its containing room id, its own id and the turnon = true/false parameter
      *
-     * @param room_id
-     * @param light_id
-     * @param turnon
+     * @param room_id  room id
+     * @param light_id light source id
+     * @param turnon   (on/off) = (true/false)
      * @return the updated lightSource object as http response (json)
      */
     @PostMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}/Activation")
@@ -336,8 +328,8 @@ public class RestController {
     /**
      * delete a lightSource of a room by room id and a lightSource id which is located in the room
      *
-     * @param room_id
-     * @param light_id
+     * @param room_id  room id
+     * @param light_id light source id
      * @return the deleted lightSource object as http response (json)
      */
 
@@ -355,10 +347,10 @@ public class RestController {
     /**
      * set the color and brightness of a lightSource by its containing room id and its own id
      *
-     * @param room_id
-     * @param light_id
-     * @param hex
-     * @param brightness
+     * @param room_id    room id
+     * @param light_id   light source id
+     * @param hex        color
+     * @param brightness brightness
      * @return the updated lightSource object as http response (json)
      */
     @PostMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}/SetColor")
@@ -388,7 +380,7 @@ public class RestController {
     /**
      * get all ventilator objects by its containing room
      *
-     * @param room_id
+     * @param room_id room id
      * @return all ventilator objects contained in the specified room_id as http response (json)
      */
     @GetMapping(value = "/rooms/{room_id:.*}/ventilators")
@@ -400,8 +392,8 @@ public class RestController {
     /**
      * add a new ventilator to the specified room
      *
-     * @param room_id
-     * @param name
+     * @param room_id room id
+     * @param name    ventilator name
      * @return the newly created ventilator object as http response (json)
      */
     @PostMapping(value = "/rooms/{room_id}/ventilators")
@@ -422,8 +414,8 @@ public class RestController {
     /**
      * get ventilator by its containing rooms id and own id
      *
-     * @param room_id
-     * @param ventilator_id
+     * @param room_id       room id
+     * @param ventilator_id ventilator id
      * @return the ventilator object as http response (json)
      */
     @GetMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}")
@@ -437,8 +429,8 @@ public class RestController {
     /**
      * delete a ventilator by its containing rooms id and its own id
      *
-     * @param room_id
-     * @param ventilator_id
+     * @param room_id       room id
+     * @param ventilator_id ventilator id
      * @return the deleted ventilator object as http response (json)
      */
     @DeleteMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}")
@@ -455,9 +447,9 @@ public class RestController {
     /**
      * update a ventilators name by its containing room id and its own id
      *
-     * @param room_id
-     * @param ventilator_id
-     * @param name
+     * @param room_id       room id
+     * @param ventilator_id ventilator id
+     * @param name          ventilator name
      * @return the updated ventilator object as http response (json)
      */
     @PatchMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}")
@@ -474,9 +466,9 @@ public class RestController {
     /**
      * change the operational state (on/off = true/false) by its containing room id and its own id
      *
-     * @param room_id
-     * @param ventilator_id
-     * @param turnon
+     * @param room_id       room id
+     * @param ventilator_id ventilator id
+     * @param turnon        (on/off) = (true/false)
      * @return the updated ventilator object as http response (json)
      */
     @PostMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}/Operations")
@@ -500,8 +492,8 @@ public class RestController {
     /**
      * get the actual ventilator status by its containing room id and the ventilator id
      *
-     * @param room_id
-     * @param ventilator_id
+     * @param room_id       room id
+     * @param ventilator_id ventilator id
      * @return the latest ventilator record for the specified ventilator as http response (json)
      */
     @GetMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}/Activation")
@@ -517,8 +509,8 @@ public class RestController {
      * change the operational state of a ventilator by its containing room id and the ventilator id
      * if it's running it will be off afterwards, if it's turned off, it will be turned on afterwards
      *
-     * @param room_id
-     * @param ventilator_id
+     * @param room_id       room id
+     * @param ventilator_id ventilator id
      * @return the updated ventilator object as http response (json)
      */
     @PostMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}/Activation")
@@ -543,7 +535,7 @@ public class RestController {
     /**
      * get all windows of a specified room by room id
      *
-     * @param room_id
+     * @param room_id room id
      * @return all window objects of the specified room as http response (json)
      */
     @GetMapping(value = "/rooms/{room_id:.*}/windows")
@@ -555,7 +547,7 @@ public class RestController {
     /**
      * add a new window to a room by the rooms id
      *
-     * @param room_id
+     * @param room_id room id
      * @return the newly created window object as http response (json)
      */
     @PostMapping(value = "/rooms/{room_id:.*}/windows")
@@ -573,8 +565,8 @@ public class RestController {
     /**
      * get the specified window object by room id and its own id
      *
-     * @param room_id
-     * @param window_id
+     * @param room_id   room id
+     * @param window_id ventilator id
      * @return the window object as http response (json) or an empty json
      */
     @GetMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}")
@@ -588,8 +580,8 @@ public class RestController {
     /**
      * update a specified window by its id and the containing rooms id
      *
-     * @param room_id
-     * @param window_id
+     * @param room_id   room id
+     * @param window_id ventilator id
      * @return the updated window object as http response (json) or an empty json
      */
     @PutMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}")
@@ -603,8 +595,8 @@ public class RestController {
     /**
      * delete a window by its containing room id and its own id
      *
-     * @param room_id
-     * @param window_id
+     * @param room_id   room id
+     * @param window_id ventilator id
      * @return the deleted window object as http response (json)
      */
     @DeleteMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}")
@@ -621,8 +613,8 @@ public class RestController {
     /**
      * get the actual state (open/close = true/false) of a specified window by its containing room id and window id
      *
-     * @param room_id
-     * @param window_id
+     * @param room_id   room id
+     * @param window_id ventilator id
      * @return the latest change entry of the window (windowRecord) as http response (json)
      */
     @GetMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}/Open")
@@ -638,8 +630,8 @@ public class RestController {
      * change the actual state of a window by its containing room id and its own id
      * if it was closed it afterwards open, if it's open, it's afterwards closed
      *
-     * @param room_id
-     * @param window_id
+     * @param room_id   room id
+     * @param window_id ventilator id
      * @return the updated window object as http response (json)
      */
     @PostMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}/Open")
@@ -659,6 +651,13 @@ public class RestController {
     }
 
     // ============================== DOORS =====================================
+
+    /**
+     * get all doors of a room by room sid
+     *
+     * @param room_id room id
+     * @return the door objects contained by the room as http response (json)
+     */
     @GetMapping(value = "/rooms/{room_id:.*}/doors")
     public ResponseEntity<List<Door>> getDoors(@PathVariable Long room_id) {
         final Optional<Room> room = roomRepository.findById(room_id);
@@ -671,9 +670,7 @@ public class RestController {
         final Optional<Room> room = roomRepository.findById(room_id);
         final Door door = new Door();
         if (room.isPresent()) {
-            if (name.isPresent()) {
-                door.setName(name.get());
-            }
+            name.ifPresent(door::setName);
             room.get().addDoor(door);
             door.addRoom(room.get());
             doorRepository.save(door);
@@ -989,7 +986,7 @@ public class RestController {
             });
         }
 
-        return ResponseEntity.ok(aqd.get());
+        return ResponseEntity.ok(aqd.isPresent() ? aqd.get() : null);
     }
 
 }
