@@ -665,7 +665,7 @@ public class RestController {
         humiditySensorRecordRepository.save(humiditySensorRecord);
 
         // Automation Rule: Unlock all doors if temp > 70
-        if (temperature.get() > 70) {
+        if (temperature.isPresent() && temperature.get() > 70) {
             // open doors
             room.get().getDoors().stream().forEach(d -> {
                 DoorRecord doorRecord = new DoorRecord();
@@ -677,6 +677,27 @@ public class RestController {
                 d.open();
             });
         }
+
+        // Automation rule: Open window + activate fan if co2 values are > 1000 parts per million (ppm)
+        if (co2.isPresent() && co2.get() > 1000) {
+            room.get().getWindows().stream().forEach(w -> {
+                WindowRecord wr = new WindowRecord();
+                wr.setWindow(w);
+                wr.setTimestamp(LocalDateTime.now());
+                wr.setState(true);
+                w.addWindowRecord(wr);
+                windowRecordRepository.save(wr);
+            });
+            room.get().getVentilators().stream().forEach(v -> {
+                VentilatorRecord vr = new VentilatorRecord();
+                vr.setVentilator(v);
+                vr.setTimestamp(LocalDateTime.now());
+                vr.setState(true);
+                v.addVentilatorRecord(vr);
+                ventilatorRecordRepository.save(vr);
+            });
+        }
+
         return ResponseEntity.ok(airQualityDevice);
     }
 
@@ -722,7 +743,7 @@ public class RestController {
         }
 
         // Automation Rule: Unlock all doors if temp > 70
-        if (temperature.get() > 70) {
+        if (temperature.isPresent() && temperature.get() > 70) {
             // open doors
             room.get().getDoors().stream().forEach(d -> {
                 DoorRecord doorRecord = new DoorRecord();
@@ -732,6 +753,26 @@ public class RestController {
                 d.addDoorRecord(doorRecord);
                 doorRecordRepository.save(doorRecord);
                 d.open();
+            });
+        }
+
+        // Automation rule: Open window + activate fan if co2 values are > 1000 parts per million (ppm)
+        if (co2.isPresent() && co2.get() > 1000) {
+            room.get().getWindows().stream().forEach(w -> {
+                WindowRecord wr = new WindowRecord();
+                wr.setWindow(w);
+                wr.setTimestamp(LocalDateTime.now());
+                wr.setState(true);
+                w.addWindowRecord(wr);
+                windowRecordRepository.save(wr);
+            });
+            room.get().getVentilators().stream().forEach(v -> {
+                VentilatorRecord vr = new VentilatorRecord();
+                vr.setVentilator(v);
+                vr.setTimestamp(LocalDateTime.now());
+                vr.setState(true);
+                v.addVentilatorRecord(vr);
+                ventilatorRecordRepository.save(vr);
             });
         }
 
