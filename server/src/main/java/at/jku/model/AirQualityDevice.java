@@ -105,6 +105,13 @@ public class AirQualityDevice implements Powerable {
         return airQualityDeviceRecords;
     }
 
+    public void addAirQualityDeviceRecord(AirQualityDeviceRecord airQualityDeviceRecord) {
+        if (airQualityDeviceRecord == null) {
+            return;
+        }
+        this.airQualityDeviceRecords.add(airQualityDeviceRecord);
+    }
+
     public void setAirQualityDeviceRecords(List<AirQualityDeviceRecord> airQualityDeviceRecords) {
         this.airQualityDeviceRecords = airQualityDeviceRecords;
     }

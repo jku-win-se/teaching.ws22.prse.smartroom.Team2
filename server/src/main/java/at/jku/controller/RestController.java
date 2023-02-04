@@ -2,6 +2,7 @@ package at.jku.controller;
 
 import at.jku.model.*;
 import at.jku.repository.*;
+import net.bytebuddy.asm.Advice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @org.springframework.web.bind.annotation.RestController
@@ -130,6 +132,38 @@ public class RestController {
             pir.setNOPeopleInRoom(people_count.get());
             room.get().addPeopleInRoom(pir);
             peopleInRoomRepository.save(pir);
+
+            // Automation rule: Turn off running devices if the room is empty
+            if (people_count.get() <= 0) {
+                Set<LightSource> lights = room.get().getLightSources();
+                Set<Ventilator> vents = room.get().getVentilators();
+                Set<AirQualityDevice> aqd = room.get().getAirQualityDevices();
+
+                lights.stream().forEach(l -> {
+                    LightSourceRecord lr = new LightSourceRecord();
+                    lr.setLightSource(l);
+                    lr.setTimestamp(LocalDateTime.now());
+                    lr.setState(false);
+                    l.addLightSourceRecord(lr);
+                    lightSourceRecordRepository.save(lr);
+                });
+                vents.stream().forEach(v -> {
+                    VentilatorRecord vr = new VentilatorRecord();
+                    vr.setVentilator(v);
+                    vr.setTimestamp(LocalDateTime.now());
+                    vr.setState(false);
+                    v.addVentilatorRecord(vr);
+                    ventilatorRecordRepository.save(vr);
+                });
+                aqd.stream().forEach(a -> {
+                    AirQualityDeviceRecord ar = new AirQualityDeviceRecord();
+                    ar.setAirQualityDevice(a);
+                    ar.setTimestamp(LocalDateTime.now());
+                    ar.setState(false);
+                    a.addAirQualityDeviceRecord(ar);
+                    airQualityDeviceRecordRepository.save(ar);
+                });
+            }
         }
         return ResponseEntity.ok(room.get().getNumPeopleInRoom());
     }
