@@ -24,6 +24,12 @@ public class Simulator extends APIClient {
 
     }
 
+    // lights must be turned off
+    public void allLeaveRoom(Long roomID) {
+        postPeopleInRoom(roomID, 0);
+    }
+
+
     public JSONObject parseRoom(HttpResponse response) {
         JSONObject rooms = new JSONObject(response.body().toString());
         long id = rooms.getLong("id");
