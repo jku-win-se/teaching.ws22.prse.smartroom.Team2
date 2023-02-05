@@ -406,7 +406,7 @@ public class RestController {
     public ResponseEntity<List<Ventilator>> getVentilators(@PathVariable Long roomID) {
         final Optional<Room> room = roomRepository.findById(roomID);
         if (room.isPresent()) {
-            ResponseEntity.ok(room.get().getVentilators().stream().collect(Collectors.toList()));
+            return ResponseEntity.ok(room.get().getVentilators().stream().collect(Collectors.toList()));
         }
         return ResponseEntity.ok(null);
     }
