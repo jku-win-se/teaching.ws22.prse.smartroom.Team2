@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 public class WindowRecord {
@@ -23,6 +22,7 @@ public class WindowRecord {
     private boolean state;
 
     public WindowRecord() {
+        // nothing needed @SonarLint
     }
 
     public Long getId() {

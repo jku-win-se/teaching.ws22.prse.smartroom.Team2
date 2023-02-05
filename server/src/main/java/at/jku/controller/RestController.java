@@ -171,7 +171,7 @@ public class RestController {
         if (room.isPresent() && peopleCount.isPresent()) {
             pir.setTimestamp(LocalDateTime.now());
             pir.setRoom(room.get());
-            pir.setNOPeopleInRoom(peopleCount.get());
+            pir.setNumPeopleInRoom(peopleCount.get());
             room.get().addPeopleInRoom(pir);
             peopleInRoomRepository.save(pir);
 
@@ -211,26 +211,26 @@ public class RestController {
     /**
      * get all lightSources of a room by its id
      *
-     * @param room_id room id
+     * @param roomID room id
      * @return all lightSource objects of the given room as http response (json)
      */
-    @GetMapping(value = "/rooms/{room_id:.*}/lights")
-    public ResponseEntity<List<LightSource>> getRoomLights(@PathVariable Long room_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
+    @GetMapping(value = "/rooms/{roomID:.*}/lights")
+    public ResponseEntity<List<LightSource>> getRoomLights(@PathVariable Long roomID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
         return ResponseEntity.ok(room.isPresent() ? room.get().getLightSources().stream().collect(Collectors.toList()) : null);
     }
 
     /**
      * add a new lightSource to a given room by its id
      *
-     * @param room_id room id
-     * @param name    light source name
+     * @param roomID room id
+     * @param name   light source name
      * @return the newly created lightSource object as http response (json)
      */
-    @PostMapping(value = "/rooms/{room_id}/lights")
-    public ResponseEntity<LightSource> addLightSource(@PathVariable Long room_id,
+    @PostMapping(value = "/rooms/{roomID}/lights")
+    public ResponseEntity<LightSource> addLightSource(@PathVariable Long roomID,
                                                       @RequestParam Optional<String> name) {
-        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Room> room = roomRepository.findById(roomID);
         final LightSource ls = new LightSource();
         if (name.isPresent()) {
             ls.setName(name.get());
@@ -246,132 +246,151 @@ public class RestController {
     /**
      * get a specific lightSource of a specific room by ids of those
      *
-     * @param room_id  room id
-     * @param light_id light id
+     * @param roomID  room id
+     * @param lightID light id
      * @return the lightSource object as http response (json)
      */
-    @GetMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
-    public ResponseEntity<LightSource> getLightSource(@PathVariable Long room_id,
-                                                      @PathVariable Long light_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<LightSource> ls = room.get().getLightSources().stream().filter(l -> l.getId().equals(light_id)).findFirst();
-        return ResponseEntity.ok(ls.orElse(null));
+    @GetMapping(value = "/rooms/{roomID:.*}/lights/{lightID:.*}")
+    public ResponseEntity<LightSource> getLightSource(@PathVariable Long roomID,
+                                                      @PathVariable Long lightID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<LightSource> ls = room.get()
+                    .getLightSources().stream().filter(l -> l.getId().equals(lightID)).findFirst();
+            return ResponseEntity.ok(ls.isPresent() ? ls.get() : null);
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * update the name of a lightSource by its id and the room id which it is located in
      *
-     * @param room_id  room id
-     * @param light_id light id
-     * @param name     light source name
+     * @param roomID  room id
+     * @param lightID light id
+     * @param name    light source name
      * @return the updated lightSource object as http response (json)
      */
-    @PatchMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
-    public ResponseEntity<LightSource> updateLightSource(@PathVariable Long room_id,
-                                                         @PathVariable Long light_id,
+    @PatchMapping(value = "/rooms/{roomID:.*}/lights/{lightID:.*}")
+    public ResponseEntity<LightSource> updateLightSource(@PathVariable Long roomID,
+                                                         @PathVariable Long lightID,
                                                          @RequestParam Optional<String> name) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<LightSource> ls = room.get().getLightSources().stream().filter(l -> l.getId().equals(light_id)).findFirst();
-        if (room.isPresent() && ls.isPresent()) {
-            if (name.isPresent()) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<LightSource> ls = room.get().getLightSources().stream().filter(l -> l.getId().equals(lightID)).findFirst();
+            if (ls.isPresent() && name.isPresent()) {
                 ls.get().setName(name.get());
                 lightSourceRepository.save(ls.get());
+                return ResponseEntity.ok(ls.get());
             }
         }
-        return ResponseEntity.ok(ls.orElse(null));
+        return ResponseEntity.ok(null);
     }
 
     /**
      * get the activation status (on/off = true/false) of a lightSource by its containing room id and its own id
      *
-     * @param room_id  room id
-     * @param light_id light source id
+     * @param roomID  room id
+     * @param lightID light source id
      * @return the lightSource object as http response (json)
      */
-    @GetMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}/Activation")
-    public ResponseEntity<LightSource> getLightSourceStatus(@PathVariable Long room_id,
-                                                            @PathVariable Long light_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<LightSource> ls = room.get()
-                .getLightSources().stream()
-                .filter(l -> l.getId().equals(light_id)).findFirst();
-        return ResponseEntity.ok(ls.orElse(null));
+    @GetMapping(value = "/rooms/{roomID:.*}/lights/{lightID:.*}/Activation")
+    public ResponseEntity<LightSource> getLightSourceStatus(@PathVariable Long roomID,
+                                                            @PathVariable Long lightID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<LightSource> ls = room.get()
+                    .getLightSources().stream()
+                    .filter(l -> l.getId().equals(lightID)).findFirst();
+            return ResponseEntity.ok(ls.isPresent() ? ls.get() : null);
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * set a lightSources status (on/off = true/false) by its containing room id, its own id and the turnon = true/false parameter
      *
-     * @param room_id  room id
-     * @param light_id light source id
-     * @param turnon   (on/off) = (true/false)
+     * @param roomID  room id
+     * @param lightID light source id
+     * @param turnon  (on/off) = (true/false)
      * @return the updated lightSource object as http response (json)
      */
-    @PostMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}/Activation")
-    public ResponseEntity<LightSource> chgLightSourceStatus(@PathVariable Long room_id,
-                                                            @PathVariable Long light_id,
+    @PostMapping(value = "/rooms/{roomID:.*}/lights/{lightID:.*}/Activation")
+    public ResponseEntity<LightSource> chgLightSourceStatus(@PathVariable Long roomID,
+                                                            @PathVariable Long lightID,
                                                             @RequestParam Optional<Boolean> turnon) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<LightSource> ls = room.get()
-                .getLightSources().stream()
-                .filter(l -> l.getId().equals(light_id)).findFirst();
-        if (room.isPresent() && ls.isPresent() && turnon.isPresent()) {
-            LightSourceRecord lsr = new LightSourceRecord();
-            lsr.setTimestamp(LocalDateTime.now());
-            lsr.setState(turnon.get());
-            lsr.setLightSource(ls.get());
-            ls.get().addLightSourceRecord(lsr);
-            lightSourceRecordRepository.save(lsr);
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<LightSource> ls = room.get()
+                    .getLightSources().stream()
+                    .filter(l -> l.getId().equals(lightID)).findFirst();
+            if (ls.isPresent() && turnon.isPresent()) {
+                LightSourceRecord lsr = new LightSourceRecord();
+                lsr.setTimestamp(LocalDateTime.now());
+                lsr.setState(turnon.get());
+                lsr.setLightSource(ls.get());
+                ls.get().addLightSourceRecord(lsr);
+                lightSourceRecordRepository.save(lsr);
+                return ResponseEntity.ok(ls.get());
+            }
         }
-        return ResponseEntity.ok(ls.orElse(null));
+        return ResponseEntity.ok(null);
     }
 
     /**
      * delete a lightSource of a room by room id and a lightSource id which is located in the room
      *
-     * @param room_id  room id
-     * @param light_id light source id
+     * @param roomID  room id
+     * @param lightID light source id
      * @return the deleted lightSource object as http response (json)
      */
 
-    @DeleteMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}")
-    public ResponseEntity<LightSource> deleteLightSource(@PathVariable Long room_id,
-                                                         @PathVariable Long light_id) {
-        final Room room = roomRepository.findById(room_id).orElse(null);
-        final LightSource ls = room.getLightSources().stream()
-                .filter(l -> l.getId().equals(light_id)).findFirst().orElse(null);
-        room.getLightSources().remove(ls);
-        lightSourceRepository.delete(ls);
-        return ResponseEntity.ok(ls);
+    @DeleteMapping(value = "/rooms/{roomID:.*}/lights/{lightID:.*}")
+    public ResponseEntity<LightSource> deleteLightSource(@PathVariable Long roomID,
+                                                         @PathVariable Long lightID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<LightSource> ls = room.get().getLightSources().stream()
+                    .filter(l -> l.getId().equals(lightID)).findFirst();
+            if (ls.isPresent()) {
+                room.get().getLightSources().remove(ls.get());
+                lightSourceRepository.delete(ls.get());
+                return ResponseEntity.ok(ls.get());
+            }
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * set the color and brightness of a lightSource by its containing room id and its own id
      *
-     * @param room_id    room id
-     * @param light_id   light source id
+     * @param roomID     room id
+     * @param lightID    light source id
      * @param hex        color
      * @param brightness brightness
      * @return the updated lightSource object as http response (json)
      */
-    @PostMapping(value = "/rooms/{room_id:.*}/lights/{light_id:.*}/SetColor")
-    public ResponseEntity<LightSource> chgLightSourceColor(@PathVariable Long room_id,
-                                                           @PathVariable Long light_id,
+    @PostMapping(value = "/rooms/{roomID:.*}/lights/{lightID:.*}/SetColor")
+    public ResponseEntity<LightSource> chgLightSourceColor(@PathVariable Long roomID,
+                                                           @PathVariable Long lightID,
                                                            @RequestParam Optional<String> hex,
                                                            @RequestParam Optional<Integer> brightness) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<LightSource> ls = room.get()
-                .getLightSources().stream()
-                .filter(l -> l.getId().equals(light_id)).findFirst();
-        if (room.isPresent() && ls.isPresent()) {
-            if (hex.isPresent()) {
-                ls.get().setHex(hex.get());
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<LightSource> ls = room.get()
+                    .getLightSources().stream()
+                    .filter(l -> l.getId().equals(lightID)).findFirst();
+            if (ls.isPresent()) {
+                if (hex.isPresent()) {
+                    ls.get().setHex(hex.get());
+                }
+                if (brightness.isPresent()) {
+                    ls.get().setBrightness(brightness.get());
+                }
+                lightSourceRepository.save(ls.get());
+                return ResponseEntity.ok(ls.get());
             }
-            if (brightness.isPresent()) {
-                ls.get().setBrightness(brightness.get());
-            }
-            lightSourceRepository.save(ls.get());
         }
-        return ResponseEntity.ok(ls.orElse(null));
+        return ResponseEntity.ok(null);
     }
 
 
@@ -380,26 +399,29 @@ public class RestController {
     /**
      * get all ventilator objects by its containing room
      *
-     * @param room_id room id
+     * @param roomID room id
      * @return all ventilator objects contained in the specified room_id as http response (json)
      */
-    @GetMapping(value = "/rooms/{room_id:.*}/ventilators")
-    public ResponseEntity<List<Ventilator>> getVentilators(@PathVariable Long room_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        return ResponseEntity.ok(room.get().getVentilators().stream().collect(Collectors.toList()));
+    @GetMapping(value = "/rooms/{roomID:.*}/ventilators")
+    public ResponseEntity<List<Ventilator>> getVentilators(@PathVariable Long roomID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            ResponseEntity.ok(room.get().getVentilators().stream().collect(Collectors.toList()));
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * add a new ventilator to the specified room
      *
-     * @param room_id room id
-     * @param name    ventilator name
+     * @param roomID room id
+     * @param name   ventilator name
      * @return the newly created ventilator object as http response (json)
      */
-    @PostMapping(value = "/rooms/{room_id}/ventilators")
-    public ResponseEntity<Ventilator> addVentilator(@PathVariable Long room_id,
+    @PostMapping(value = "/rooms/{roomID}/ventilators")
+    public ResponseEntity<Ventilator> addVentilator(@PathVariable Long roomID,
                                                     @RequestParam Optional<String> name) {
-        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Room> room = roomRepository.findById(roomID);
         final Ventilator ventilator = new Ventilator();
 
         if (room.isPresent()) {
@@ -414,120 +436,144 @@ public class RestController {
     /**
      * get ventilator by its containing rooms id and own id
      *
-     * @param room_id       room id
-     * @param ventilator_id ventilator id
+     * @param roomID       room id
+     * @param ventilatorID ventilator id
      * @return the ventilator object as http response (json)
      */
-    @GetMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}")
-    public ResponseEntity<Ventilator> getVentilator(@PathVariable Long room_id,
-                                                    @PathVariable Long ventilator_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
-        return ResponseEntity.ok(vent.orElse(null));
+    @GetMapping(value = "/rooms/{roomID:.*}/ventilators/{ventilatorID:.*}")
+    public ResponseEntity<Ventilator> getVentilator(@PathVariable Long roomID,
+                                                    @PathVariable Long ventilatorID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilatorID)).findFirst();
+            return ResponseEntity.ok(vent.orElse(null));
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * delete a ventilator by its containing rooms id and its own id
      *
-     * @param room_id       room id
-     * @param ventilator_id ventilator id
+     * @param roomID       room id
+     * @param ventilatorID ventilator id
      * @return the deleted ventilator object as http response (json)
      */
-    @DeleteMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}")
-    public ResponseEntity<Ventilator> deleteVentilator(@PathVariable Long room_id,
-                                                       @PathVariable Long ventilator_id) {
-        final Room room = roomRepository.findById(room_id).orElse(null);
-        final Ventilator vent = room.getVentilators().stream()
-                .filter(l -> l.getId().equals(ventilator_id)).findFirst().orElse(null);
-        room.getVentilators().remove(vent);
-        ventilatorRepository.delete(vent);
-        return ResponseEntity.ok(vent);
+    @DeleteMapping(value = "/rooms/{roomID:.*}/ventilators/{ventilatorID:.*}")
+    public ResponseEntity<Ventilator> deleteVentilator(@PathVariable Long roomID,
+                                                       @PathVariable Long ventilatorID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Ventilator> vent = room.get().getVentilators().stream()
+                    .filter(l -> l.getId().equals(ventilatorID)).findFirst();
+            if (vent.isPresent()) {
+                room.get().getVentilators().remove(vent.get());
+                ventilatorRepository.delete(vent.get());
+                return ResponseEntity.ok(vent.get());
+            }
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * update a ventilators name by its containing room id and its own id
      *
-     * @param room_id       room id
-     * @param ventilator_id ventilator id
-     * @param name          ventilator name
+     * @param roomID       room id
+     * @param ventilatorID ventilator id
+     * @param name         ventilator name
      * @return the updated ventilator object as http response (json)
      */
-    @PatchMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}")
-    public ResponseEntity<Ventilator> updateVentilator(@PathVariable Long room_id,
-                                                       @PathVariable Long ventilator_id,
+    @PatchMapping(value = "/rooms/{roomID:.*}/ventilators/{ventilatorID:.*}")
+    public ResponseEntity<Ventilator> updateVentilator(@PathVariable Long roomID,
+                                                       @PathVariable Long ventilatorID,
                                                        @RequestParam String name) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
-        vent.ifPresent(ventilator -> ventilator.setName(name));
-        ventilatorRepository.save(vent.get());
-        return ResponseEntity.ok(vent.orElse(null));
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilatorID)).findFirst();
+            vent.ifPresent(ventilator -> ventilator.setName(name));
+            if (vent.isPresent()) {
+                ventilatorRepository.save(vent.get());
+                return ResponseEntity.ok(vent.get());
+            }
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * change the operational state (on/off = true/false) by its containing room id and its own id
      *
-     * @param room_id       room id
-     * @param ventilator_id ventilator id
-     * @param turnon        (on/off) = (true/false)
+     * @param roomID       room id
+     * @param ventilatorID ventilator id
+     * @param turnon       (on/off) = (true/false)
      * @return the updated ventilator object as http response (json)
      */
-    @PostMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}/Operations")
-    public ResponseEntity<Ventilator> postVentilatorState(@PathVariable Long room_id,
-                                                          @PathVariable Long ventilator_id,
+    @PostMapping(value = "/rooms/{roomID:.*}/ventilators/{ventilatorID:.*}/Operations")
+    public ResponseEntity<Ventilator> postVentilatorState(@PathVariable Long roomID,
+                                                          @PathVariable Long ventilatorID,
                                                           @RequestParam Optional<Boolean> turnon) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
-
-        if (vent.isPresent() && turnon.isPresent()) {
-            VentilatorRecord vr = new VentilatorRecord();
-            vr.setVentilator(vent.get());
-            vr.setTimestamp(LocalDateTime.now());
-            vr.setState(turnon.get());
-            vent.get().addVentilatorRecord(vr);
-            ventilatorRecordRepository.save(vr);
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilatorID)).findFirst();
+            if (vent.isPresent() && turnon.isPresent()) {
+                VentilatorRecord vr = new VentilatorRecord();
+                vr.setVentilator(vent.get());
+                vr.setTimestamp(LocalDateTime.now());
+                vr.setState(turnon.get());
+                vent.get().addVentilatorRecord(vr);
+                ventilatorRecordRepository.save(vr);
+                return ResponseEntity.ok(vent.get());
+            }
         }
-        return ResponseEntity.ok(vent.orElse(null));
+        return ResponseEntity.ok(null);
     }
 
     /**
      * get the actual ventilator status by its containing room id and the ventilator id
      *
-     * @param room_id       room id
-     * @param ventilator_id ventilator id
+     * @param roomID       room id
+     * @param ventilatorID ventilator id
      * @return the latest ventilator record for the specified ventilator as http response (json)
      */
-    @GetMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}/Activation")
-    public ResponseEntity<VentilatorRecord> getVentilatorState(@PathVariable Long room_id,
-                                                               @PathVariable Long ventilator_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
-        final Optional<VentilatorRecord> vr = vent.get().getLatestVentilatorRecord();
-        return ResponseEntity.ok(vr.get());
+    @GetMapping(value = "/rooms/{roomID:.*}/ventilators/{ventilatorID:.*}/Activation")
+    public ResponseEntity<VentilatorRecord> getVentilatorState(@PathVariable Long roomID,
+                                                               @PathVariable Long ventilatorID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Ventilator> vent = room.get().getVentilators()
+                    .stream().filter(l -> l.getId().equals(ventilatorID)).findFirst();
+            if (vent.isPresent()) {
+                final Optional<VentilatorRecord> vr = vent.get().getLatestVentilatorRecord();
+                return ResponseEntity.ok(vr.isPresent() ? vr.get() : null);
+            }
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * change the operational state of a ventilator by its containing room id and the ventilator id
      * if it's running it will be off afterwards, if it's turned off, it will be turned on afterwards
      *
-     * @param room_id       room id
-     * @param ventilator_id ventilator id
+     * @param roomID       room id
+     * @param ventilatorID ventilator id
      * @return the updated ventilator object as http response (json)
      */
-    @PostMapping(value = "/rooms/{room_id:.*}/ventilators/{ventilator_id:.*}/Activation")
-    public ResponseEntity<Ventilator> activateVentilator(@PathVariable Long room_id,
-                                                         @PathVariable Long ventilator_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Ventilator> vent = room.get().getVentilators().stream().filter(l -> l.getId().equals(ventilator_id)).findFirst();
-
-        if (vent.isPresent()) {
-            VentilatorRecord vr = new VentilatorRecord();
-            vr.setVentilator(vent.get());
-            vr.setTimestamp(LocalDateTime.now());
-            vr.setState(!(vent.get().getState()));
-            vent.get().addVentilatorRecord(vr);
-            ventilatorRecordRepository.save(vr);
+    @PostMapping(value = "/rooms/{roomID:.*}/ventilators/{ventilatorID:.*}/Activation")
+    public ResponseEntity<Ventilator> activateVentilator(@PathVariable Long roomID,
+                                                         @PathVariable Long ventilatorID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Ventilator> vent = room.get().getVentilators()
+                    .stream().filter(l -> l.getId().equals(ventilatorID)).findFirst();
+            if (vent.isPresent()) {
+                VentilatorRecord vr = new VentilatorRecord();
+                vr.setVentilator(vent.get());
+                vr.setTimestamp(LocalDateTime.now());
+                vr.setState(!(vent.get().getState()));
+                vent.get().addVentilatorRecord(vr);
+                ventilatorRecordRepository.save(vr);
+                return ResponseEntity.ok(vent.get());
+            }
         }
-        return ResponseEntity.ok(vent.orElse(null));
+        return ResponseEntity.ok(null);
     }
 
     // ============================== WINDOWS =====================================
@@ -535,27 +581,30 @@ public class RestController {
     /**
      * get all windows of a specified room by room id
      *
-     * @param room_id room id
+     * @param roomID room id
      * @return all window objects of the specified room as http response (json)
      */
-    @GetMapping(value = "/rooms/{room_id:.*}/windows")
-    public ResponseEntity<List<Windo>> getWindows(@PathVariable Long room_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        return ResponseEntity.ok(room.get().getWindows().stream().collect(Collectors.toList()));
+    @GetMapping(value = "/rooms/{roomID:.*}/windows")
+    public ResponseEntity<List<Windo>> getWindows(@PathVariable Long roomID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            return ResponseEntity.ok(room.get().getWindows().stream().collect(Collectors.toList()));
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * add a new window to a room by the rooms id
      *
-     * @param room_id room id
+     * @param roomID room id
      * @return the newly created window object as http response (json)
      */
-    @PostMapping(value = "/rooms/{room_id:.*}/windows")
-    public ResponseEntity<Windo> addWindow(@PathVariable Long room_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
+    @PostMapping(value = "/rooms/{roomID:.*}/windows")
+    public ResponseEntity<Windo> addWindow(@PathVariable Long roomID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
         final Windo window = new Windo();
-        room.get().addWindow(window);
         if (room.isPresent()) {
+            room.get().addWindow(window);
             window.setRoom(room.orElse(null));
             windoRepository.save(window);
         }
@@ -565,89 +614,112 @@ public class RestController {
     /**
      * get the specified window object by room id and its own id
      *
-     * @param room_id   room id
-     * @param window_id ventilator id
+     * @param roomID   room id
+     * @param windowID ventilator id
      * @return the window object as http response (json) or an empty json
      */
-    @GetMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}")
-    public ResponseEntity<Windo> getWindow(@PathVariable Long room_id,
-                                           @PathVariable Long window_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        Optional<Windo> window = room.get().getWindows().stream().filter(l -> l.getId().equals(window_id)).findFirst();
-        return ResponseEntity.ok(window.orElse(null));
+    @GetMapping(value = "/rooms/{roomID:.*}/windows/{windowID:.*}")
+    public ResponseEntity<Windo> getWindow(@PathVariable Long roomID,
+                                           @PathVariable Long windowID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            Optional<Windo> window = room.get().getWindows().stream().filter(l -> l.getId().equals(windowID)).findFirst();
+            if (window.isPresent()) {
+                return ResponseEntity.ok(window.get());
+            }
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * update a specified window by its id and the containing rooms id
      *
-     * @param room_id   room id
-     * @param window_id ventilator id
+     * @param roomID   room id
+     * @param windowID ventilator id
      * @return the updated window object as http response (json) or an empty json
      */
-    @PutMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}")
-    public ResponseEntity<Windo> updateWindow(@PathVariable Long room_id,
-                                              @PathVariable Long window_id) {
-        final Room room = roomRepository.getById(room_id);
-        final Optional<Windo> window = room.getWindows().stream().filter(l -> l.getId().equals(window_id)).findFirst();
-        return ResponseEntity.ok(window.orElse(null));
+    @PutMapping(value = "/rooms/{roomID:.*}/windows/{windowID:.*}")
+    public ResponseEntity<Windo> updateWindow(@PathVariable Long roomID,
+                                              @PathVariable Long windowID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Windo> window = room.get().getWindows().stream().filter(l -> l.getId().equals(windowID)).findFirst();
+            return ResponseEntity.ok(window.isPresent() ? window.get() : null);
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * delete a window by its containing room id and its own id
      *
-     * @param room_id   room id
-     * @param window_id ventilator id
+     * @param roomID   room id
+     * @param windowID ventilator id
      * @return the deleted window object as http response (json)
      */
-    @DeleteMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}")
-    public ResponseEntity<Windo> deleteWindow(@PathVariable Long room_id,
-                                              @PathVariable Long window_id) {
-        final Room room = roomRepository.findById(room_id).orElse(null);
-        final Windo windo = room.getWindows().stream()
-                .filter(l -> l.getId().equals(window_id)).findFirst().orElse(null);
-        room.getWindows().remove(windo);
-        windoRepository.delete(windo);
-        return ResponseEntity.ok(windo);
+    @DeleteMapping(value = "/rooms/{roomID:.*}/windows/{windowID:.*}")
+    public ResponseEntity<Windo> deleteWindow(@PathVariable Long roomID,
+                                              @PathVariable Long windowID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Windo> window = room.get().getWindows().stream()
+                    .filter(l -> l.getId().equals(windowID)).findFirst();
+            if (window.isPresent()) {
+                room.get().getWindows().remove(window.get());
+                windoRepository.delete(window.get());
+                return ResponseEntity.ok(window.get());
+            }
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * get the actual state (open/close = true/false) of a specified window by its containing room id and window id
      *
-     * @param room_id   room id
-     * @param window_id ventilator id
+     * @param roomID   room id
+     * @param windowID ventilator id
      * @return the latest change entry of the window (windowRecord) as http response (json)
      */
-    @GetMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}/Open")
-    public ResponseEntity<WindowRecord> getWindowState(@PathVariable Long room_id,
-                                                       @PathVariable Long window_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Windo> win = room.get().getWindows().stream().filter(l -> l.getId().equals(window_id)).findFirst();
-        final Optional<WindowRecord> wr = win.get().getLatestWindowRecord();
-        return ResponseEntity.ok(wr.isPresent() ? wr.get() : null);
+    @GetMapping(value = "/rooms/{roomID:.*}/windows/{windowID:.*}/Open")
+    public ResponseEntity<WindowRecord> getWindowState(@PathVariable Long roomID,
+                                                       @PathVariable Long windowID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Windo> win = room.get().getWindows().stream().filter(l -> l.getId().equals(windowID)).findFirst();
+            if (win.isPresent()) {
+                final Optional<WindowRecord> wr = win.get().getLatestWindowRecord();
+                if (wr.isPresent()) {
+                    return ResponseEntity.ok(wr.get());
+                }
+            }
+        }
+        return ResponseEntity.ok(null);
     }
 
     /**
      * change the actual state of a window by its containing room id and its own id
      * if it was closed it afterwards open, if it's open, it's afterwards closed
      *
-     * @param room_id   room id
-     * @param window_id ventilator id
+     * @param roomID   room id
+     * @param windowID ventilator id
      * @return the updated window object as http response (json)
      */
-    @PostMapping(value = "/rooms/{room_id:.*}/windows/{window_id:.*}/Open")
-    public ResponseEntity<Windo> postWindowState(@PathVariable Long room_id,
-                                                 @PathVariable Long window_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Windo> win = room.get().getWindows().stream().filter(l -> l.getId().equals(window_id)).findFirst();
-        if (win.isPresent()) {
-            final WindowRecord wr = new WindowRecord();
-            wr.setWindow(win.get());
-            wr.setTimestamp(LocalDateTime.now());
-            wr.setState(!(win.get().getState()));
-            win.get().addWindowRecord(wr);
-            windowRecordRepository.save(wr);
+    @PostMapping(value = "/rooms/{roomID:.*}/windows/{windowID:.*}/Open")
+    public ResponseEntity<Windo> postWindowState(@PathVariable Long roomID,
+                                                 @PathVariable Long windowID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Windo> win = room.get().getWindows().stream().filter(l -> l.getId().equals(windowID)).findFirst();
+            if (win.isPresent()) {
+                final WindowRecord wr = new WindowRecord();
+                wr.setWindow(win.get());
+                wr.setTimestamp(LocalDateTime.now());
+                wr.setState(!(win.get().getState()));
+                win.get().addWindowRecord(wr);
+                windowRecordRepository.save(wr);
+                return ResponseEntity.ok(win.get());
+            }
         }
-        return ResponseEntity.ok(win.orElse(null));
+        return ResponseEntity.ok(null);
     }
 
     // ============================== DOORS =====================================
@@ -655,19 +727,19 @@ public class RestController {
     /**
      * get all doors of a room by room sid
      *
-     * @param room_id room id
+     * @param roomID room id
      * @return the door objects contained by the room as http response (json)
      */
-    @GetMapping(value = "/rooms/{room_id:.*}/doors")
-    public ResponseEntity<List<Door>> getDoors(@PathVariable Long room_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        return ResponseEntity.ok(room.get().getDoors().stream().collect(Collectors.toList()));
+    @GetMapping(value = "/rooms/{roomID:.*}/doors")
+    public ResponseEntity<List<Door>> getDoors(@PathVariable Long roomID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        return ResponseEntity.ok(room.isPresent() ? room.get().getDoors().stream().collect(Collectors.toList()) : null);
     }
 
-    @PutMapping(value = "/rooms/{room_id:.*}/doors")
-    public ResponseEntity<Door> addDoor(@PathVariable Long room_id,
+    @PutMapping(value = "/rooms/{roomID:.*}/doors")
+    public ResponseEntity<Door> addDoor(@PathVariable Long roomID,
                                         @RequestParam Optional<String> name) {
-        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Room> room = roomRepository.findById(roomID);
         final Door door = new Door();
         if (room.isPresent()) {
             name.ifPresent(door::setName);
@@ -677,108 +749,106 @@ public class RestController {
         }
         return ResponseEntity.ok(door);
     }
-/*
-    @PutMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
-    public ResponseEntity<Door> connectDoor(@PathVariable Long room_id,
-                                            @PathVariable Long door_id,
-                                            @RequestParam Long room2
-                                        ) {
-        final Optional<Room> room_1 = roomRepository.findById(room_id);
-        final Optional<Room> room_2 = roomRepository.findById(room2);
-        final Optional<Door> door = room_1.get().getDoors().stream()
-                .filter(l -> l.getId().equals(door_id)).findFirst();
 
-        if (room_1.isPresent()) {
-            if (room_2.isPresent()) {
-                if (door.isPresent()) {
-               door.get().addRoom(room_2.get());
-               room_2.get().addDoor(door.get());
-            }}
+    @GetMapping(value = "/rooms/{roomID:.*}/doors/{doorID:.*}")
+    public ResponseEntity<Door> getDoor(@PathVariable Long roomID,
+                                        @PathVariable Long doorID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Door> ls = room.get().getDoors().stream()
+                    .filter(l -> l.getId().equals(doorID)).findFirst();
+            if (ls.isPresent()) {
+                return ResponseEntity.ok(ls.get());
+            }
         }
-        doorRepository.save(door.get());
-        roomRepository.save(room_2.get());
-        return ResponseEntity.ok(door.get());
-    }
-*/
-
-    @GetMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
-    public ResponseEntity<Door> getDoor(@PathVariable Long room_id,
-                                        @PathVariable Long door_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Door> ls = room.get().getDoors().stream()
-                .filter(l -> l.getId().equals(door_id)).findFirst();
-        return ResponseEntity.ok(ls.orElse(null));
+        return ResponseEntity.ok(null);
     }
 
-    @PutMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
-    public ResponseEntity<Door> updateDoor(@PathVariable Long room_id,
-                                           @PathVariable Long door_id,
+    @PutMapping(value = "/rooms/{roomID:.*}/doors/{doorID:.*}")
+    public ResponseEntity<Door> updateDoor(@PathVariable Long roomID,
+                                           @PathVariable Long doorID,
                                            @RequestParam Optional<String> name) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Door> door = room.get().getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
-        if (door.isPresent()) {
-            door.get().setName(name.get());
-            doorRepository.save(door.get());
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Door> door = room.get().getDoors()
+                    .stream().filter(l -> l.getId().equals(doorID)).findFirst();
+            if (door.isPresent() && name.isPresent()) {
+                door.get().setName(name.get());
+                doorRepository.save(door.get());
+                return ResponseEntity.ok(door.get());
+            }
         }
-        return ResponseEntity.ok(door.orElse(null));
+        return ResponseEntity.ok(null);
     }
 
-    @DeleteMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}")
-    public ResponseEntity<Door> deleteDoor(@PathVariable Long room_id,
-                                           @PathVariable Long door_id) {
-        final Room room = roomRepository.findById(room_id).orElse(null);
-        final Door gd = room.getDoors().stream()
-                .filter(l -> l.getId().equals(door_id)).findFirst().orElse(null);
-        room.getDoors().remove(gd);
-        doorRepository.delete(gd);
-        return ResponseEntity.ok(gd);
-    }
-
-    @GetMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}/Open")
-    public ResponseEntity<DoorRecord> getDoorState(@PathVariable Long room_id,
-                                                   @PathVariable Long door_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Door> door = room.get().getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
-        final Optional<DoorRecord> dr = door.get().getLatestDoorRecord();
-
-
-        return ResponseEntity.ok(dr.isPresent() ? dr.get() : null);
-    }
-
-    @PostMapping(value = "/rooms/{room_id:.*}/doors/{door_id:.*}/Open")
-    public ResponseEntity<Door> postDoorState(@PathVariable Long room_id,
-                                              @PathVariable Long door_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<Door> door = room.get().getDoors().stream().filter(l -> l.getId().equals(door_id)).findFirst();
-        if (door.isPresent()) {
-            final DoorRecord dr = new DoorRecord();
-            dr.setDoor(door.get());
-            dr.setTimestamp(LocalDateTime.now());
-            dr.setState(!(door.get().getState()));
-            door.get().addDoorRecord(dr);
-            doorRecordRepository.save(dr);
+    @DeleteMapping(value = "/rooms/{roomID:.*}/doors/{doorID:.*}")
+    public ResponseEntity<Door> deleteDoor(@PathVariable Long roomID,
+                                           @PathVariable Long doorID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Door> d = room.get().getDoors().stream()
+                    .filter(l -> l.getId().equals(doorID)).findFirst();
+            if (d.isPresent()) {
+                room.get().getDoors().remove(d.get());
+                doorRepository.delete(d.get());
+                return ResponseEntity.ok(d.get());
+            }
         }
-        return ResponseEntity.ok(door.orElse(null));
+        return ResponseEntity.ok(null);
+    }
+
+    @GetMapping(value = "/rooms/{roomID:.*}/doors/{doorID:.*}/Open")
+    public ResponseEntity<DoorRecord> getDoorState(@PathVariable Long roomID,
+                                                   @PathVariable Long doorID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Door> door = room.get().getDoors()
+                    .stream().filter(l -> l.getId().equals(doorID)).findFirst();
+            if (door.isPresent()) {
+                final Optional<DoorRecord> dr = door.get().getLatestDoorRecord();
+                if (dr.isPresent()) {
+                    return ResponseEntity.ok(dr.get());
+                }
+            }
+        }
+        return ResponseEntity.ok(null);
+    }
+
+    @PostMapping(value = "/rooms/{roomID:.*}/doors/{doorID:.*}/Open")
+    public ResponseEntity<Door> postDoorState(@PathVariable Long roomID,
+                                              @PathVariable Long doorID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<Door> door = room.get().getDoors().stream().filter(l -> l.getId().equals(doorID)).findFirst();
+            if (door.isPresent()) {
+                final DoorRecord dr = new DoorRecord();
+                dr.setDoor(door.get());
+                dr.setTimestamp(LocalDateTime.now());
+                dr.setState(!(door.get().getState()));
+                door.get().addDoorRecord(dr);
+                doorRecordRepository.save(dr);
+            }
+        }
+        return ResponseEntity.ok(null);
     }
 
     // ============================== AIR-QUALITY =====================================
 
-    @GetMapping(value = "/room/{room_id:.*}/AirQuality")
-    public ResponseEntity<List<AirQualityDevice>> getAirQuality(@PathVariable Long room_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
+    @GetMapping(value = "/room/{roomID:.*}/AirQuality")
+    public ResponseEntity<List<AirQualityDevice>> getAirQuality(@PathVariable Long roomID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
         if (!room.isPresent()) {
             return ResponseEntity.ok(null);
         }
         return ResponseEntity.ok(room.get().getAirQualityDevices().stream().collect(Collectors.toList()));
     }
 
-    @GetMapping(value = "/room/{room_id:.*}/AirQuality/temperature")
-    public ResponseEntity<TemperatureSensorRecord> getAirQualityTemperature(@PathVariable Long room_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
+    @GetMapping(value = "/room/{roomID:.*}/AirQuality/temperature")
+    public ResponseEntity<TemperatureSensorRecord> getAirQualityTemperature(@PathVariable Long roomID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
         if (!room.isPresent()) {
             return ResponseEntity.ok(null);
         }
-
         Optional<TemperatureSensorRecord> tsr =
                 room.get().getAirQualityDevices().stream()
                         .map(aqd -> aqd.getTemperatureSensor().getLatestTemperatureSensorRecord())
@@ -786,9 +856,9 @@ public class RestController {
         return ResponseEntity.ok(tsr.orElse(null));
     }
 
-    @GetMapping(value = "/room/{room_id:.*}/AirQuality/humidity")
-    public ResponseEntity<HumiditySensorRecord> getAirQualityHumidity(@PathVariable Long room_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
+    @GetMapping(value = "/room/{roomID:.*}/AirQuality/humidity")
+    public ResponseEntity<HumiditySensorRecord> getAirQualityHumidity(@PathVariable Long roomID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
         if (!room.isPresent()) {
             return ResponseEntity.ok(null);
         }
@@ -799,26 +869,26 @@ public class RestController {
         return ResponseEntity.ok(hsr.orElse(null));
     }
 
-    @GetMapping(value = "/room/{room_id:.*}/AirQuality/co2")
-    public ResponseEntity<Co2SensorRecord> getAirQualityCo2(@PathVariable Long room_id) {
-        final Optional<Room> room = roomRepository.findById(room_id);
-        if (!room.isPresent()) {
-            return ResponseEntity.ok(null);
+    @GetMapping(value = "/room/{roomID:.*}/AirQuality/co2")
+    public ResponseEntity<Co2SensorRecord> getAirQualityCo2(@PathVariable Long roomID) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            Optional<Co2SensorRecord> csr =
+                    room.get().getAirQualityDevices().stream()
+                            .map(aqd -> aqd.getCo2Sensor().getLatestCo2SensorRecord())
+                            .max(Comparator.comparing(t -> t.isPresent() ? t.get().getTimestamp() : null)).get();
+            return ResponseEntity.ok(csr.isPresent() ? csr.get() : null);
         }
-        Optional<Co2SensorRecord> csr =
-                room.get().getAirQualityDevices().stream()
-                        .map(aqd -> aqd.getCo2Sensor().getLatestCo2SensorRecord())
-                        .max(Comparator.comparing(t -> t.isPresent() ? t.get().getTimestamp() : null)).get();
-        return ResponseEntity.ok(csr.orElse(null));
+        return ResponseEntity.ok(null);
     }
 
 
     @PostMapping(value = "/room/AirQuality")
-    public ResponseEntity<AirQualityDevice> addAirQuality(@RequestParam Long room_id,
+    public ResponseEntity<AirQualityDevice> addAirQuality(@RequestParam Long roomID,
                                                           @RequestParam Optional<Double> co2,
                                                           @RequestParam Optional<Double> humidity,
                                                           @RequestParam Optional<Double> temperature) {
-        final Optional<Room> room = roomRepository.findById(room_id);
+        final Optional<Room> room = roomRepository.findById(roomID);
         if (!room.isPresent()) {
             return ResponseEntity.ok(null);
         }
@@ -911,82 +981,80 @@ public class RestController {
         return ResponseEntity.ok(airQualityDevice);
     }
 
-    @PutMapping(value = "/room/{room_id:.*}/AirQuality/{airquality_id:.*}")
-    public ResponseEntity<AirQualityDevice> chgAirQuality(@PathVariable Long room_id,
-                                                          @PathVariable Long airquality_id,
+    @PutMapping(value = "/room/{roomID:.*}/AirQuality/{airQualityID:.*}")
+    public ResponseEntity<AirQualityDevice> chgAirQuality(@PathVariable Long roomID,
+                                                          @PathVariable Long airQualityID,
                                                           @RequestParam Optional<Double> co2,
                                                           @RequestParam Optional<Double> humidity,
                                                           @RequestParam Optional<Double> temperature) {
+        final Optional<Room> room = roomRepository.findById(roomID);
+        if (room.isPresent()) {
+            final Optional<AirQualityDevice> aqd = room.get().getAirQualityDevices().stream()
+                    .filter(a -> a.getId().equals(airQualityID)).findFirst();
+            if (aqd.isPresent()) {
+                if (co2.isPresent()) {
+                    Co2SensorRecord co2r = new Co2SensorRecord();
+                    co2r.setTimestamp(LocalDateTime.now());
+                    co2r.setCo2Sensor(aqd.get().getCo2Sensor());
+                    co2r.setCo2(co2.get());
+                    co2SensorRecordRepository.save(co2r);
+                    aqd.get().getCo2Sensor().setCo2(co2.get());
 
-        final Optional<Room> room = roomRepository.findById(room_id);
-        final Optional<AirQualityDevice> aqd = room.get().getAirQualityDevices().stream()
-                .filter(a -> a.getId().equals(airquality_id)).findFirst();
+                    // Automation rule: Open window + activate fan if co2 values are > 1000 parts per million (ppm)
+                    if (co2.get() > 1000) {
+                        room.get().getWindows().stream().forEach(w -> {
+                            WindowRecord wr = new WindowRecord();
+                            wr.setWindow(w);
+                            wr.setTimestamp(LocalDateTime.now());
+                            wr.setState(true);
+                            w.addWindowRecord(wr);
+                            windowRecordRepository.save(wr);
+                        });
+                        room.get().getVentilators().stream().forEach(v -> {
+                            VentilatorRecord vr = new VentilatorRecord();
+                            vr.setVentilator(v);
+                            vr.setTimestamp(LocalDateTime.now());
+                            vr.setState(true);
+                            v.addVentilatorRecord(vr);
+                            ventilatorRecordRepository.save(vr);
+                        });
+                    }
+                }
 
-        if (room.isPresent() && aqd.isPresent()) {
-            if (co2.isPresent()) {
-                Co2SensorRecord co2r = new Co2SensorRecord();
-                co2r.setTimestamp(LocalDateTime.now());
-                co2r.setCo2Sensor(aqd.get().getCo2Sensor());
-                co2r.setCo2(co2.get());
-                co2SensorRecordRepository.save(co2r);
-                aqd.get().getCo2Sensor().setCo2(co2.get());
-            }
+                if (humidity.isPresent()) {
+                    HumiditySensorRecord hsr = new HumiditySensorRecord();
+                    hsr.setTimestamp(LocalDateTime.now());
+                    hsr.setHumiditySensor(aqd.get().getHumiditySensor());
+                    hsr.setHumidity(humidity.get());
+                    humiditySensorRecordRepository.save(hsr);
+                    aqd.get().getHumiditySensor().setHumidity(humidity.get());
+                }
 
-            if (humidity.isPresent()) {
-                HumiditySensorRecord hsr = new HumiditySensorRecord();
-                hsr.setTimestamp(LocalDateTime.now());
-                hsr.setHumiditySensor(aqd.get().getHumiditySensor());
-                hsr.setHumidity(humidity.get());
-                humiditySensorRecordRepository.save(hsr);
-                aqd.get().getHumiditySensor().setHumidity(humidity.get());
+                if (temperature.isPresent()) {
+                    TemperatureSensorRecord tsr = new TemperatureSensorRecord();
+                    tsr.setTimestamp(LocalDateTime.now());
+                    tsr.setTemperatureSensor(aqd.get().getTemperatureSensor());
+                    tsr.setTemperature(temperature.get());
+                    temperatureSensorRecordRepository.save(tsr);
+                    aqd.get().getTemperatureSensor().setTemperature(temperature.get());
 
-            }
-
-            if (temperature.isPresent()) {
-                TemperatureSensorRecord tsr = new TemperatureSensorRecord();
-                tsr.setTimestamp(LocalDateTime.now());
-                tsr.setTemperatureSensor(aqd.get().getTemperatureSensor());
-                tsr.setTemperature(temperature.get());
-                temperatureSensorRecordRepository.save(tsr);
-                aqd.get().getTemperatureSensor().setTemperature(temperature.get());
+                    // Automation Rule: Unlock all doors if temp > 70
+                    if (temperature.get() > 70) {
+                        // open doors
+                        room.get().getDoors().stream().forEach(d -> {
+                            DoorRecord doorRecord = new DoorRecord();
+                            doorRecord.setDoor(d);
+                            doorRecord.setState(true);
+                            doorRecord.setTimestamp(LocalDateTime.now());
+                            d.addDoorRecord(doorRecord);
+                            doorRecordRepository.save(doorRecord);
+                            d.open();
+                        });
+                    }
+                }
+                return ResponseEntity.ok(aqd.get());
             }
         }
-
-        // Automation Rule: Unlock all doors if temp > 70
-        if (temperature.isPresent() && temperature.get() > 70) {
-            // open doors
-            room.get().getDoors().stream().forEach(d -> {
-                DoorRecord doorRecord = new DoorRecord();
-                doorRecord.setDoor(d);
-                doorRecord.setState(true);
-                doorRecord.setTimestamp(LocalDateTime.now());
-                d.addDoorRecord(doorRecord);
-                doorRecordRepository.save(doorRecord);
-                d.open();
-            });
-        }
-
-        // Automation rule: Open window + activate fan if co2 values are > 1000 parts per million (ppm)
-        if (co2.isPresent() && co2.get() > 1000) {
-            room.get().getWindows().stream().forEach(w -> {
-                WindowRecord wr = new WindowRecord();
-                wr.setWindow(w);
-                wr.setTimestamp(LocalDateTime.now());
-                wr.setState(true);
-                w.addWindowRecord(wr);
-                windowRecordRepository.save(wr);
-            });
-            room.get().getVentilators().stream().forEach(v -> {
-                VentilatorRecord vr = new VentilatorRecord();
-                vr.setVentilator(v);
-                vr.setTimestamp(LocalDateTime.now());
-                vr.setState(true);
-                v.addVentilatorRecord(vr);
-                ventilatorRecordRepository.save(vr);
-            });
-        }
-
-        return ResponseEntity.ok(aqd.isPresent() ? aqd.get() : null);
+        return ResponseEntity.ok(null);
     }
-
 }

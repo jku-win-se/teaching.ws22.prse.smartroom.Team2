@@ -1,7 +1,6 @@
 package at.jku.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,9 +17,10 @@ public class PeopleInRoom {
     @JsonBackReference
     private Room room;
     private LocalDateTime timestamp;
-    private int NOPeopleInRoom;
+    private int numPeopleInRoom;
 
     public PeopleInRoom() {
+        // nothing needed @SonarLint
     }
 
     public Long getId() {
@@ -47,11 +47,11 @@ public class PeopleInRoom {
         this.timestamp = timestamp;
     }
 
-    public int getNOPeopleInRoom() {
-        return NOPeopleInRoom;
+    public int getNumPeopleInRoom() {
+        return numPeopleInRoom;
     }
 
-    public void setNOPeopleInRoom(int NOPeopleInRoom) {
-        this.NOPeopleInRoom = NOPeopleInRoom;
+    public void setNumPeopleInRoom(int numPeopleInRoom) {
+        this.numPeopleInRoom = numPeopleInRoom;
     }
 }

@@ -22,6 +22,7 @@ public class TemperatureSensorRecord {
     private double temperature;
 
     public TemperatureSensorRecord() {
+        // nothing needed @SonarLint
     }
 
     public Long getId() {
