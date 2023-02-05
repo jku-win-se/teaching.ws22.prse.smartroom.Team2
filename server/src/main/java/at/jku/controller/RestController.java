@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -145,7 +144,7 @@ public class RestController {
     // ============================== PEOPLE IN ROOMS =====================================
 
     /**
-     * get actual count of people in room (latest database entry)
+     * get actual count of people in room (the latest database entry)
      *
      * @param roomID room id
      * @return peopleInRoom object as http response (json)
@@ -203,7 +202,7 @@ public class RestController {
                 });
             }
         }
-        return ResponseEntity.ok(room.isPresent() ? room.get().getNumPeopleInRoom() : null);
+        return ResponseEntity.ok(room.map(Room::getNumPeopleInRoom).orElse(null));
     }
 
     // ============================== LIGHTS =====================================
@@ -217,7 +216,7 @@ public class RestController {
     @GetMapping(value = "/rooms/{roomID:.*}/lights")
     public ResponseEntity<List<LightSource>> getRoomLights(@PathVariable Long roomID) {
         final Optional<Room> room = roomRepository.findById(roomID);
-        return ResponseEntity.ok(room.isPresent() ? room.get().getLightSources().stream().collect(Collectors.toList()) : null);
+        return ResponseEntity.ok(room.map(value -> new ArrayList<>(value.getLightSources())).orElse(null));
     }
 
     /**
@@ -232,9 +231,7 @@ public class RestController {
                                                       @RequestParam Optional<String> name) {
         final Optional<Room> room = roomRepository.findById(roomID);
         final LightSource ls = new LightSource();
-        if (name.isPresent()) {
-            ls.setName(name.get());
-        }
+        name.ifPresent(ls::setName);
         if (room.isPresent()) {
             room.get().addLightSource(ls);
             ls.setRoom(room.get());
@@ -257,7 +254,7 @@ public class RestController {
         if (room.isPresent()) {
             final Optional<LightSource> ls = room.get()
                     .getLightSources().stream().filter(l -> l.getId().equals(lightID)).findFirst();
-            return ResponseEntity.ok(ls.isPresent() ? ls.get() : null);
+            return ResponseEntity.ok(ls.orElse(null));
         }
         return ResponseEntity.ok(null);
     }
@@ -301,7 +298,7 @@ public class RestController {
             final Optional<LightSource> ls = room.get()
                     .getLightSources().stream()
                     .filter(l -> l.getId().equals(lightID)).findFirst();
-            return ResponseEntity.ok(ls.isPresent() ? ls.get() : null);
+            return ResponseEntity.ok(ls.orElse(null));
         }
         return ResponseEntity.ok(null);
     }
@@ -380,12 +377,8 @@ public class RestController {
                     .getLightSources().stream()
                     .filter(l -> l.getId().equals(lightID)).findFirst();
             if (ls.isPresent()) {
-                if (hex.isPresent()) {
-                    ls.get().setHex(hex.get());
-                }
-                if (brightness.isPresent()) {
-                    ls.get().setBrightness(brightness.get());
-                }
+                hex.ifPresent(s -> ls.get().setHex(s));
+                brightness.ifPresent(integer -> ls.get().setBrightness(integer));
                 lightSourceRepository.save(ls.get());
                 return ResponseEntity.ok(ls.get());
             }
@@ -403,12 +396,9 @@ public class RestController {
      * @return all ventilator objects contained in the specified room_id as http response (json)
      */
     @GetMapping(value = "/rooms/{roomID:.*}/ventilators")
-    public ResponseEntity<List<Ventilator>> getVentilators(@PathVariable Long roomID) {
+    public ResponseEntity<ArrayList<Ventilator>> getVentilators(@PathVariable Long roomID) {
         final Optional<Room> room = roomRepository.findById(roomID);
-        if (room.isPresent()) {
-            return ResponseEntity.ok(room.get().getVentilators().stream().collect(Collectors.toList()));
-        }
-        return ResponseEntity.ok(null);
+        return room.map(value -> ResponseEntity.ok(new ArrayList<>(value.getVentilators()))).orElseGet(() -> ResponseEntity.ok(null));
     }
 
     /**
@@ -542,7 +532,7 @@ public class RestController {
                     .stream().filter(l -> l.getId().equals(ventilatorID)).findFirst();
             if (vent.isPresent()) {
                 final Optional<VentilatorRecord> vr = vent.get().getLatestVentilatorRecord();
-                return ResponseEntity.ok(vr.isPresent() ? vr.get() : null);
+                return ResponseEntity.ok(vr.orElse(null));
             }
         }
         return ResponseEntity.ok(null);
@@ -587,10 +577,7 @@ public class RestController {
     @GetMapping(value = "/rooms/{roomID:.*}/windows")
     public ResponseEntity<List<Windo>> getWindows(@PathVariable Long roomID) {
         final Optional<Room> room = roomRepository.findById(roomID);
-        if (room.isPresent()) {
-            return ResponseEntity.ok(room.get().getWindows().stream().collect(Collectors.toList()));
-        }
-        return ResponseEntity.ok(null);
+        return room.<ResponseEntity<List<Windo>>>map(value -> ResponseEntity.ok(new ArrayList<>(value.getWindows()))).orElseGet(() -> ResponseEntity.ok(null));
     }
 
     /**
@@ -644,7 +631,7 @@ public class RestController {
         final Optional<Room> room = roomRepository.findById(roomID);
         if (room.isPresent()) {
             final Optional<Windo> window = room.get().getWindows().stream().filter(l -> l.getId().equals(windowID)).findFirst();
-            return ResponseEntity.ok(window.isPresent() ? window.get() : null);
+            return ResponseEntity.ok(window.orElse(null));
         }
         return ResponseEntity.ok(null);
     }
@@ -725,7 +712,7 @@ public class RestController {
     // ============================== DOORS =====================================
 
     /**
-     * get all doors of a room by room sid
+     * get all doors of a room by room id
      *
      * @param roomID room id
      * @return the door objects contained by the room as http response (json)
@@ -733,9 +720,16 @@ public class RestController {
     @GetMapping(value = "/rooms/{roomID:.*}/doors")
     public ResponseEntity<List<Door>> getDoors(@PathVariable Long roomID) {
         final Optional<Room> room = roomRepository.findById(roomID);
-        return ResponseEntity.ok(room.isPresent() ? room.get().getDoors().stream().collect(Collectors.toList()) : null);
+        return ResponseEntity.ok(room.map(value -> new ArrayList<>(value.getDoors())).orElse(null));
     }
 
+    /**
+     * add door to room
+     *
+     * @param roomID room id
+     * @param name   new door name
+     * @return the newly created door object as http response (json)
+     */
     @PutMapping(value = "/rooms/{roomID:.*}/doors")
     public ResponseEntity<Door> addDoor(@PathVariable Long roomID,
                                         @RequestParam Optional<String> name) {
@@ -750,6 +744,13 @@ public class RestController {
         return ResponseEntity.ok(door);
     }
 
+    /**
+     * get a specific door object by its containing room id and the door id
+     *
+     * @param roomID room id
+     * @param doorID door id
+     * @return the requested door object as http response (json)
+     */
     @GetMapping(value = "/rooms/{roomID:.*}/doors/{doorID:.*}")
     public ResponseEntity<Door> getDoor(@PathVariable Long roomID,
                                         @PathVariable Long doorID) {
@@ -764,6 +765,14 @@ public class RestController {
         return ResponseEntity.ok(null);
     }
 
+    /**
+     * change name of door
+     *
+     * @param roomID room id
+     * @param doorID door id
+     * @param name   new name
+     * @return the updated door object as http response (json)
+     */
     @PutMapping(value = "/rooms/{roomID:.*}/doors/{doorID:.*}")
     public ResponseEntity<Door> updateDoor(@PathVariable Long roomID,
                                            @PathVariable Long doorID,
@@ -781,6 +790,13 @@ public class RestController {
         return ResponseEntity.ok(null);
     }
 
+    /**
+     * delete door by its containing room id and its own id
+     *
+     * @param roomID room id
+     * @param doorID door id
+     * @return the deleted door object as http response (json)
+     */
     @DeleteMapping(value = "/rooms/{roomID:.*}/doors/{doorID:.*}")
     public ResponseEntity<Door> deleteDoor(@PathVariable Long roomID,
                                            @PathVariable Long doorID) {
@@ -796,6 +812,14 @@ public class RestController {
         }
         return ResponseEntity.ok(null);
     }
+
+    /**
+     * get actual door status (opened/closed = true/false)
+     *
+     * @param roomID room id
+     * @param doorID door id
+     * @return the latest door record object as http response (json)
+     */
 
     @GetMapping(value = "/rooms/{roomID:.*}/doors/{doorID:.*}/Open")
     public ResponseEntity<DoorRecord> getDoorState(@PathVariable Long roomID,
@@ -814,6 +838,14 @@ public class RestController {
         return ResponseEntity.ok(null);
     }
 
+    /**
+     * update door state (opened/closed = true/false) if
+     * When it's opened, its closed afterwards and vice versa
+     *
+     * @param roomID door id
+     * @param doorID room id
+     * @return the updated door object as http response (json)
+     */
     @PostMapping(value = "/rooms/{roomID:.*}/doors/{doorID:.*}/Open")
     public ResponseEntity<Door> postDoorState(@PathVariable Long roomID,
                                               @PathVariable Long doorID) {
@@ -834,62 +866,91 @@ public class RestController {
 
     // ============================== AIR-QUALITY =====================================
 
+    /**
+     * get all air quality devices and their properties of a specific room by room id
+     *
+     * @param roomID room id
+     * @return a list of air quality devices of the specified room as http response (json)
+     */
     @GetMapping(value = "/room/{roomID:.*}/AirQuality")
-    public ResponseEntity<List<AirQualityDevice>> getAirQuality(@PathVariable Long roomID) {
+    public ResponseEntity<ArrayList<AirQualityDevice>> getAirQuality(@PathVariable Long roomID) {
         final Optional<Room> room = roomRepository.findById(roomID);
-        if (!room.isPresent()) {
-            return ResponseEntity.ok(null);
-        }
-        return ResponseEntity.ok(room.get().getAirQualityDevices().stream().collect(Collectors.toList()));
+        return room.map(value -> ResponseEntity.ok(new ArrayList<>(value.getAirQualityDevices()))).orElseGet(() -> ResponseEntity.ok(null));
     }
 
+    /**
+     * get latest temperature record (actual room temperature)
+     *
+     * @param roomID room id
+     * @return the latest temperature entry of a sensor as http response (json)
+     */
     @GetMapping(value = "/room/{roomID:.*}/AirQuality/temperature")
     public ResponseEntity<TemperatureSensorRecord> getAirQualityTemperature(@PathVariable Long roomID) {
         final Optional<Room> room = roomRepository.findById(roomID);
-        if (!room.isPresent()) {
-            return ResponseEntity.ok(null);
+        if (room.isPresent()) {
+            Optional<TemperatureSensorRecord> tsr =
+                    room.map(value -> value.getAirQualityDevices().stream()
+                            .map(aqd -> aqd.getTemperatureSensor().getLatestTemperatureSensorRecord())
+                            .max(Comparator.comparing(t -> t.map(TemperatureSensorRecord::getTimestamp).get())).get().get());
+            return ResponseEntity.ok(tsr.orElse(null));
         }
-        Optional<TemperatureSensorRecord> tsr =
-                room.get().getAirQualityDevices().stream()
-                        .map(aqd -> aqd.getTemperatureSensor().getLatestTemperatureSensorRecord())
-                        .max(Comparator.comparing(t -> t.isPresent() ? t.get().getTimestamp() : null)).get();
-        return ResponseEntity.ok(tsr.orElse(null));
+        return ResponseEntity.ok(null);
     }
 
+    /**
+     * get latest humidity record (actual room temperature)
+     *
+     * @param roomID room id
+     * @return the latest humidity entry of a sensor as http response (json)
+     */
     @GetMapping(value = "/room/{roomID:.*}/AirQuality/humidity")
     public ResponseEntity<HumiditySensorRecord> getAirQualityHumidity(@PathVariable Long roomID) {
         final Optional<Room> room = roomRepository.findById(roomID);
-        if (!room.isPresent()) {
-            return ResponseEntity.ok(null);
+        if (room.isPresent()) {
+            Optional<HumiditySensorRecord> hsr =
+                    room.map(value -> value.getAirQualityDevices().stream()
+                            .map(aqd -> aqd.getHumiditySensor().getLatestHumiditySensorRecord())
+                            .max(Comparator.comparing(t -> t.map(HumiditySensorRecord::getTimestamp).get())).get().get());
+            return ResponseEntity.ok(hsr.orElse(null));
         }
-        Optional<HumiditySensorRecord> hsr =
-                room.get().getAirQualityDevices().stream()
-                        .map(aqd -> aqd.getHumiditySensor().getLatestHumiditySensorRecord())
-                        .max(Comparator.comparing(t -> t.isPresent() ? t.get().getTimestamp() : null)).get();
-        return ResponseEntity.ok(hsr.orElse(null));
+        return ResponseEntity.ok(null);
     }
 
+    /**
+     * get latest co2 record (actual room temperature)
+     *
+     * @param roomID room id
+     * @return the co2 temperature entry of a sensor as http response (json)
+     */
     @GetMapping(value = "/room/{roomID:.*}/AirQuality/co2")
     public ResponseEntity<Co2SensorRecord> getAirQualityCo2(@PathVariable Long roomID) {
         final Optional<Room> room = roomRepository.findById(roomID);
         if (room.isPresent()) {
             Optional<Co2SensorRecord> csr =
-                    room.get().getAirQualityDevices().stream()
+                    room.map(value -> value.getAirQualityDevices().stream()
                             .map(aqd -> aqd.getCo2Sensor().getLatestCo2SensorRecord())
-                            .max(Comparator.comparing(t -> t.isPresent() ? t.get().getTimestamp() : null)).get();
-            return ResponseEntity.ok(csr.isPresent() ? csr.get() : null);
+                            .max(Comparator.comparing(t -> t.map(Co2SensorRecord::getTimestamp).get())).get().get());
+            return ResponseEntity.ok(csr.orElse(null));
         }
         return ResponseEntity.ok(null);
     }
 
-
+    /**
+     * create new air quality device for a specific room with all properties and sensors
+     *
+     * @param roomID      room id
+     * @param co2         initial co2 value
+     * @param humidity    initial humidity value
+     * @param temperature initial temperature
+     * @return the newly created air quality device object as http response (json)
+     */
     @PostMapping(value = "/room/AirQuality")
     public ResponseEntity<AirQualityDevice> addAirQuality(@RequestParam Long roomID,
                                                           @RequestParam Optional<Double> co2,
                                                           @RequestParam Optional<Double> humidity,
                                                           @RequestParam Optional<Double> temperature) {
         final Optional<Room> room = roomRepository.findById(roomID);
-        if (!room.isPresent()) {
+        if (room.isEmpty()) {
             return ResponseEntity.ok(null);
         }
         final AirQualityDevice airQualityDevice = new AirQualityDevice();
@@ -915,21 +976,15 @@ public class RestController {
 
         co2SensorRecord.setCo2Sensor(co2Sensor);
         co2SensorRecord.setTimestamp(LocalDateTime.now());
-        if (co2.isPresent()) {
-            co2SensorRecord.setCo2(co2.get());
-        }
+        co2.ifPresent(co2SensorRecord::setCo2);
 
         temperatureSensorRecord.setTemperatureSensor(temperatureSensor);
         temperatureSensorRecord.setTimestamp(LocalDateTime.now());
-        if (temperature.isPresent()) {
-            temperatureSensorRecord.setTemperature(temperature.get());
-        }
+        temperature.ifPresent(temperatureSensorRecord::setTemperature);
 
         humiditySensorRecord.setHumiditySensor(humiditySensor);
         humiditySensorRecord.setTimestamp(LocalDateTime.now());
-        if (humidity.isPresent()) {
-            humiditySensorRecord.setHumidity(humidity.get());
-        }
+        humidity.ifPresent(humiditySensorRecord::setHumidity);
 
         co2Sensor.addCo2SensorRecord(co2SensorRecord);
         temperatureSensor.addTemperatureSensorRecord(temperatureSensorRecord);
@@ -981,6 +1036,16 @@ public class RestController {
         return ResponseEntity.ok(airQualityDevice);
     }
 
+    /**
+     * update co2 and/or humidity and/or temperature of a specific air quality device by room id and air quality device id
+     *
+     * @param roomID       room id
+     * @param airQualityID air quality device id
+     * @param co2          new co2 value
+     * @param humidity     new humidity value
+     * @param temperature  new temperature value
+     * @return the updated air quality device object as http response (json)
+     */
     @PutMapping(value = "/room/{roomID:.*}/AirQuality/{airQualityID:.*}")
     public ResponseEntity<AirQualityDevice> chgAirQuality(@PathVariable Long roomID,
                                                           @PathVariable Long airQualityID,
