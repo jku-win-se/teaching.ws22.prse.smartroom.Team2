@@ -178,7 +178,7 @@ public class PrimaryController extends APIClient implements Initializable  {
 
         for (int i = 0; i < ja.length(); i++) {
             jo = (JSONObject) ja.get(i);
-            lblPeople.setText(String.valueOf(jo.getInt("nopeopleInRoom")));
+            lblPeople.setText(String.valueOf(jo.getInt("numPeopleInRoom")));
         }
 
         HttpResponse res = getRoom(room_id);

@@ -22,6 +22,7 @@ public class HumiditySensorRecord {
     private double humidity;
 
     public HumiditySensorRecord() {
+        // nothing needed @SonarLint
     }
 
     public Long getId() {

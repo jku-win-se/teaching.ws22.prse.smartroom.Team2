@@ -22,6 +22,7 @@ public class DoorRecord {
     private boolean state;
 
     public DoorRecord() {
+        // nothing needed @SonarLint
     }
 
     public Long getId() {

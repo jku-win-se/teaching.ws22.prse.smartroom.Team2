@@ -1,6 +1,5 @@
 package at.jku.model;
 
-import at.jku.repository.DoorRecordRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

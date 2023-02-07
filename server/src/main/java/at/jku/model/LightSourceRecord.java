@@ -23,6 +23,7 @@ public class LightSourceRecord {
 
 
     public LightSourceRecord() {
+        // nothing needed @SonarLint
     }
 
     public Long getId() {

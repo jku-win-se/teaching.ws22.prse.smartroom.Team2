@@ -22,6 +22,7 @@ public class AirQualityDeviceRecord {
     private boolean state;
 
     public AirQualityDeviceRecord() {
+        // nothing needed @SonarLint
     }
 
     public Long getId() {
