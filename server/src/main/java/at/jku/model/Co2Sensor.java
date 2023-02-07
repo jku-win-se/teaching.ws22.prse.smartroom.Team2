@@ -1,22 +1,25 @@
 package at.jku.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
-public class Co2Sensor implements Powerable {
+public class Co2Sensor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne //(cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_id", referencedColumnName = "id")
-    private Room room;
+    @OneToOne //(cascade = CascadeType.ALL)
+    @JsonBackReference
+    private AirQualityDevice airQualityDevice;
 
     @OneToMany(mappedBy = "co2Sensor", cascade = CascadeType.ALL)
     private List<Co2SensorRecord> co2SensorRecords;
@@ -33,56 +36,40 @@ public class Co2Sensor implements Powerable {
         this.id = id;
     }
 
-    public Room getRoom() {
-        return room;
+    public AirQualityDevice getAirQualityDevice() {
+        return this.airQualityDevice;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setAirQualityDevice(AirQualityDevice airQualityDevice) {
+        this.airQualityDevice = airQualityDevice;
     }
 
-    @JsonIgnore
-    public boolean getState() {
-        // TODO get state from latest db entry for this device
-        return false;
+    public List<Co2SensorRecord> getCo2SensorRecords() {
+        return co2SensorRecords;
     }
 
-    public void setState(boolean state) {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
+    public void setCo2SensorRecords(List<Co2SensorRecord> co2SensorRecords) {
+        this.co2SensorRecords = co2SensorRecords;
     }
 
-    @JsonIgnore
-    public boolean isOn() {
-        // TODO get state from latest db entry for this device
-        return false;
-    }
-
-    public void powerOn() {
-        if (!this.isOn()) {
-            this.togglePower();
-        }
-    }
-
-    public void powerOff() {
-        if (this.isOn()) {
-            this.togglePower();
-        }
-    }
-
-    public void togglePower() {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
+    public void addCo2SensorRecord(Co2SensorRecord co2SensorRecord) {
+        this.co2SensorRecords.add(co2SensorRecord);
     }
 
     public void setCo2(double co2) {
-        // TODO create new Record (and therefore db entry) for temperature
+        Co2SensorRecord csr = new Co2SensorRecord();
+        csr.setTimestamp(LocalDateTime.now());
+        csr.setCo2(co2);
+        this.co2SensorRecords.add(csr);
     }
 
     public double getCo2() {
-        // Todo get value of newest record db entry and return
-        return 0;
+        final Optional<Co2SensorRecord> csr =
+                this.co2SensorRecords.stream().max(Comparator.comparing(Co2SensorRecord::getTimestamp));
+        return csr.map(Co2SensorRecord::getCo2).orElse(-1.0d);
+    }
+
+    public Optional<Co2SensorRecord> getLatestCo2SensorRecord() {
+        return this.co2SensorRecords.stream().max(Comparator.comparing(Co2SensorRecord::getTimestamp));
     }
 }

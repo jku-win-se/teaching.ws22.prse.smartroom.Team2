@@ -1,5 +1,6 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Windo implements Openable {
 
     @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
+    @JsonBackReference
     private Room room;
 
     @OneToMany(mappedBy = "window", cascade = CascadeType.ALL)
@@ -49,6 +51,10 @@ public class Windo implements Openable {
         return this.windowRecords;
     }
 
+    public Optional<WindowRecord> getLatestWindowRecord() {
+        return this.windowRecords.stream().max(Comparator.comparing(WindowRecord::getTimestamp));
+    }
+
     public void addWindowRecord(WindowRecord windowRecord) {
         if (windowRecord == null) {
             return;
@@ -60,10 +66,7 @@ public class Windo implements Openable {
     public boolean getState() {
         final Optional<WindowRecord> win =
                 this.windowRecords.stream().max(Comparator.comparing(WindowRecord::getTimestamp));
-        if (win != null && win.isPresent()){
-            return win.get().getState();
-        }
-        return false;
+        return win.map(WindowRecord::getState).orElse(false);
     }
 
     public void setState(boolean state) {
@@ -91,10 +94,6 @@ public class Windo implements Openable {
     }
 
     public void toggle() {
-        if(this.getState()){
-            this.setState(false);
-        }else{
-            this.setState(true);
-        }
+        this.setState(!this.getState());
     }
 }

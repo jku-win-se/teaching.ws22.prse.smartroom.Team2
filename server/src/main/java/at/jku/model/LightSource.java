@@ -16,11 +16,24 @@ public class LightSource implements Powerable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+    private String name;
 
     @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     @JsonBackReference
     private Room room;
+
+    public void setHex(String hex) {
+        this.hex = hex;
+    }
+
+    public void setBrightness(int brightness) {
+        this.brightness = brightness;
+    }
+
+    private String hex; //color
+
+    private int brightness;
 
     @OneToMany(mappedBy = "lightSource", cascade = CascadeType.ALL)
     private List<LightSourceRecord> lightSourceRecords;
@@ -37,6 +50,14 @@ public class LightSource implements Powerable {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Room getRoom() {
         return room;
     }
@@ -45,14 +66,19 @@ public class LightSource implements Powerable {
         this.room = room;
     }
 
+    public String getHex() {
+        return this.hex;
+    }
+
+    public int getBrightness() {
+        return this.brightness;
+    }
+
     @JsonIgnore
     public boolean getState() {
         final Optional<LightSourceRecord> lsr =
                 this.lightSourceRecords.stream().max(Comparator.comparing(LightSourceRecord::getTimestamp));
-        if (lsr.isPresent()) {
-            return lsr.get().getState();
-        }
-        return false;
+        return lsr.map(LightSourceRecord::getState).orElse(false);
     }
 
     public void setState(boolean state) {
@@ -62,7 +88,6 @@ public class LightSource implements Powerable {
         this.lightSourceRecords.add(lsr);
     }
 
-    @JsonIgnore
     public List<LightSourceRecord> getLightSourceRecords() {
         return this.lightSourceRecords;
     }
@@ -74,22 +99,26 @@ public class LightSource implements Powerable {
         this.lightSourceRecords.add(lightSourceRecord);
     }
 
+    @Override
     public boolean isOn() {
         return this.getState();
     }
 
+    @Override
     public void powerOn() {
         if (!this.isOn()) {
             this.togglePower();
         }
     }
 
+    @Override
     public void powerOff() {
         if (this.isOn()) {
             this.togglePower();
         }
     }
 
+    @Override
     public void togglePower() {
         this.setState(!this.getState());
     }

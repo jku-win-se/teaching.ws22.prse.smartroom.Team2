@@ -4,15 +4,18 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.EditRoomController">
+<BorderPane fx:id="bp" prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.EditRoomController">
    <opaqueInsets>
       <Insets top="10.0" />
    </opaqueInsets>
@@ -46,7 +49,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="188.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="NEW ROOM" textFill="WHITE">
+            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionNewRoom" prefHeight="69.0" prefWidth="188.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="NEW ROOM" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -86,134 +89,187 @@
       </VBox>
    </left>
    <top>
-      <VBox prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
       </VBox>
    </top>
    <center>
-      <VBox prefHeight="817.0" prefWidth="435.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" minWidth="-Infinity" prefHeight="817.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Edit room">
                <font>
-                  <Font name="Arial" size="40.0" />
+                  <Font size="30.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </Label>
-            <Label text="ID">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="txtEditId" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="1">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="40.0" />
-               </VBox.margin>
-            </TextField>
             <Label layoutX="10.0" layoutY="27.0" text="Name">
                <font>
-                  <Font name="Arial" size="20.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtEditName" layoutX="10.0" layoutY="44.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="Test001">
+            <TextField fx:id="txtName" layoutX="10.0" layoutY="44.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="Test001">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </TextField>
-            <Label layoutX="10.0" layoutY="69.0" text="Size">
+            <Label text="Size">
                <font>
-                  <Font name="Arial" size="20.0" />
+                  <Font name="Arial" size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtEditSize" layoutX="10.0" layoutY="86.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="20">
+            <TextField fx:id="txtSize" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="1">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </TextField>
-            <Label layoutX="10.0" layoutY="111.0" text="Windows">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="txtEditWindow" layoutX="10.0" layoutY="128.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="40.0" />
-               </VBox.margin>
-            </TextField>
-            <Label layoutX="10.0" layoutY="153.0" text="Fans">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="txtEditFan" layoutX="10.0" layoutY="170.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="40.0" />
-               </VBox.margin>
-            </TextField>
-            <Label layoutX="10.0" layoutY="195.0" text="Light sources">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="txtEditLightSource" layoutX="10.0" layoutY="212.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="40.0" />
-               </VBox.margin>
-            </TextField>
-            <Label layoutX="50.0" layoutY="326.0" text="Doors">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="txtEditDoor" layoutX="50.0" layoutY="266.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets left="40.0" />
-               </VBox.margin>
-            </TextField>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="45.0" prefWidth="700.0">
                <children>
-                  <Button fx:id="btnEditSave" mnemonicParsing="false" onAction="#onActionSave" text="Save">
+                  <Button fx:id="btnEditCancel" mnemonicParsing="false" onAction="#onActionCancel" prefHeight="27.0" prefWidth="70.0" text="Cancel">
                      <HBox.margin>
-                        <Insets left="40.0" top="30.0" />
+                        <Insets left="40.0" top="10.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="20.0" />
+                        <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnEditCancel" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel">
+                  <Button fx:id="btnEditSave" mnemonicParsing="false" onAction="#onActionSave" prefHeight="27.0" prefWidth="70.0" text="Save">
                      <HBox.margin>
-                        <Insets left="30.0" top="30.0" />
+                        <Insets left="10.0" top="10.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="20.0" />
+                        <Font size="14.0" />
                      </font>
                   </Button>
                </children>
             </HBox>
+            <Label text="Devices">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" />
+               </VBox.margin>
+            </Label>
+            <HBox prefHeight="25.0" prefWidth="700.0">
+               <children>
+                  <Label fx:id="lblAddDoor" onMouseClicked="#onActionAddDoor" onMousePressed="#onActionAddDoor" text="Door" textFill="#1e224f">
+                     <graphic>
+                        <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@plus_coloured.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="40.0" right="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblAddWindow" onMouseClicked="#onActionAddWindow" onMousePressed="#onActionAddWindow" text="Window" textFill="#1e224f">
+                     <graphic>
+                        <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@plus_coloured.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblAddVentilator" onMouseClicked="#onActionAddVentilator" onMousePressed="#onActionAddVentilator" text="Ventilator" textFill="#1e224f">
+                     <graphic>
+                        <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@plus_coloured.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblAddLS" onMouseClicked="#onActionAddLS" onMousePressed="#onActionAddLS" text="Light Source" textFill="#1e224f">
+                     <graphic>
+                        <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@plus_coloured.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox prefHeight="427.0" prefWidth="660.0">
+               <VBox.margin>
+                  <Insets left="40.0" />
+               </VBox.margin>
+               <children>
+                  <HBox prefHeight="27.0" prefWidth="424.0">
+                     <children>
+                        <Label text="Type">
+                           <HBox.margin>
+                              <Insets right="70.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="ID">
+                           <HBox.margin>
+                              <Insets right="40.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="Name">
+                           <HBox.margin>
+                              <Insets right="165.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="Color">
+                           <HBox.margin>
+                              <Insets right="73.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="Brightness">
+                           <HBox.margin>
+                              <Insets right="80.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Separator prefWidth="200.0" />
+                  <ScrollPane fx:id="sp" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0">
+                    <content>
+                      <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0">
+                           <children>
+                              <VBox fx:id="vbDevices" prefHeight="500.0" prefWidth="650.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
          </children>
       </VBox>
    </center>

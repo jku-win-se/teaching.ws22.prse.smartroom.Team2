@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class HumiditySensorRecord {
+public class AirQualityDeviceRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,13 +15,13 @@ public class HumiditySensorRecord {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
-    private HumiditySensor humiditySensor;
+    private AirQualityDevice airQualityDevice;
 
     private LocalDateTime timestamp;
 
-    private double humidity;
+    private boolean state;
 
-    public HumiditySensorRecord() {
+    public AirQualityDeviceRecord() {
     }
 
     public Long getId() {
@@ -32,20 +32,20 @@ public class HumiditySensorRecord {
         this.id = id;
     }
 
-    public double getHumidity() {
-        return humidity;
+    public boolean getState() {
+        return this.state;
     }
 
-    public void setHumidity(double humidity) {
-        this.humidity = humidity;
+    public void setState(boolean state) {
+        this.state = state;
     }
 
-    public HumiditySensor getHumiditySensor() {
-        return this.humiditySensor;
+    public AirQualityDevice getAirQualityDevice() {
+        return this.airQualityDevice;
     }
 
-    public void setHumiditySensor(HumiditySensor humiditySensor) {
-        this.humiditySensor = humiditySensor;
+    public void setAirQualityDevice(AirQualityDevice airQualityDevice) {
+        this.airQualityDevice = airQualityDevice;
     }
 
     public LocalDateTime getTimestamp() {
