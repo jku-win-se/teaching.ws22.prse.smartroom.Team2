@@ -23,6 +23,7 @@ public class VentilatorRecord {
 
 
     public VentilatorRecord() {
+        // nothing needed @SonarLint
     }
 
     public Long getId() {

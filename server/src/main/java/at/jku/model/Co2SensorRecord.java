@@ -22,6 +22,7 @@ public class Co2SensorRecord {
     private double co2;
 
     public Co2SensorRecord() {
+        // nothing needed @SonarLint
     }
 
     public Long getId() {
