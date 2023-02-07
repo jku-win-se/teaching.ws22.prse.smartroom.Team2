@@ -1,5 +1,7 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,11 +14,10 @@ public class Co2SensorRecord {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private Co2Sensor co2Sensor;
 
     private LocalDateTime timestamp;
-
-    private boolean state;
 
     private double co2;
 
@@ -29,15 +30,6 @@ public class Co2SensorRecord {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-
-    public boolean getState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
     }
 
     public double getCo2() {

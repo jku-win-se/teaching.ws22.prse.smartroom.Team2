@@ -1,5 +1,6 @@
 package at.jku.model;
 
+import at.jku.repository.DoorRecordRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -14,12 +15,16 @@ public class Door implements Openable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "door_connects_room",
-            joinColumns = @JoinColumn(name = "door_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_id"))
-    private Set<Room> rooms;
+    private String name;
+
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "doors")
+    private Set<Room> rooms = new HashSet<>();
 
     @OneToMany(mappedBy = "door", cascade = CascadeType.ALL)
     private List<DoorRecord> doorRecords;
@@ -37,6 +42,26 @@ public class Door implements Openable {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void addRoom(Room room) {
+        rooms.add(room);
+    }
+
+    @JsonIgnore
+    public Set<Room> getRooms(Room room) {
+        return rooms;
+    }
+
+    public void deleteRoom(Room room) {
+        rooms.remove(room);
+    }
 
     public List<DoorRecord> getDoorRecords() {
         return this.doorRecords;
@@ -51,12 +76,13 @@ public class Door implements Openable {
 
     @JsonIgnore
     public boolean getState() {
-        final Optional<DoorRecord> door =
+        final Optional<DoorRecord> dr =
                 this.doorRecords.stream().max(Comparator.comparing(DoorRecord::getTimestamp));
-        if (door != null && door.isPresent()){
-            return door.get().getState();
-        }
-        return false;
+        return dr.map(DoorRecord::getState).orElse(false);
+    }
+
+    public Optional<DoorRecord> getLatestDoorRecord() {
+        return this.doorRecords.stream().max(Comparator.comparing(DoorRecord::getTimestamp));
     }
 
     public void setState(boolean state) {
@@ -84,10 +110,6 @@ public class Door implements Openable {
     }
 
     public void toggle() {
-        if(this.getState()){
-            this.setState(false);
-        }else{
-            this.setState(true);
-        }
+        this.setState(!this.getState());
     }
 }

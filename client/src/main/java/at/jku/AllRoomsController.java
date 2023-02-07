@@ -1,7 +1,6 @@
 package at.jku;
 
 import com.opencsv.CSVWriter;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -34,9 +33,20 @@ public class AllRoomsController extends APIClient implements Initializable {
 
     String fileName = "default";
 
+
     @FXML
     private void onActionHome() throws IOException {
         DigitalTwinApp.setRoot("primary");
+    }
+
+    @FXML
+    private void onActionRooms() throws IOException {
+        DigitalTwinApp.setRoot("allrooms");
+    }
+
+    @FXML
+    private void onActionNewRoom() throws IOException {
+        DigitalTwinApp.setRoot("newroom");
     }
 
     @FXML
@@ -45,30 +55,9 @@ public class AllRoomsController extends APIClient implements Initializable {
     }
 
     @FXML
-    private void onActionNewRoom() throws IOException {
-        DigitalTwinApp.setRoot("newroom");
-    }
-
-
-    @FXML
     private void onActionCheckBox() throws IOException {
         //TODO: add action for checkbox: pick room for export
     }
-
-
-    @FXML
-    ImageView btnSearch1;
-
-    @FXML
-    ImageView btnSearch2;
-
-
-    @FXML
-    ImageView delete1;
-
-    @FXML
-    ImageView delete2;
-
 
     @FXML
     private void onActionExport() throws IOException {
@@ -78,10 +67,14 @@ public class AllRoomsController extends APIClient implements Initializable {
 
         for (Node node :
                 vb.getChildren()) {
+
             if (node.getId() != null && node.getId().equals("btnSelectAll")) {
                 break;
             }
-            ((CheckBox) ((((HBox) node).getChildren()).get(2))).setVisible(true);
+
+            if (node.getId() == null) {
+                (((HBox) node).getChildren()).get(5).setVisible(true);
+            }
         }
 
     }
@@ -90,12 +83,6 @@ public class AllRoomsController extends APIClient implements Initializable {
     private void onActionSearch() throws IOException {
         //TODO: View Room
     }
-
-    @FXML
-    CheckBox checkbox1;
-
-    @FXML
-    CheckBox checkbox2;
 
     @FXML
     TextField textField;
@@ -118,10 +105,16 @@ public class AllRoomsController extends APIClient implements Initializable {
 
         for (Node node :
                 vb.getChildren()) {
+
             if (node.getId() != null && node.getId().equals("btnSelectAll")) {
                 break;
             }
-            ((CheckBox) ((((HBox) node).getChildren()).get(2))).setSelected(true);
+
+
+            if (node.getId() == null) {
+                CheckBox temp = (CheckBox) ((HBox) node).getChildren().get(5);
+                temp.setSelected(true);
+            }
         }
     }
 
@@ -163,72 +156,109 @@ public class AllRoomsController extends APIClient implements Initializable {
     @FXML
     BorderPane bp;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        HttpResponse res = getRooms();
+        JSONArray ja = new JSONArray(res.body().toString());
+        Label label = new Label("ID");
+        label.setFont(new Font("System", 20));
+        label.setPrefWidth(30);
 
+        HBox hb = new HBox();
+        hb.setId("idTitles");
+        hb.getChildren().add(label);
+        label = new Label("Name");
+        label.setFont(new Font("System", 20));
+        label.setPrefWidth(138);
+        hb.getChildren().add(label);
 
-        vb = new VBox();
-        vb.setId("mainVb");
-        bp.setMargin(vb, new Insets(100, 0, 0, 20));
+        label = new Label("Size");
+        label.setFont(new Font("System", 20));
+        label.setPrefWidth(45);
+        hb.getChildren().add(label);
 
-        //TODO: getrooms didnt work so i parsed each with getRoom
-        for (int i = 1; i < 10; i++) {
+        vb.getChildren().add(hb);
 
-            HttpResponse response = getRoom(Long.valueOf(i));
-            if (response != null && response.body().toString().length() > 0) {
-                if (response.body().toString().charAt(0) == '{') {
+        for (int i = 0; i < ja.length(); i++) {
 
+            JSONObject json = ja.getJSONObject(i);
 
-                    ImageView iv = new ImageView();
-                    iv.setFitWidth(15);
-                    iv.setFitHeight(15);
-                    Image image = new Image(getClass().getResourceAsStream("trash.png"));
-                    iv.setImage(image);
+            ImageView ivTrash = new ImageView();
+            ivTrash.setFitWidth(15);
+            ivTrash.setFitHeight(15);
+            Image imgTrash = new Image(getClass().getResourceAsStream("trash.png"));
+            ivTrash.setImage(imgTrash);
 
-                    CheckBox cb = new CheckBox();
-                    cb.setId("cb" + 1);
-                    cb.setVisible(false);
+            ImageView ivSearch = new ImageView();
+            ivSearch.setFitWidth(15);
+            ivSearch.setFitHeight(15);
+            Image imgSearch2 = new Image(getClass().getResourceAsStream("search.png"));
+            ivSearch.setImage(imgSearch2);
 
+            CheckBox cb = new CheckBox();
+            cb.setId("cb" + i);
+            cb.setVisible(false);
+            String name = "";
+            if (!json.getString("name").isEmpty())
+            { name = json.getString("name");}
+            int size = json.getInt("size");
+            int id = json.getInt("id");
 
-                    JSONObject json = new JSONObject(response.body().toString());
-                    String name = json.getString("name");
-                    int size = json.getInt("size");
-                    int id = json.getInt("id");
-                    // System.out.println(id + " " + name + " " + size);
+            label = new Label(id+"");
+            label.setFont(new Font("System", 13));
+            label.setPrefWidth(30);
+            hb = new HBox();
+            hb.getChildren().add(label);
 
-                    Label label = new Label(id + "       " + name);
-                    label.setFont(new Font("System", 20));
-                    label.setPrefWidth(250);
-                    HBox hb = new HBox();
-                    hb.getChildren().add(label);
-                    iv.setId("trash" + i);
-                    int finalI = i;
-                    iv.setOnMouseClicked(event -> {
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                        alert.setTitle("Delete room");
-                        alert.setHeaderText("You are about to delete this room.");
-                        alert.setContentText("Are you ok with this?");
+            label = new Label(name);
+            label.setFont(new Font("System", 13));
+            label.setPrefWidth(140);
+            hb.getChildren().add(label);
 
-                        Optional<ButtonType> result = alert.showAndWait();
-                        if (result.get() == ButtonType.OK) {
-                            deleteRoom(Long.valueOf(finalI));
+            label = new Label(size +"");
+            label.setFont(new Font("System", 13));
+            label.setPrefWidth(45);
+            hb.getChildren().add(label);
 
-                        } else {
-                            // don't delete room
-                        }
-                    });
-                    hb.getChildren().add(iv);
-                    hb.getChildren().add(cb);
+            ivTrash.setId("trash" + i);
+            ivTrash.setOnMouseClicked(event -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Delete room");
+                alert.setHeaderText("You are about to delete this room.");
+                alert.setContentText("Are you ok with this?");
 
-                    hb.setMargin(iv, new Insets(5, 20, 0, 20));
-                    hb.setMargin(cb, new Insets(5, 0, 0, 0));
-                    vb.getChildren().add(hb);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    deleteRoom(Long.valueOf(id));
+                    try {
+                        DigitalTwinApp.setRoot("allrooms");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    // don't delete room
                 }
-            }
+            });
+
+
+            ivSearch.setId("detail" + i);
+            ivSearch.setOnMouseClicked(event -> {
+                try {
+                    DigitalTwinApp.setRoot("primary");
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+            });
+            hb.getChildren().add(ivTrash);
+            hb.getChildren().add(ivSearch);
+            hb.getChildren().add(cb);
+
+            hb.setMargin(ivTrash, new Insets(0, 0, 5, 10));
+            hb.setMargin(ivSearch, new Insets(0, 0, 5, 10));
+            hb.setMargin(cb, new Insets(0, 0, 5, 10));
+            vb.getChildren().add(hb);
         }
-        vb.getChildren().add(btnSelectAll);
-        vb.getChildren().add(textField);
-        vb.getChildren().add(btnExportOK);
-        bp.setCenter(vb);
     }
 }

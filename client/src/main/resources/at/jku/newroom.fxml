@@ -46,7 +46,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="188.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="NEW ROOM" textFill="WHITE">
+            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionNewRoom" prefHeight="69.0" prefWidth="188.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="NEW ROOM" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -86,7 +86,7 @@
       </VBox>
    </left>
    <top>
-      <VBox prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
@@ -97,7 +97,7 @@
          <children>
             <Label text="Create new room">
                <font>
-                  <Font name="Arial" size="40.0" />
+                  <Font size="30.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
@@ -105,98 +105,98 @@
             </Label>
             <Label text="Name">
                <font>
-                  <Font name="Arial" size="20.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtName" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtName" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </TextField>
             <Label layoutX="10.0" layoutY="27.0" text="Size">
                <font>
-                  <Font name="Arial" size="20.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtSize" layoutX="10.0" layoutY="44.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtSize" layoutX="10.0" layoutY="44.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </TextField>
             <Label layoutX="10.0" layoutY="69.0" text="Doors">
                <font>
-                  <Font name="Arial" size="20.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtDoor" layoutX="10.0" layoutY="86.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtDoor" layoutX="10.0" layoutY="86.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </TextField>
             <Label layoutX="10.0" layoutY="111.0" text="Windows">
                <font>
-                  <Font name="Arial" size="20.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtWindows" layoutX="10.0" layoutY="128.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtWindows" layoutX="10.0" layoutY="128.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </TextField>
             <Label layoutX="10.0" layoutY="153.0" text="Fans">
                <font>
-                  <Font name="Arial" size="20.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtFans" layoutX="10.0" layoutY="170.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtFans" layoutX="10.0" layoutY="170.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="20.0" left="40.0" />
                </VBox.margin>
             </TextField>
             <Label layoutX="10.0" layoutY="195.0" text="Light sources">
                <font>
-                  <Font name="Arial" size="20.0" />
+                  <Font size="14.0" />
                </font>
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="txtLightSource" layoutX="10.0" layoutY="212.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0">
+            <TextField fx:id="txtLightSource" layoutX="10.0" layoutY="212.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin>
             </TextField>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onActionSave" text="Save">
+                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel">
                      <HBox.margin>
                         <Insets left="40.0" top="30.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="20.0" />
+                        <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel">
+                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onActionSave" prefHeight="27.0" prefWidth="66.0" text="Save">
                      <HBox.margin>
-                        <Insets left="30.0" top="30.0" />
+                        <Insets left="70.0" top="30.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="20.0" />
+                        <Font size="14.0" />
                      </font>
                   </Button>
                </children>

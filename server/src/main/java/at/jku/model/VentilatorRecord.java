@@ -1,5 +1,7 @@
 package at.jku.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,6 +14,7 @@ public class VentilatorRecord {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private Ventilator ventilator;
 
     private LocalDateTime timestamp;

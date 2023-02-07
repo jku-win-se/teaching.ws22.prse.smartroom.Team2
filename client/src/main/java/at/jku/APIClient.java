@@ -5,7 +5,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.LocalDateTime;
 
 public class APIClient implements API {
 
@@ -96,6 +95,23 @@ public class APIClient implements API {
     }
 
     @Override
+    public HttpResponse PATCH(String uri) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri((URI.create(uri)))
+                .method("PATCH", HttpRequest.BodyPublishers.noBody())
+                .build();
+        try {
+            HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response;
+        } catch (IOException e) {
+            System.out.println("http IOException" + e);
+        } catch (InterruptedException e) {
+            System.out.println("http InterruptedException" + e);
+        }
+        return null;
+    }
+
+    @Override
     public HttpResponse DELETE(String uri) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri((URI.create(uri)))
@@ -128,6 +144,11 @@ public class APIClient implements API {
     }
 
     @Override
+    public HttpResponse postRoom(int size) {
+        return POST(BASE_URL + "/rooms" + "?size=" + size);
+    }
+
+    @Override
     public HttpResponse postRoom(String name, int size) {
         return POST(BASE_URL + "/rooms" + "?name=" + name + "&size=" + size);
     }
@@ -135,6 +156,16 @@ public class APIClient implements API {
     @Override
     public HttpResponse getRoom(Long roomID) {
         return GET(BASE_URL + "/rooms" + "/" + roomID);
+    }
+
+    @Override
+    public HttpResponse putRoom(Long roomID, String name) {
+        return PUT(BASE_URL + "/rooms" + "/" + roomID + "?name=" + name);
+    }
+
+    @Override
+    public HttpResponse putRoom(Long roomID, int size) {
+        return PUT(BASE_URL + "/rooms" + "/" + roomID + "?size=" + size);
     }
 
     @Override
@@ -147,6 +178,7 @@ public class APIClient implements API {
         return DELETE(BASE_URL + "/rooms" + "/" + roomID);
     }
 
+
     @Override
     public HttpResponse getLightSources(Long roomID) {
         return GET(BASE_URL + "/rooms" + "/" + roomID + "/lights");
@@ -158,92 +190,260 @@ public class APIClient implements API {
     }
 
     @Override
+    public HttpResponse postLightSource(Long roomID, String name) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/lights" + "?name=" + name);
+    }
+
+    @Override
     public HttpResponse getLightSource(Long roomID, int lightID) {
         return GET(BASE_URL + "/rooms" + "/" + roomID + "/lights" + "/" + lightID);
     }
 
     @Override
-    public HttpResponse putLightSource(Long roomID, int lightID, boolean state) {
-        return null;
+    public HttpResponse patchLightSource(Long roomID, int lightID, String name) {
+        return PATCH(BASE_URL + "/rooms" + "/" + roomID + "/lights" + "/" + lightID + "?name=" + name);
+    }
+
+    @Override
+    public HttpResponse getLightSourceActivation(Long roomID, int lightID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/lights" + "/" + lightID + "/Activation");
+    }
+
+    @Override
+    public HttpResponse postLightSourceActivation(Long roomID, Long lightID, boolean turnon) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID
+                + "/lights" + "/" + lightID + "/Activation?turnon=" + turnon);
+    }
+
+    @Override
+    public HttpResponse deleteLightSource(Long roomID, Long lightID) {
+        return DELETE(BASE_URL + "/rooms" + "/" + roomID + "/lights" + "/" + lightID);
+    }
+
+    @Override
+    public HttpResponse postLightSourceColor(Long roomID, Long lightID, String hex) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID
+                + "/lights" + "/" + lightID + "/SetColor?hex=" + hex);
+    }
+
+    @Override
+    public HttpResponse postLightSourceColor(Long roomID, Long lightID, int brightness) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID
+                + "/lights" + "/" + lightID + "/SetColor?brightness=" + brightness);
+    }
+
+    @Override
+    public HttpResponse postLightSourceColor(Long roomID, Long lightID, String hex, int brightness) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID
+                + "/lights" + "/" + lightID + "/SetColor?hex=" + hex + "&brightness=" + brightness);
     }
 
     @Override
     public HttpResponse getWindows(Long roomID) {
-        return null;
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/windows");
     }
 
     @Override
     public HttpResponse postWindow(Long roomID) {
-        return null;
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/windows");
     }
 
     @Override
-    public HttpResponse getWindow(Long roomID, int windowID) {
-        return null;
+    public HttpResponse getWindow(Long roomID, Long windowID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/windows" + "/" + windowID);
     }
 
     @Override
-    public HttpResponse putWindow(Long roomID, int windowID, boolean state) {
-        return null;
+    public HttpResponse putWindow(Long roomID, int windowID) {
+        return PUT(BASE_URL + "/rooms" + "/" + roomID + "/windows" + "/" + windowID);
+    }
+
+    @Override
+    public HttpResponse deleteWindow(Long roomID, Long windowID) {
+        return DELETE(BASE_URL + "/rooms" + "/" + roomID + "/windows" + "/" + windowID);
+    }
+
+    @Override
+    public HttpResponse getWindowState(Long roomID, Long windowID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/windows" + "/" + windowID + "/Open");
+    }
+
+    @Override
+    public HttpResponse postWindowState(Long roomID, Long windowID) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/windows" + "/" + windowID + "/Open");
     }
 
     @Override
     public HttpResponse getVentilators(Long roomID) {
-        return null;
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/ventilators");
     }
 
     @Override
     public HttpResponse postVentilator(Long roomID) {
-        return null;
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/ventilators");
+    }
+
+    @Override
+    public HttpResponse postVentilator(Long roomID, String name) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/ventilators" + "?name=" + name);
     }
 
     @Override
     public HttpResponse getVentilator(Long roomID, int ventilatorID) {
-        return null;
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/ventilators" + "/" + ventilatorID);
     }
 
     @Override
-    public HttpResponse putVentilator(Long roomID, int ventilatorID, boolean state) {
-        return null;
+    public HttpResponse patchVentilator(Long roomID, int ventilatorID, String name) {
+        return PATCH(BASE_URL + "/rooms" + "/" + roomID
+                + "/ventilators" + "/" + ventilatorID + "?name=" + name);
+    }
+
+    @Override
+    public HttpResponse postVentilatorState(Long roomID, int ventilatorID, boolean turnon) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/ventilators"
+                + "/" + ventilatorID + "/Operations?turnon=" + turnon);
+    }
+
+    @Override
+    public HttpResponse getVentilatorState(Long roomID, int ventilatorID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/ventilators"
+                + "/" + ventilatorID + "/Activation");
+    }
+
+    @Override
+    public HttpResponse postVentilatorState(Long roomID, int ventilatorID) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/ventilators"
+                + "/" + ventilatorID + "/Activation");
+    }
+
+    @Override
+    public HttpResponse deleteVentilator(Long roomID, Long ventilatorID) {
+        return DELETE(BASE_URL + "/rooms" + "/" + roomID + "/ventilators" + "/" + ventilatorID);
     }
 
     @Override
     public HttpResponse getPeopleInRoom(Long roomID) {
-        return null;
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/PeopleInRoom");
     }
 
     @Override
-    public HttpResponse postPeopleInRoom(Long roomID, LocalDateTime timestamp, int peopleInRoom, boolean state) {
-        return null;
+    public HttpResponse postPeopleInRoom(Long roomID, int people_count) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID
+                + "/PeopleInRoom" + "?people_count=" + people_count);
     }
 
     @Override
-    public HttpResponse getTemperature(Long roomID) {
-        return null;
+    public HttpResponse getDoors(Long roomID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/doors");
     }
 
     @Override
-    public HttpResponse postTemperature(Long roomID, LocalDateTime timestamp, double temperature, boolean state) {
-        return null;
+    public HttpResponse postDoor(Long roomID) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/doors");
     }
 
     @Override
-    public HttpResponse getCo2(Long roomID) {
-        return null;
+    public HttpResponse postDoor(Long roomID, String name) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/doors" + "?name=" + name);
     }
 
     @Override
-    public HttpResponse postCo2(Long roomID, LocalDateTime timestamp, double co2, boolean state) {
-        return null;
+    public HttpResponse getDoor(Long roomID, Long doorID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/doors/" + doorID);
     }
 
     @Override
-    public HttpResponse getHumidity(Long roomID) {
-        return null;
+    public HttpResponse putDoor(Long roomID, int doorID, String name) {
+        return PUT(BASE_URL + "/rooms" + "/" + roomID + "/doors/"
+                + doorID + "?name=" + name);
+    }
+/*
+    @Override
+    public HttpResponse connectDoor(Long roomID, int doorID, Long roomID_2) {
+        return PUT(BASE_URL + "/rooms" + "/" + roomID + "/doors/"
+                + doorID  + "?roomID=" + roomID_2);
+    }
+    */
+
+    @Override
+    public HttpResponse deleteDoor(Long roomID, Long doorID) {
+        return DELETE(BASE_URL + "/rooms" + "/" + roomID + "/doors/" + doorID);
     }
 
     @Override
-    public HttpResponse postHumidity(Long roomID, LocalDateTime timestamp, double humidity, boolean state) {
-        return null;
+    public HttpResponse getDoorState(Long roomID, Long doorID) {
+        return GET(BASE_URL + "/rooms" + "/" + roomID + "/doors/" + doorID + "/Open");
     }
+
+    @Override
+    public HttpResponse postDoorState(Long roomID, Long doorID) {
+        return POST(BASE_URL + "/rooms" + "/" + roomID + "/doors/" + doorID + "/Open");
+    }
+
+    @Override
+    public HttpResponse getAirQuality(Long roomID) {
+        return GET(BASE_URL + "/room" + "/" + roomID + "/AirQuality");
+    }
+
+    @Override
+    public HttpResponse postAirQuality(Long roomID, double co2, double humidity, double temperature) {
+        return POST(BASE_URL + "/room/AirQuality"
+                + "?room_id=" + roomID
+                + "?co2=" + co2
+                + "?humidity=" + humidity
+                + "?temperature=" + temperature);
+    }
+
+    @Override
+    public HttpResponse getAirQualityTemperature(Long roomID) {
+        return GET(BASE_URL + "/room/" + roomID + "/AirQuality/temperature");
+    }
+
+    @Override
+    public HttpResponse getAirQualityHumidity(Long roomID) {
+        return GET(BASE_URL + "/room/" + roomID + "/AirQuality/humidity");
+    }
+
+    @Override
+    public HttpResponse getAirQualityCo2(Long roomID) {
+        return GET(BASE_URL + "/room/" + roomID + "/AirQuality/co2");
+    }
+
+    @Override
+    public HttpResponse putAirQuality(Long roomID, Long AirQualityID, double co2, double humidity, double temperature) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?co2=" + co2 + "&humidity=" + humidity + "&temperature=" + temperature);
+
+    }
+
+    @Override
+    public HttpResponse putAirQualityCo2(Long roomID, Long AirQualityID, double co2) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?co2=" + co2);
+    }
+
+    @Override
+    public HttpResponse putAirQualityHumidity(Long roomID, Long AirQualityID, double humidity) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?humidity=" + humidity);
+    }
+
+    @Override
+    public HttpResponse putAirQualityTemperature(Long roomID, Long AirQualityID, double temperature) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?temperature=" + temperature);
+    }
+
+    @Override
+    public HttpResponse putAirQualityCo2Humidity(Long roomID, Long AirQualityID, double co2, double humidity) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?co2=" + co2 + "&humidity=" + humidity);
+    }
+
+    @Override
+    public HttpResponse putAirQualityCo2Temperature(Long roomID, Long AirQualityID, double co2, double temperature) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?co2=" + co2 + "&temperature=" + temperature);
+    }
+
+    @Override
+    public HttpResponse putAirQualityTemperatureHumidity(Long roomID, Long AirQualityID, double temperature, double humidity) {
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?temperature=" + temperature + "&humidity=" + humidity);
+    }
+
 }

@@ -4,15 +4,17 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bp" prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.AllRoomsController">
+<BorderPane prefHeight="886.0" prefWidth="1052.0" style="-fx-background-color: #F8F6F6 #F8F6F6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.AllRoomsController">
    <opaqueInsets>
       <Insets top="10.0" />
    </opaqueInsets>
@@ -34,7 +36,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="187.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="ALL ROOMS" textFill="WHITE">
+            <Button alignment="CENTER_RIGHT" graphicTextGap="6.0" mnemonicParsing="false" onAction="#onActionRooms" prefHeight="69.0" prefWidth="187.0" style="-fx-background-color: #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F #1E224F#1E224F; -fx-text-fill: #FFFFFF;" text="ALL ROOMS" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -86,7 +88,7 @@
       </VBox>
    </left>
    <top>
-      <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="140.0" prefWidth="1052.0" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="140.0" prefWidth="1224.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
@@ -96,33 +98,46 @@
                   <Font size="30.0" />
                </font>
                <VBox.margin>
-                  <Insets left="200.0" top="150.0" />
+                  <Insets bottom="100.0" left="200.0" top="150.0" />
                </VBox.margin>
             </Label>
          </children>
       </VBox>
    </top>
    <center>
-      <VBox prefHeight="817.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+      <VBox minWidth="-Infinity" prefHeight="693.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnSelectAll" mnemonicParsing="false" onAction="#onActionSelectAll" text="Select All" visible="false">
-               <VBox.margin>
-                  <Insets top="30.0" />
-               </VBox.margin>
-            </Button>
-            <TextField fx:id="textField" onAction="#onActionExportButton" prefHeight="26.0" prefWidth="178.0" promptText="Pleae press enter after naming" visible="false">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </TextField>
-            <Button fx:id="btnExportOK" mnemonicParsing="false" text="Export" visible="false">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </Button>
+            <ScrollPane maxHeight="-Infinity" prefHeight="400.0" prefWidth="400.0">
+               <content>
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="386.0">
+                     <children>
+                        <VBox fx:id="vb" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="400.0" prefWidth="396.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+            <VBox fx:id="vbElements" prefHeight="167.0" prefWidth="400.0">
+               <children>
+                  <Button fx:id="btnSelectAll" mnemonicParsing="false" onAction="#onActionSelectAll" text="Select All" visible="false">
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Button>
+                  <TextField fx:id="textField" onAction="#onActionExportButton" prefHeight="26.0" prefWidth="178.0" promptText="Pleae press enter after naming" visible="false">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Button fx:id="btnExportOK" mnemonicParsing="false" text="Export" visible="false">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
          </children>
          <BorderPane.margin>
-            <Insets top="200.0" />
+            <Insets left="20.0" top="70.0" />
          </BorderPane.margin>
       </VBox>
    </center>

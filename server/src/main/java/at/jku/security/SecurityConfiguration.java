@@ -21,6 +21,10 @@ public class SecurityConfiguration {
                         .mvcMatchers(HttpMethod.POST, "/rooms").permitAll()
                         .mvcMatchers(HttpMethod.PUT, "/rooms").permitAll()
                         .mvcMatchers(HttpMethod.DELETE, "/rooms").permitAll()
+                        .mvcMatchers(HttpMethod.GET, "/room").permitAll()
+                        .mvcMatchers(HttpMethod.POST, "/room").permitAll()
+                        .mvcMatchers(HttpMethod.PUT, "/room").permitAll()
+                        .mvcMatchers(HttpMethod.DELETE, "/room").permitAll()
         ).httpBasic(withDefaults());
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.csrf().disable();

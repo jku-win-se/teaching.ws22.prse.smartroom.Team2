@@ -1,24 +1,25 @@
 package at.jku.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
-public class TemperatureSensor implements Powerable {
+public class TemperatureSensor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne //(cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_id", referencedColumnName = "id")
-    private Room room;
+    @OneToOne //(cascade = CascadeType.ALL)
+    @JsonBackReference
+    private AirQualityDevice airQualityDevice;
 
     @OneToMany(mappedBy = "temperatureSensor", cascade = CascadeType.ALL)
     private List<TemperatureSensorRecord> temperatureSensorRecords;
@@ -35,56 +36,33 @@ public class TemperatureSensor implements Powerable {
         this.id = id;
     }
 
-    public Room getRoom() {
-        return room;
+    public AirQualityDevice getAirQualityDevice() {
+        return this.airQualityDevice;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setAirQualityDevice(AirQualityDevice airQualityDevice) {
+        this.airQualityDevice = airQualityDevice;
     }
 
-    @JsonIgnore
-    public boolean getState() {
-        // TODO
-        return false;
-    }
-
-    public void setState(boolean state) {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
-    }
-
-    @JsonIgnore
-    public boolean isOn() {
-        // TODO get state from latest db entry for this device
-        return false;
-    }
-
-    public void powerOn() {
-        if (!this.isOn()) {
-            this.togglePower();
-        }
-    }
-
-    public void powerOff() {
-        if (this.isOn()) {
-            this.togglePower();
-        }
-    }
-
-    public void togglePower() {
-        // TODO state change has to generate a db record
-        // if off then on and vice versa
-        // create db entry
+    public void addTemperatureSensorRecord(TemperatureSensorRecord temperatureSensorRecord) {
+        this.temperatureSensorRecords.add(temperatureSensorRecord);
     }
 
     public void setTemperature(double temperature) {
-        // TODO create new Record (and therefore db entry) for temperature
+        TemperatureSensorRecord tsr = new TemperatureSensorRecord();
+        tsr.setTimestamp(LocalDateTime.now());
+        tsr.setTemperature(temperature);
+        this.temperatureSensorRecords.add(tsr);
     }
 
     public double getTemperature() {
-        // Todo get value of newest record db entry and return
-        return 0;
+        final Optional<TemperatureSensorRecord> tsr =
+                this.temperatureSensorRecords.stream().max(Comparator.comparing(TemperatureSensorRecord::getTimestamp));
+        return tsr.map(TemperatureSensorRecord::getTemperature).orElse(-1.0d);
     }
+
+    public Optional<TemperatureSensorRecord> getLatestTemperatureSensorRecord() {
+        return this.temperatureSensorRecords.stream().max(Comparator.comparing(TemperatureSensorRecord::getTimestamp));
+    }
+
 }
