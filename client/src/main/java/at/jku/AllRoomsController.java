@@ -257,6 +257,7 @@ public class AllRoomsController extends APIClient implements Initializable {
 
                 }
             });
+
             hb.getChildren().add(ivTrash);
             hb.getChildren().add(ivSearch);
             hb.getChildren().add(cb);
