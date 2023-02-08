@@ -1011,7 +1011,7 @@ public class RestController {
         humiditySensorRecordRepository.save(humiditySensorRecord);
 
         // Automation Rule: Unlock all doors if temp > 70
-        if (temperature.get() > 70) {
+        if (temperature.isPresent() && temperature.get() > 70) {
             // open doors
             room.get().getDoors().stream().forEach(d -> {
                 DoorRecord doorRecord = new DoorRecord();
