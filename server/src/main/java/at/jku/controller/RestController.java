@@ -1009,20 +1009,10 @@ public class RestController {
         temperatureSensorRecordRepository.save(temperatureSensorRecord);
         humiditySensorRepository.save(humiditySensor);
         humiditySensorRecordRepository.save(humiditySensorRecord);
+//-
 
-        // Automation Rule: Unlock all doors if temp > 70
-        if (temperature.isPresent() && temperature.get() > 70) {
-            // open doors
-            room.get().getDoors().stream().forEach(d -> {
-                DoorRecord doorRecord = new DoorRecord();
-                doorRecord.setDoor(d);
-                doorRecord.setState(true);
-                doorRecord.setTimestamp(LocalDateTime.now());
-                d.addDoorRecord(doorRecord);
-                doorRecordRepository.save(doorRecord);
-                d.open();
-            });
-        }
+
+        //-
 
         // Automation rule: Open window + activate fan if co2 values are > 1000 parts per million (ppm)
         if (co2.isPresent() && co2.get() > 1000) {
@@ -1114,19 +1104,10 @@ public class RestController {
                     temperatureSensorRecordRepository.save(tsr);
                     aqd.get().getTemperatureSensor().setTemperature(temperature.get());
 
-                    // Automation Rule: Unlock all doors if temp > 70
-                    if (temperature.get() > 70) {
-                        // open doors
-                        room.get().getDoors().stream().forEach(d -> {
-                            DoorRecord doorRecord = new DoorRecord();
-                            doorRecord.setDoor(d);
-                            doorRecord.setState(true);
-                            doorRecord.setTimestamp(LocalDateTime.now());
-                            d.addDoorRecord(doorRecord);
-                            doorRecordRepository.save(doorRecord);
-                            d.open();
-                        });
-                    }
+
+                    //-
+
+                    //-
                 }
                 return ResponseEntity.ok(aqd.get());
             }
