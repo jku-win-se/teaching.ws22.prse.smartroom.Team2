@@ -730,7 +730,7 @@ public class RestController {
      * @param name   new door name
      * @return the newly created door object as http response (json)
      */
-    @PutMapping(value = "/rooms/{roomID:.*}/doors")
+    @PostMapping(value = "/rooms/{roomID:.*}/doors")
     public ResponseEntity<Door> addDoor(@PathVariable Long roomID,
                                         @RequestParam Optional<String> name) {
         final Optional<Room> room = roomRepository.findById(roomID);
