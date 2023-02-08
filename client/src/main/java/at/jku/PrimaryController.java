@@ -26,7 +26,7 @@ import org.json.JSONObject;
 public class PrimaryController extends APIClient implements Initializable  {
 
     //TODO: room_id übernehmen von all rooms controller oder automatisch id=1 festlegen (mit get rest methode)
-    Long room_id = 1L;
+    public static Long room_id = 1L;
 
     @FXML
     private void onActionRooms() throws IOException {

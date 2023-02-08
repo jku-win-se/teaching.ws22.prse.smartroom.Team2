@@ -243,9 +243,15 @@ public class AllRoomsController extends APIClient implements Initializable {
 
 
             ivSearch.setId("detail" + i);
-            ivSearch.setOnMouseClicked(event -> {
+            ivSearch.setOnMousePressed(event -> {
                 try {
+                    System.out.println("searchRoom: " + Long.valueOf(id) + " Actual: " + PrimaryController.room_id);
+                    // TODO pass id value to PrimaryController Instance
                     DigitalTwinApp.setRoot("primary");
+                    //PrimaryController p = DigitalTwinApp.loader.getController();
+                    //p.room_id = Long.valueOf(id);
+                    //System.out.println(p.room_id);
+
                 } catch (IOException e) {
                     e.printStackTrace();
 
