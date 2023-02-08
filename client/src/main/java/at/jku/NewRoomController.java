@@ -4,8 +4,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.util.Optional;
+import java.util.Random;
 
 public class NewRoomController extends APIClient {
 
@@ -63,8 +68,6 @@ public class NewRoomController extends APIClient {
         alert.setContentText("Are you ok with this?");
 
 
-        //TODO: get the ACTUAL last room_id
-        Long room_id = 4L; //just for testing purposes
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){;
             String name =  txtName.getText();
@@ -95,7 +98,8 @@ public class NewRoomController extends APIClient {
                 postRoom(name, size); }
             else {postRoom(name);}
 
-            //adding devices
+            Long room_id = (long) getIDLastRoom();
+
             for (int f=1; f<=fans; f++)
             {
                 postVentilator(room_id);
@@ -116,9 +120,77 @@ public class NewRoomController extends APIClient {
                 postLightSource(room_id);
             }
 
-        } else {
-            // don't create new room
+        } else
+
+        {
         }
+    }
+
+    private int getIDLastRoom() {
+
+        HttpResponse res = getRooms();
+        JSONArray ja = new JSONArray(res.body().toString());
+        JSONObject jo = ja.getJSONObject(ja.length()-1);
+        return jo.getInt("id");
+    }
+
+    @FXML
+    private void onActionAddRandom()
+    {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Save room");
+        alert.setHeaderText("You are about to create a room with random values.");
+        alert.setContentText("Are you ok with this?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+        Random rand = new Random();
+        int rnd_size = rand.nextInt(100);
+        int rnd_lights =  (int) (Math.random()*(5-1)+1);
+        int rnd_windows = (int) (Math.random()*(5-1)+1);
+        int rnd_vent = rand.nextInt(2);
+        int rnd_doors = (int) (Math.random()*(4-1)+1);
+
+        postRoom(rnd_size);
+        int lastID = getIDLastRoom();
+        String name = "Room"+lastID;
+        putRoom((long)getIDLastRoom(), name);
+
+        for (int f=1; f<=rnd_vent; f++)
+        {
+            postVentilator((long) lastID);
+        }
+
+        for (int d=1; d<=rnd_doors; d++)
+        {
+            postDoor((long) lastID);
+        }
+
+        for (int w=1; w<=rnd_windows; w++)
+        {
+            postWindow((long) lastID);
+        }
+
+        for (int l=1; l<=rnd_lights; l++)
+        {
+            postLightSource((long) lastID);
+        }
+
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Room created");
+        alert.setHeaderText("Room successfully created a room.");
+        alert.setContentText("You created a room with following values: \n ID:" + lastID + "\n"+
+                "Name: " + name + "\n" + "Doors: " + rnd_doors + "\n" +
+                "Windows: " + rnd_windows + "\n" +
+                "Lights: " + rnd_lights + "\n" +
+                "Fans: " + rnd_vent
+        );
+        alert.showAndWait();}
+        else {
+
+        }
+
     }
     @FXML
     private void onActionCancel() throws IOException {
