@@ -201,6 +201,17 @@ public class RestController {
                     airQualityDeviceRecordRepository.save(ar);
                 });
             }
+            // Automation rule: Turn on lights when there are people in the room
+            if (peopleCount.get() > 0) {
+                room.get().getLightSources().forEach(l -> {
+                    LightSourceRecord lr = new LightSourceRecord();
+                    lr.setLightSource(l);
+                    lr.setTimestamp(LocalDateTime.now());
+                    lr.setState(true);
+                    l.addLightSourceRecord(lr);
+                    lightSourceRecordRepository.save(lr);
+                });
+            }
         }
         return ResponseEntity.ok(room.map(Room::getNumPeopleInRoom).orElse(null));
     }
