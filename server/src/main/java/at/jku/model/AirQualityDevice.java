@@ -13,20 +13,44 @@ import java.util.Optional;
 @Entity
 public class AirQualityDevice implements Powerable {
 
+    /**
+     * The unique identifier of the device.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    /**
+     * The room in which the device is located.
+     * Many-to-one Relationship with Room
+     */
     @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     @JsonBackReference
     private Room room;
+
+    /**
+     * The records of air quality taken by the device.
+     */
     @OneToMany(mappedBy = "airQualityDevice", cascade = CascadeType.ALL)
     private List<AirQualityDeviceRecord> airQualityDeviceRecords;
+
+    /**
+     * The CO2 sensor of the device.
+     */
     @OneToOne(cascade = CascadeType.ALL)
     private Co2Sensor co2Sensor;
+
+    /**
+     * The temperature sensor of the device.
+     */
     @OneToOne(cascade = CascadeType.ALL)
     private TemperatureSensor temperatureSensor;
+
+    /**
+     * The humidity sensor of the device.
+     */
     @OneToOne(cascade = CascadeType.ALL)
     private HumiditySensor humiditySensor;
 

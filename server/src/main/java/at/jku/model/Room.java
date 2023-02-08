@@ -7,12 +7,21 @@ import java.util.*;
 
 @Entity
 public class Room {
+
+    /**
+     * The unique identifier for the Room.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     private String name;
     private int size;
+
+    /**
+     * The set of doors that are associated with the Room.
+     * Many-to-May Relationship
+     */
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "door_connects_room",
