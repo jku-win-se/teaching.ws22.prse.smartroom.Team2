@@ -73,5 +73,4 @@ class SimulatorTest {
         assertEquals(200, this.response.statusCode());
     }
 
-
 }
