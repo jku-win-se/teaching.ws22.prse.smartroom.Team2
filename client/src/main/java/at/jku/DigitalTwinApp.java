@@ -1,11 +1,16 @@
 package at.jku;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.Authenticator;
@@ -33,6 +38,7 @@ public class DigitalTwinApp extends Application {
         stage.setScene(scene);
         stage.show();
 
+
     }
 
     public static void setRoot(String fxml) throws IOException {
@@ -45,7 +51,9 @@ public class DigitalTwinApp extends Application {
     }
 
     public static void main(String[] args) {
+
         // Todo JUST CODE SAMPLES TO START CODING THE CLIENT WITH GUI
+
 
         //  WITHOUT SECURITY
 //        HttpClient client = HttpClient.newHttpClient();
