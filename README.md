@@ -23,7 +23,7 @@ verwandelt wird, auf die die Applikation Zugriff hat.
 
 ### Project Documentation
 
-Please use this link to jump directly to the complete ![Project Documentation](/documentation/Project_Documentation.docx)
+Please use this link to jump directly to the complete [Project Documentation](/documentation/Project_Documentation.docx)
 
 ### GUI Overview (Mock-Up)
 
