@@ -34,6 +34,8 @@ import javafx.util.Duration;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import static java.awt.Color.green;
+
 
 public class PrimaryController extends APIClient implements Initializable {
 
@@ -415,13 +417,13 @@ public class PrimaryController extends APIClient implements Initializable {
 
         // set gui information color based on co2 values
         if (co2 < 800) {
-            vbRoomSetup.setStyle("-fx-background-color: green;");
+            lblRoomId.setStyle("-fx-background-color: green;");
 
         } else if (co2 >= 800 && co2 <= 1000) {
-            vbRoomSetup.setStyle("-fx-background-color: blue;");
+            lblRoomId.setStyle("-fx-background-color: blue;");
 
         } else if (co2 > 1000) {
-            vbRoomSetup.setStyle("-fx-background-color: red;");
+            lblRoomId.setStyle("-fx-background-color: red;");
         }
     }
 }
