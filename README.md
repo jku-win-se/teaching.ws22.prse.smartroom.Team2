@@ -12,7 +12,7 @@ Die Applikation “Smart Room” soll als digitaler Zwilling eines Raumes dienen
 | 11713187   | Stefan     | Pilgerstorfer | stefan.pilgerstorfer@gmx.net | buegi       |
 
 ### Project Documentation
-Please use this link to jump directly to the complete [Project Documentaton](/documentation/Project Documentation.docx)
+Please use this link to jump directly to the complete [Project Documentation](/documentation/Project Documentation.docx)
 
 
 ### GUI Overview (Mock-Up)
