@@ -330,7 +330,7 @@ public class APIClient implements API {
     @Override
     public HttpResponse postPeopleInRoom(Long roomID, int people_count) {
         return POST(BASE_URL + "/rooms" + "/" + roomID
-                + "/PeopleInRoom" + "?people_count=" + people_count);
+                + "/PeopleInRoom" + "?peopleCount=" + people_count);
     }
 
     @Override
@@ -382,10 +382,10 @@ public class APIClient implements API {
     @Override
     public HttpResponse postAirQuality(Long roomID, double co2, double humidity, double temperature) {
         return POST(BASE_URL + "/room/AirQuality"
-                + "?room_id=" + roomID
-                + "?co2=" + co2
-                + "?humidity=" + humidity
-                + "?temperature=" + temperature);
+                + "?roomID=" + roomID
+                + "&co2=" + co2
+                + "&humidity=" + humidity
+                + "&temperature=" + temperature);
     }
 
     @Override
@@ -405,8 +405,8 @@ public class APIClient implements API {
 
     @Override
     public HttpResponse putAirQuality(Long roomID, Long AirQualityID, double co2, double humidity, double temperature) {
-        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/" + AirQualityID + "?co2=" + co2 + "&humidity=" + humidity + "&temperature=" + temperature);
-
+        return PUT(BASE_URL + "/room/" + roomID + "/AirQuality/"
+                + AirQualityID + "?co2=" + co2 + "&humidity=" + humidity + "&temperature=" + temperature);
     }
 
     @Override
