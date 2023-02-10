@@ -1,5 +1,7 @@
 package at.jku;
 
+import at.jku.model.Ventilator;
+import at.jku.model.VentilatorRecord;
 import org.junit.Test;
 
 import java.time.LocalDateTime;

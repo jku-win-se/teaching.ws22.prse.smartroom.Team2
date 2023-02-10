@@ -1,5 +1,7 @@
 package at.jku;
 
+import at.jku.model.PeopleInRoom;
+import at.jku.model.Room;
 import org.junit.Assert;
 import org.junit.Test;
 
