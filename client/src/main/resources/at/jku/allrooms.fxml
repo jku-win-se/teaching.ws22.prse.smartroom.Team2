@@ -118,11 +118,6 @@
             </ScrollPane>
             <VBox fx:id="vbElements" prefHeight="167.0" prefWidth="400.0">
                <children>
-                  <Button fx:id="btnSelectAll" mnemonicParsing="false" onAction="#onActionSelectAll" text="Select All" visible="false">
-                     <VBox.margin>
-                        <Insets top="30.0" />
-                     </VBox.margin>
-                  </Button>
                   <TextField fx:id="textField" onAction="#onActionExportButton" prefHeight="26.0" prefWidth="178.0" promptText="Pleae press enter after naming" visible="false">
                      <VBox.margin>
                         <Insets top="10.0" />
