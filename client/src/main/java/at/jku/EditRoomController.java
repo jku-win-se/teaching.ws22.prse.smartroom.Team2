@@ -251,7 +251,6 @@ public class EditRoomController extends APIClient implements Initializable {
 
     public void setUpDevices() {
 
-
         HttpResponse res = getDoors(roomID);
         JSONArray ja = new JSONArray(res.body().toString());
 

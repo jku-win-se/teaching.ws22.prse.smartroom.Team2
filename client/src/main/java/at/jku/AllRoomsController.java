@@ -54,26 +54,18 @@ public class AllRoomsController extends APIClient implements Initializable {
         DigitalTwinApp.setRoot("import");
     }
 
-    @FXML
-    private void onActionCheckBox() throws IOException {
-        //TODO: add action for checkbox: pick room for export
-    }
 
     @FXML
     private void onActionExport() throws IOException {
         textField.setVisible(true);
         btnExportOK.setVisible(true);
-        btnSelectAll.setVisible(true);
+
 
         for (Node node :
                 vb.getChildren()) {
 
-            if (node.getId() != null && node.getId().equals("btnSelectAll")) {
-                break;
-            }
-
             if (node.getId() == null) {
-                (((HBox) node).getChildren()).get(5).setVisible(true);
+                (((HBox) node).getChildren()).get(4).setVisible(true);
             }
         }
 
@@ -93,34 +85,69 @@ public class AllRoomsController extends APIClient implements Initializable {
     @FXML
     Button btnExportOK;
 
-    @FXML
-    Button btnSelectAll;
+
 
     @FXML
     VBox vb;
 
 
-    @FXML
-    private void onActionSelectAll() {
+    public int getNumberOfWindows(Long room_id) {
 
-        for (Node node :
-                vb.getChildren()) {
-
-            if (node.getId() != null && node.getId().equals("btnSelectAll")) {
-                break;
-            }
-
-
-            if (node.getId() == null) {
-                CheckBox temp = (CheckBox) ((HBox) node).getChildren().get(5);
-                temp.setSelected(true);
-            }
-        }
+        int no = 0;
+        HttpResponse res = getWindows(room_id);
+        if (!res.body().toString().isEmpty()) {
+        JSONArray ja = new JSONArray(res.body().toString());
+        for (int i = 0; i < ja.length(); i++) {
+            no++;
+        }}
+        return no;
     }
+
+    public int getNumberOfVentilators(Long room_id) {
+
+        int no = 0;
+        HttpResponse res = getVentilators(room_id);
+        if (!res.body().toString().isEmpty()) {
+        JSONArray ja = new JSONArray(res.body().toString());
+        for (int i = 0; i < ja.length(); i++) {
+            no++;
+        }}
+        return no;
+    }
+
+
+    public int getNumberOfLightSources(Long room_id) {
+
+        int no = 0;
+        HttpResponse res = getLightSources(room_id);
+        if (!res.body().toString().isEmpty()) {
+            JSONArray ja = new JSONArray(res.body().toString());
+        for (int i = 0; i < ja.length(); i++) {
+            no++;
+        }}
+        return no;
+    }
+
+
+    public int getNumberOfDoors(Long room_id) {
+
+        int no = 0;
+        HttpResponse res = getDoors(room_id);
+        if (!res.body().toString().isEmpty()) {
+        JSONArray ja = new JSONArray(res.body().toString());
+
+        for (int i = 0; i < ja.length(); i++) {
+            no++;
+        }}
+
+        return no;
+
+    }
+
 
     //TODO: Only export selected data
     private List<String[]> sampleData() {
-        String[] header = {"id", "name", "size"};
+        String[] header = {"id", "name", "size", "doors", "windows","ventilators", "lightSources" };
         String[] record = new String[3];
 
         List<String[]> list = new ArrayList<>();
@@ -128,14 +155,17 @@ public class AllRoomsController extends APIClient implements Initializable {
 
         for (int i = 1; i < 10; i++) {
             HttpResponse response = getRoom(Long.valueOf(i));
+            int noDoors = getNumberOfDoors(Long.valueOf(i));
+            int noWindows = getNumberOfWindows(Long.valueOf(i));
+            int noLightBulbs = getNumberOfLightSources(Long.valueOf(i));
+            int noFans = getNumberOfVentilators(Long.valueOf(i));
             if (response != null && response.body().toString().length() > 0) {
                 if (response.body().toString().charAt(0) == '{') {
                     JSONObject json = new JSONObject(response.body().toString());
                     long id = json.getLong("id");
                     String name = json.getString("name");
                     int size = json.getInt("size");
-                    JSONArray objects = json.getJSONArray("lightSources");
-                    list.add(new String[]{id + "", name, size + ""});
+                    list.add(new String[]{id + "", name, size + "", noDoors + "", noWindows + "", noLightBulbs + "",noFans + ""});
                 }
             }
         }
@@ -196,9 +226,6 @@ public class AllRoomsController extends APIClient implements Initializable {
             Image imgSearch2 = new Image(getClass().getResourceAsStream("search.png"));
             ivSearch.setImage(imgSearch2);
 
-            CheckBox cb = new CheckBox();
-            cb.setId("cb" + i);
-            cb.setVisible(false);
             String name = "";
             if (!json.getString("name").isEmpty())
             { name = json.getString("name");}
@@ -260,11 +287,9 @@ public class AllRoomsController extends APIClient implements Initializable {
 
             hb.getChildren().add(ivTrash);
             hb.getChildren().add(ivSearch);
-            hb.getChildren().add(cb);
 
             hb.setMargin(ivTrash, new Insets(0, 0, 5, 10));
             hb.setMargin(ivSearch, new Insets(0, 0, 5, 10));
-            hb.setMargin(cb, new Insets(0, 0, 5, 10));
             vb.getChildren().add(hb);
         }
     }
