@@ -20,7 +20,6 @@ verwandelt wird, auf die die Applikation Zugriff hat.
 | 11714476   | Elma       | Buljina       | buljina.elma.98@gmail.com    | e1maa       |
 | 11904290   | Abir       | Sikder        | sikder.abir@gmail.com        | realabir    |
 | 11713187   | Stefan     | Pilgerstorfer | stefan.pilgerstorfer@gmx.net | buegi       |
-|------------|------------|---------------|------------------------------|-------------|
 
 ### Project Documentation
 
