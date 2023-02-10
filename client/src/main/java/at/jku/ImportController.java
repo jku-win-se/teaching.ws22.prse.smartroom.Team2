@@ -1,7 +1,4 @@
 package at.jku;
-
-
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,7 +24,6 @@ public class ImportController {
     private void onActionNewRoom() throws IOException {
         DigitalTwinApp.setRoot("newroom");
     }
-
     @FXML
     Button btnImport;
 
@@ -41,9 +37,5 @@ public class ImportController {
         window.setMaxWidth(200);
         window.setAlwaysOnTop(true);
         window.setOnCloseRequest(c -> Platform.exit());;
-
     }
-
-
-
 }
