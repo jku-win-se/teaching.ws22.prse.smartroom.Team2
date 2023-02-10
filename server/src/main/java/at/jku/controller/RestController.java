@@ -201,6 +201,17 @@ public class RestController {
                     airQualityDeviceRecordRepository.save(ar);
                 });
             }
+            // Automation rule: Turn on lights when there are people in the room
+            if (peopleCount.get() > 0) {
+                room.get().getLightSources().forEach(l -> {
+                    LightSourceRecord lr = new LightSourceRecord();
+                    lr.setLightSource(l);
+                    lr.setTimestamp(LocalDateTime.now());
+                    lr.setState(true);
+                    l.addLightSourceRecord(lr);
+                    lightSourceRecordRepository.save(lr);
+                });
+            }
         }
         return ResponseEntity.ok(room.map(Room::getNumPeopleInRoom).orElse(null));
     }
@@ -730,7 +741,7 @@ public class RestController {
      * @param name   new door name
      * @return the newly created door object as http response (json)
      */
-    @PutMapping(value = "/rooms/{roomID:.*}/doors")
+    @PostMapping(value = "/rooms/{roomID:.*}/doors")
     public ResponseEntity<Door> addDoor(@PathVariable Long roomID,
                                         @RequestParam Optional<String> name) {
         final Optional<Room> room = roomRepository.findById(roomID);

@@ -181,11 +181,22 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </TextField>
+            <Button fx:id="btnAddRandom" mnemonicParsing="false" onAction="#onActionAddRandom" style="-fx-background-color: #F8F6F6 #F8F6F6 #F8F6F6 #F8F6F6;" text="Create random room" textFill="#1e224f">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets left="32.0" />
+               </VBox.margin>
+            </Button>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel">
+                  <Button fx:id="btnCancel" cancelButton="true" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel">
                      <HBox.margin>
-                        <Insets left="40.0" top="30.0" />
+                        <Insets left="40.0" top="10.0" />
                      </HBox.margin>
                      <font>
                         <Font size="14.0" />
@@ -193,7 +204,7 @@
                   </Button>
                   <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onActionSave" prefHeight="27.0" prefWidth="66.0" text="Save">
                      <HBox.margin>
-                        <Insets left="70.0" top="30.0" />
+                        <Insets left="72.0" top="10.0" />
                      </HBox.margin>
                      <font>
                         <Font size="14.0" />
