@@ -18,9 +18,6 @@ class RestApplicationTests {
     @Mock
     private AirQualityDevice airQualityDevice;
 
-    @Mock
-    private Room room;
-
     //Unit Test: TemperatureSensor
     @Mock
     private TemperatureSensorRecord temperatureSensorRecordTS;
@@ -42,6 +39,7 @@ class RestApplicationTests {
 
     private HumiditySensorRecord humiditySensorRecordHSR;
 
+    //Unit Test: C02SensorRecords
     @Mock
     private Co2Sensor co2SensorCS;
     private Co2SensorRecord co2SensorRecordCS;
@@ -54,8 +52,6 @@ class RestApplicationTests {
     @BeforeEach
     public void setUp() {
         airQualityDevice = mock(AirQualityDevice.class);
-
-        room = mock(Room.class);
 
         // Unit Test: Co2Sensor
         co2SensorRecordCS = mock(Co2SensorRecord.class);
@@ -230,7 +226,7 @@ class RestApplicationTests {
         if (latestCo2SensorRecord.isPresent()) {
             assertEquals(co2SensorRecordCS, latestCo2SensorRecord.get());
         } else {
-            fail("The latest humidity sensor record should not be null.");
+            fail("The latest co2 sensor record should not be null.");
         }
     }
 
@@ -253,6 +249,4 @@ class RestApplicationTests {
         co2SensorRecordCSR.setTimestamp(timestamp);
         assertEquals(timestamp, co2SensorRecordCSR.getTimestamp());
     }
-
-
 }
