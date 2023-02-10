@@ -109,7 +109,6 @@ public class NewRoomController extends APIClient {
             {
                 postDoor(room_id);
             }
-
             for (int w=1; w<=windows; w++)
             {
                 postWindow(room_id);
