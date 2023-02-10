@@ -11,14 +11,32 @@ Die Applikation “Smart Room” soll als digitaler Zwilling eines Raumes dienen
 | 11904290   | Abir       | Sikder        | sikder.abir@gmail.com        | realabir    |
 | 11713187   | Stefan     | Pilgerstorfer | stefan.pilgerstorfer@gmx.net | buegi       |
 
-### GUI Overview (Mock-Up)
+### Project Documentation
+Please use this link to jump directly to the complete [Project Documentaton](/documentation/Project Documentation.docx)
 
+
+### GUI Overview (Mock-Up)
 ![Mockup Sample](/documentation/mockup/figma_ui_mockup_sample.png)
 
 
 For the clickable prototype, click on the following link:
-
 https://www.figma.com/file/Ae03yyrc6oA21e3DZcrQh2/Smart-Room?node-id=0%3A1
+
+### Installation
+The Project documentation includes Installation Instructions. For faster finding, we list the basic Installation steps here.
+
+- Clone this repository
+- Perform a maven install of the parent project
+- If you are developer you can for example use IntelliJ or Eclipse to run the apps in the modules:
+    - Server (server/src/main/java/at/jku/DigitalTwinServer)
+    - Client (client/src/main/java/at/jku/DigitalTwinApp)
+    - Simulator (simulator/src/main/java/at/jku/Simulator)
+    - Hasher (hasher/src/main/java/at/jku/HasherApp)
+- Always start the server first (Backend)
+- If you just want to run the generated jar files, which are located in the target folders of the corresponding modules, please use a command like this:
+  ![Powershell](/documentation/jar_run/powershell.png)
+For other modules just change every occurence of server in the command to client or simulator or hasher
+It for sure depends on the location of the cloned repository and the installed/used java version.
 
 ### UML Diagram for Server Module
 ![UML Diagram](/documentation/diagrams/Server-UML.png)
