@@ -16,7 +16,7 @@ verwandelt wird, auf die die Applikation Zugriff hat.
 
 | Student ID | First Name | Last Name     | E-Mail                       | github user |
 |------------|------------|---------------|------------------------------|-------------|
-| 01607879   | Nuray      | Seker         | nurayseker_54@hotmail.com    | nvrxy       |
+|    |       |          |     |        |
 | 11714476   | Elma       | Buljina       | buljina.elma.98@gmail.com    | e1maa       |
 | 11904290   | Abir       | Sikder        | sikder.abir@gmail.com        | realabir    |
 | 11713187   | Stefan     | Pilgerstorfer | stefan.pilgerstorfer@gmx.net | buegi       |
